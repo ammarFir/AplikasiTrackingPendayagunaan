@@ -698,7 +698,20 @@ Penyerahan Barang"
                         android:textSize="12sp"/>
 
                 </LinearLayout>
+                
+
             </LinearLayout>
+            <Button
+                android:layout_marginTop="20dp"
+                android:layout_width="100dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:gravity="bottom"
+                android:background="@drawable/btn_custom"
+                android:text="Update Statuss"
+
+                android:textSize="12dp"
+                />
 
 
 
