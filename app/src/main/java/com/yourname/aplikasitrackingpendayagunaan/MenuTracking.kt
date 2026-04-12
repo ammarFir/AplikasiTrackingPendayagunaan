@@ -2,6 +2,7 @@ package com.yourname.aplikasitrackingpendayagunaan
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -14,10 +15,6 @@ class MenuTracking : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_menu_tracking)
-
-
-
-
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
         // Set posisi aktif di Tracking
@@ -38,6 +35,13 @@ class MenuTracking : AppCompatActivity() {
 
                 else -> false
             }
+        }
+
+
+        //perpindahan onclick
+        fun pindahActivity (view: View) {
+            val intent = Intent(this , DetailTracking::class.java)
+            startActivity(intent)
         }
 
 
