@@ -38,12 +38,6 @@ class MenuTracking : AppCompatActivity() {
         }
 
 
-        //perpindahan onclick
-        fun pindahActivity (view: View) {
-            val intent = Intent(this , DetailTracking::class.java)
-            startActivity(intent)
-        }
-
 
 
 
@@ -53,5 +47,14 @@ class MenuTracking : AppCompatActivity() {
             insets
         }
     }
+
+
+
+    //perpindahan onclick
+    fun pindahActivity (view: View) {
+        val intent = Intent(this , DetailTracking::class.java)
+        startActivity(intent)
+    }
+
 
 }
