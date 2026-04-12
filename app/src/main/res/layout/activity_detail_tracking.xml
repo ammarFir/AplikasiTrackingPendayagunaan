@@ -709,11 +709,12 @@ Penyerahan Barang"
 
             <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="160dp"
-                android:layout_height="33dp"
+                android:layout_height="28dp"
                 android:layout_gravity="center"
                 android:background="@drawable/btn_custom"
                 android:text="Update Status"
                 android:textSize="10sp"
+                android:textStyle="bold"
                 android:textColor="#FFFFFF"
                 android:layout_marginTop="20dp"/>
 
