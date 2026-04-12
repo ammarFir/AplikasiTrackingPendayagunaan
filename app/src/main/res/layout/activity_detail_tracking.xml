@@ -350,6 +350,8 @@
                 </LinearLayout>
             </LinearLayout>
 
+
+
             <!--track 2 -->
  <LinearLayout
                 android:layout_width="match_parent"
@@ -401,6 +403,8 @@
 
                 </LinearLayout>
             </LinearLayout>
+
+
 
             <!--track 2 -->
             <LinearLayout
@@ -698,22 +702,20 @@ Penyerahan Barang"
                         android:textSize="12sp"/>
 
                 </LinearLayout>
-                
+
 
             </LinearLayout>
-            <Button
-                android:layout_marginTop="20dp"
-                android:layout_width="100dp"
-                android:layout_height="25dp"
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="160dp"
+                android:layout_height="33dp"
                 android:layout_gravity="center"
-                android:gravity="bottom"
                 android:background="@drawable/btn_custom"
-                android:text="Update Statuss"
-
-                android:textSize="12dp"
-                />
-
-
+                android:text="Update Status"
+                android:textSize="10sp"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="20dp"/>
 
 
 
