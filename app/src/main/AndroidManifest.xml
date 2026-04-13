@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AplikasiTrackingPendayagunaan">
         <activity
+            android:name=".AddProgram"
+            android:exported="false" />
+        <activity
             android:name=".DetailTracking"
             android:exported="false" />
         <activity
