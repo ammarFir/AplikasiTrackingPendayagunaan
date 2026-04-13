@@ -1,103 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/main"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E2E2E2"
+    android:orientation="vertical"
+    tools:context=".AddProgram">
+
+
+    <!-- Header -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_header"
+        android:backgroundTint="#97D2A5"
         android:orientation="vertical"
-        tools:context=".AddProgram">
+        android:paddingBottom="20dp">
 
-
-        <!-- Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_header"
-            android:paddingBottom="20dp"
-            android:backgroundTint="#97D2A5"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:text="Detail Program"
+                android:textSize="23dp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:text="Detail Program"
-                    android:textSize="23dp"
-                    android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/ic_circle_black"
+                app:srcCompat="@drawable/logokoceng" />
 
-                <ImageView
-                    android:id="@+id/imageView10"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginRight="40dp"
-                    android:background="@drawable/ic_circle_black"
-                    app:srcCompat="@drawable/logokoceng" />
+        </LinearLayout>
 
-            </LinearLayout>
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:layout_width="354dp"
+        android:layout_height="482dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/cardadd" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="30dp"
+            android:paddingTop="20dp">
+
+            <TextView
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Form Pengisian"
+                android:textColor="#49516F"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:elevation="2dp"
+                android:hint="Nama Mustahiq">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
 
         </LinearLayout>
 
 
-        <FrameLayout
-            android:layout_width="354dp"
-            android:layout_height="482dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/cardadd"/>
+    </FrameLayout>
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingTop="20dp"
-                android:paddingLeft="30dp">
-
-                <TextView
-                    style="@style/TextAppearance.MaterialComponents.Headline6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#49516F"
-                    android:text="Form Pengisian"
-                    android:textSize="20dp"
-                    android:textStyle="bold"/>
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="280dp"
-                    android:layout_height="wrap_content"
-                    android:hint="Nama Mustahiq"
-                    android:elevation="2dp"
-                    >
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-
-
-            </LinearLayout>
-
-
-
-        </FrameLayout>
-
-
-
-    </LinearLayout>
+</LinearLayout>
