@@ -50,9 +50,10 @@
 
     <FrameLayout
         android:layout_width="354dp"
-        android:layout_height="482dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp">
+        android:layout_height="500dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="20dp">
 
         <ImageView
             android:layout_width="match_parent"
@@ -95,9 +96,11 @@
                 android:hint="Pilih Program">
 
                 <AutoCompleteTextView
+                    android:paddingLeft="15dp"
                     android:id="@+id/autoComplete"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+
                     android:focusable="false"
                     android:focusableInTouchMode="false">
 
@@ -147,21 +150,40 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-<!-- text jenis  usaha -->
-            <com.google.android.material.textfield.TextInputLayout
+            <LinearLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="280dp"
                 android:layout_height="100dp"
-                android:elevation="2dp"
-                android:hint="Tanggal Mulai">
+                android:background="@drawable/bg_form"
+                android:orientation="vertical"
+                android:gravity="center">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Upload Foto"
+                    android:textSize="14sp"
+                    android:textColor="#000000"/>
 
-            </com.google.android.material.textfield.TextInputLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:textSize="40sp"
+                    android:textColor="#000000"/>
 
 
 
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:background="#6663BD"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+
+                android:text="Tambah"/>
         </LinearLayout>
 
 
