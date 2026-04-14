@@ -76,7 +76,7 @@
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
-
+<!-- text nama -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="280dp"
                 android:layout_height="50dp"
@@ -104,6 +104,62 @@
                 </AutoCompleteTextView>
 
             </com.google.android.material.textfield.TextInputLayout>
+
+
+            <!-- text jenis  usaha -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="280dp"
+                android:layout_height="50dp"
+                android:elevation="2dp"
+                android:hint="Jenis Usaha">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+  <!-- text jenis  usaha -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="280dp"
+                android:layout_height="50dp"
+                android:elevation="2dp"
+                android:hint="Total Dana">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+  <!-- text jenis  usaha -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="280dp"
+                android:layout_height="50dp"
+                android:elevation="2dp"
+                android:hint="Tanggal Mulai">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+<!-- text jenis  usaha -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="280dp"
+                android:layout_height="100dp"
+                android:elevation="2dp"
+                android:hint="Tanggal Mulai">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
 
 
         </LinearLayout>
