@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MonitoringProgram">
 
 
@@ -40,6 +41,101 @@
                 android:layout_marginRight="40dp"
                 android:background="@drawable/ic_circle_black"
                 app:srcCompat="@drawable/logokoceng" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <!-- Blok Proses: Pengadaan Barang -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Kolom kiri: dot + garis putus -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="12dp">
+
+            <!-- Dot -->
+            <View
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:background="@drawable/dot_active"/>
+
+            <!-- Garis putus vertikal -->
+            <View
+                android:layout_width="2dp"
+                android:layout_height="120dp"
+                android:layerType="software"
+                android:background="@drawable/dashed_line"/>
+
+        </LinearLayout>
+
+        <!-- Kolom kanan: konten -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="4dp">
+
+            <!-- Header proses -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_proses"
+                android:gravity="center_vertical"
+                android:paddingLeft="12dp"
+                android:text="Pengadaan Barang"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+
+            <!-- Input teks -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="Tambahkan Text">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Upload foto -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/bg_rounded"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Upload Foto"
+                    android:textSize="12sp"
+                    android:textColor="#CCCCCC"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:textSize="24sp"
+                    android:textColor="#CCCCCC"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
