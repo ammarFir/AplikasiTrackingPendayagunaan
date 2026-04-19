@@ -13,6 +13,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -21,6 +22,8 @@ data class FormItem(
     val actions: List<String>
 )
 
+
+@Preview(showBackground = true)
 @Composable
 fun FormPengadaanScreen() {
     val sections = listOf(
@@ -67,10 +70,13 @@ fun SectionWithDashedLine(
     val dashColor = Color(0xFFAAAAAA)
     val dotRadiusDp = 8.dp
 
-    Row(modifier = Modifier.fillMaxWidth()) {
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .height(IntrinsicSize.Min)
+    ) {
 
         // Kolom kiri: dot besar + garis vertikal penghubung antar section
-        BoxWithConstraints(
+        Box(
             modifier = Modifier
                 .width(32.dp)
                 .fillMaxHeight()
@@ -91,7 +97,7 @@ fun SectionWithDashedLine(
                 if (!isLast) {
                     drawLine(
                         color = dashColor,
-                        start = Offset(centerX, dotRadius * 2 + 8f),
+                        start = Offset(centerX, dotRadius * 2 + 16f),
                         end = Offset(centerX, size.height),
                         strokeWidth = 2f,
                     )
