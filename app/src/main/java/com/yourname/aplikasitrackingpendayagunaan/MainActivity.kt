@@ -2,6 +2,7 @@ package com.yourname.aplikasitrackingpendayagunaan
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -51,6 +52,8 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
+
         // ViewPager slider
         val images = listOf(
             R.drawable.bahleeell,
@@ -89,5 +92,15 @@ class MainActivity : AppCompatActivity() {
         val rvCampaign = findViewById<RecyclerView>(R.id.rvCampaign)
         rvCampaign.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         rvCampaign.adapter = CampaignAdapter(dummyData)
+
+
+
+        val img = findViewById<ImageView>(R.id.logo)
+        img.setOnClickListener {
+            val intent = Intent(this, TestingCompose::class.java)
+            startActivity(intent)
+        }
     }
+
+
 }

@@ -20,6 +20,10 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/logo"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
