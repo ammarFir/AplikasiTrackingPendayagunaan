@@ -1,6 +1,8 @@
 package com.yourname.aplikasitrackingpendayagunaan
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -36,28 +38,59 @@ fun FormPengadaanScreen() {
         FormItem("Laporan Final", listOf("Tambah Bukti"))
     )
 
-    LazyColumn(
+
+
+
+    Column(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
+            .wrapContentHeight()
             .padding(16.dp)
-    ) {
-        item {
-            Text(
-                text = "Ananda Aulia Hanifah",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(12.dp)
             )
-            Spacer(modifier = Modifier.height(16.dp))
+
+            .border(
+                width = 2.dp,
+                color = Color(0xFFD4F2DB),
+                shape = RoundedCornerShape(12.dp)
+            )
+            .padding(16.dp)
+
+
+    ) {
+
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            item {
+                Text(
+                    text = "Ananda Aulia Hanifah",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
+            itemsIndexed(sections) { index, section ->
+                SectionWithDashedLine(
+                    title = section.title,
+                    actions = section.actions,
+                    isLast = index == sections.lastIndex
+                )
+            }
         }
 
-        itemsIndexed(sections) { index, section ->
-            SectionWithDashedLine(
-                title = section.title,
-                actions = section.actions,
-                isLast = index == sections.lastIndex
-            )
-        }
+
     }
+
+
+
+
 }
 
 @Composable
