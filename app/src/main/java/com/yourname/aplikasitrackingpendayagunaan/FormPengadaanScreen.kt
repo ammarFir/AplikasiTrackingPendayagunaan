@@ -94,7 +94,6 @@ fun SectionWithDashedLine(
                         start = Offset(centerX, dotRadius * 2 + 8f),
                         end = Offset(centerX, size.height),
                         strokeWidth = 2f,
-                        pathEffect = dashEffect
                     )
                 }
             }
