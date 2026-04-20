@@ -65,7 +65,7 @@ fun FormPengadaanScreen() {
                         modifier = Modifier
                             .width(4.dp)
                             .fillMaxHeight()
-                            .background(Color(0xFF26823F))
+                            .background(Color(0xFFD4F2DB))
                     )
 
                     Column (
