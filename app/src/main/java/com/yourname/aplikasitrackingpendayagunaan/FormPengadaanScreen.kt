@@ -42,30 +42,44 @@ fun FormPengadaanScreen() {
 
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(16.dp)
-            .background(
-                color = Color.White,
-                shape = RoundedCornerShape(12.dp)
-            )
-
-            .border(
-                width = 2.dp,
-                color = Color(0xFFD4F2DB),
-                shape = RoundedCornerShape(12.dp)
-            )
-            .padding(16.dp)
-
-
+        modifier = Modifier.fillMaxSize()
     ) {
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 20.dp)
+        ) {
+            Card (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 20.dp),
+                elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+                shape =     RoundedCornerShape()
+            ) {  }
+        }
+
+
+
+
+    Button(
+        onClick = {},
+        modifier = Modifier
+            .padding(16.dp)
+            .align ( Alignment.CenterHorizontally)  ,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xFF6650A4)
+        ),
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Text("UPZPRENEUR", fontWeight = FontWeight.Bold)
+    }
 
 
         LazyColumn(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
+                .weight(1f)
+                .padding(horizontal =  16.dp)
         ) {
             item {
                 Text(
