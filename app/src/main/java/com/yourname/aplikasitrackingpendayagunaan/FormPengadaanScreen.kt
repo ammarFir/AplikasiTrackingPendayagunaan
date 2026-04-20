@@ -1,6 +1,7 @@
 package com.yourname.aplikasitrackingpendayagunaan
 
 import android.R
+import android.icu.number.IntegerWidth
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -13,7 +14,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
@@ -21,6 +24,55 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.LayoutDirection
+
+
+
+class NotchCardShape(private  val notchWidth: Float, private val notchHeight: Float) : Shape {
+    override fun createOutline(
+        size: androidx.compose.ui.geometry.Size,
+        layoutDirection: LayoutDirection,
+        density: Density
+    ): Outline {
+        val path = Path().apply {
+            val cornerRadius = 40f
+            val centerX = size.width /2
+
+            moveTo(cornerRadius, 0f)
+
+            //kiri atas notch kiri
+            lineTo(centerX - notchWidth / 2, 0f)
+
+            //Notch melengkung ke bawah
+            cubicTo(
+                centerX - notchWidth /  2,  notchHeight,
+                centerX - notchWidth /  2,  notchHeight,
+                centerX - notchWidth /  2,  0f
+            )
+
+            lineTo(size.width - cornerRadius, 0f)
+            quadraticTo(size.width, 0f, size.width, cornerRadius)
+
+            lineTo(size.width , size.height - cornerRadius)
+            quadraticTo(size.width, size.height,size.width - cornerRadius, size.height)
+
+            lineTo(cornerRadius , size.height)
+            quadraticTo(0f, size.height, 0f, size.height - cornerRadius)
+
+            lineTo(0f, cornerRadius )
+            quadraticTo(0f, 0f , cornerRadius, 0f)
+
+            close()
+
+        }
+        return Outline.Generic(path)
+    }
+}
+
 
 data class FormItem(
     val title: String,
