@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,58 +49,65 @@ fun FormPengadaanScreen() {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 20.dp)
+                .padding(horizontal = 20.dp)
         ) {
             Card (
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 20.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-                shape =     RoundedCornerShape()
-            ) {  }
-        }
+                shape =     RoundedCornerShape(12.dp)
+            ) {
+                Row(modifier = Modifier.fillMaxWidth() ) {
+                    Box (
+                        modifier = Modifier
+                            .width(4.dp)
+                            .fillMaxHeight()
+                            .background(Color(0xFF26823F))
+                    )
 
+                    Column (
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        LazyColumn(
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(horizontal =  16.dp)
+                        ) {
+                            item {
+                                Text(
+                                    text = "Ananda Aulia Hanifah",
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                Spacer(modifier = Modifier.height(16.dp))
+                            }
 
+                            itemsIndexed(sections) { index, section ->
+                                SectionWithDashedLine(
+                                    title = section.title,
+                                    actions = section.actions,
+                                    isLast = index == sections.lastIndex
+                                )
+                            }
+                        }
+                    }
 
-
-    Button(
-        onClick = {},
-        modifier = Modifier
-            .padding(16.dp)
-            .align ( Alignment.CenterHorizontally)  ,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color(0xFF6650A4)
-        ),
-        shape = RoundedCornerShape(8.dp)
-    ) {
-        Text("UPZPRENEUR", fontWeight = FontWeight.Bold)
-    }
-
-
-        LazyColumn(
-            modifier = Modifier
-                .weight(1f)
-                .padding(horizontal =  16.dp)
-        ) {
-            item {
-                Text(
-                    text = "Ananda Aulia Hanifah",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.height(16.dp))
+                }
             }
-
-            itemsIndexed(sections) { index, section ->
-                SectionWithDashedLine(
-                    title = section.title,
-                    actions = section.actions,
-                    isLast = index == sections.lastIndex
-                )
+            Button(
+                onClick = {},
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align ( Alignment.TopCenter)  ,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF6650A4)
+                ),
+                shape = RoundedCornerShape(8.dp)
+            ) {
+                Text("UPZPRENEUR", fontWeight = FontWeight.Bold)
             }
         }
-
-
     }
 
 
