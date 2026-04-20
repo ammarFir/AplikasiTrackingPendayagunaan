@@ -1,9 +1,11 @@
 package com.yourname.aplikasitrackingpendayagunaan
 
+import android.R
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -91,6 +93,39 @@ fun FormPengadaanScreen() {
                                 )
                             }
                         }
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Button(
+                            onClick = {},
+                            modifier = Modifier.weight(1f),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(0xFF4CAF50)
+                            ),
+                            shape = RoundedCornerShape(50)
+                        ) {
+                            Text("Update Progress", color = Color.White)
+                        }
+
+
+                        Button(
+                            onClick = {},
+                            modifier = Modifier.weight(1f),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(0xFF4CAF50)
+                            ),
+                            shape = RoundedCornerShape(50)
+                        ) {
+                            Text("Progress Selesai", color = Color.White)
+                        }
+
+
+                    }
+
                     }
 
                 }
