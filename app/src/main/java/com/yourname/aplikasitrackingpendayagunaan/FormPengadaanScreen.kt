@@ -110,7 +110,7 @@ fun FormPengadaanScreen() {
                     .fillMaxWidth()
                     .padding(top = 20.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-                shape =     RoundedCornerShape(12.dp)
+                shape = NotchCardShape(notchWidth = 300f, notchHeight = 60f)
             ) {
                 Row(modifier = Modifier.fillMaxWidth() ) {
                     Box (
