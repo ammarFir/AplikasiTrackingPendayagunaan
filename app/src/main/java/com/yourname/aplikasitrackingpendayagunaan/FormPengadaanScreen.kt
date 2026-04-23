@@ -126,7 +126,8 @@ fun FormPengadaanScreen() {
                         LazyColumn(
                             modifier = Modifier
                                 .weight(1f)
-                                .padding(horizontal =  16.dp)
+                                .padding(horizontal =  16.dp, vertical = 8.dp)
+                                .padding(top = 40.dp)
                         ) {
                             item {
                                 Text(
@@ -186,7 +187,7 @@ fun FormPengadaanScreen() {
                 onClick = {},
                 modifier = Modifier
                     .padding(16.dp)
-                    .align ( Alignment.TopCenter)  ,
+                    .align ( Alignment.TopStart)  ,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF6650A4)
                 ),
