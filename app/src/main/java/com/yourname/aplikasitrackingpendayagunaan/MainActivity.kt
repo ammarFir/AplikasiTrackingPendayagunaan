@@ -89,17 +89,7 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
-        val rvCampaign = findViewById<RecyclerView>(R.id.rvCampaign)
-        rvCampaign.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        rvCampaign.adapter = CampaignAdapter(dummyData)
 
-
-
-        val img = findViewById<ImageView>(R.id.logo)
-        img.setOnClickListener {
-            val intent = Intent(this, TestingCompose::class.java)
-            startActivity(intent)
-        }
     }
 
 

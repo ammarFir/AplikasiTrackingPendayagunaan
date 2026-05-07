@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AplikasiTrackingPendayagunaan">
         <activity
+            android:name=".LaporanProgram"
+            android:exported="false" />
+        <activity
             android:name=".TestingCompose"
             android:exported="false" />
         <activity

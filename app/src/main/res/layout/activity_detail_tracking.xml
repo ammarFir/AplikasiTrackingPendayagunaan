@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#D9D9D9">
+    android:background="#F0F0F0">
 
-<!-- Header -->
+    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,9 +41,7 @@
 
         </LinearLayout>
 
-
-
-        <!-- Card 3 -->
+        <!-- Card info di header -->
         <androidx.cardview.widget.CardView
             android:layout_width="310dp"
             android:layout_height="wrap_content"
@@ -63,13 +61,11 @@
                     android:layout_height="match_parent"
                     android:background="#8EA4D2" />
 
-
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:orientation="vertical">
-
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -80,14 +76,13 @@
                         android:text="UPZPRENEUR"
                         android:textSize="24sp" />
 
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:textStyle="bold"
                         android:layout_marginStart="8dp"
-                        android:text="Ananda Aulia Hanifah "
+                        android:text="Ananda Aulia Hanifah"
                         android:textSize="14sp" />
 
                     <TextView
@@ -108,634 +103,591 @@
                         android:text="Handil Bakti"
                         android:textSize="14sp" />
 
-
-
-
-
-
-
-
-
                 </LinearLayout>
-
-
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
-
-
-
-
     </LinearLayout>
 
-
-
-
-    <FrameLayout
+    <!-- Area bawah header -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:background="#F0F0F0"
+        android:padding="16dp">
 
-
-        <Button
-            android:layout_width="200dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="59dp"
-            android:layout_marginTop="10dp"
-            android:text="UPZPRENEUR"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            app:cornerRadius="10dp">
-
-        </Button>
-
-
-
-        <ImageView
-            android:layout_width="match_parent"
+        <!-- CARD UTAMA -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardMain"
+            android:layout_width="0dp"
+            app:strokeWidth="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/newsubs"
-            >
-        </ImageView>
+            android:layout_marginTop="40dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            >
-
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:layout_marginTop="50dp"
-                android:layout_marginLeft="40dp"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:src="@drawable/img"
-                android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/RoundedImage"
-
-                >
-
-            </com.google.android.material.imageview.ShapeableImageView>
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="46dp"
-            >
+                android:paddingBottom="0dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="10dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ananda Aulia Hanifah"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
-                    />
-
-
+                <!-- Foto profil + info -->
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    >
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:src="@drawable/shop">
-
-                    </ImageView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="2dp"
-                        android:text="Tahu Goreng Teteh"/>
-
-                </LinearLayout>
-
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    >
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:src="@drawable/money">
-
-                    </ImageView>
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="2dp"
-                        android:text="Rp 50.000.000"/>
-
-
-                </LinearLayout>
-
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    >
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:src="@drawable/location">
-
-                    </ImageView>
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="2dp"
-                        android:text="Universitas Pakuan Bogor"/>
-
-
-                </LinearLayout>
-
-
-
-
-
-            </LinearLayout>
-
-
-
-
-        </LinearLayout>
-
-        <!-- wrapper -->
-        <LinearLayout
-            android:layout_width="323dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="180dp"
-            android:background="@drawable/bg_card"
-            android:layout_gravity="bottom|center"
-            android:layout_marginBottom="10dp"
-            android:orientation="vertical"
-            android:elevation="20dp"
-            >
-
-
-            <!--track 1 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <!--Kolom kiri point to point -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:layout_marginTop="22dp"
-                    android:layout_marginLeft="12dp">
-
-                    <!-- Dot -->
-                    <View
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:background="@drawable/dot_active"/>
-
-                    <!-- Garis penghubung -->
-                    <View
-                        android:layout_width="2dp"
-                        android:layout_height="20dp"
-                        android:background="#CCCCCC"/>
-
-                </LinearLayout>
-                <!-- Kolom kanan: teks + tanggal -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginTop="20dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="5dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="16dp">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Penerima Ditentukan"
-                        android:textSize="14sp"/>
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:src="@drawable/img"
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/RoundedImage"/>
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="20 Juni"
-                        android:textSize="12sp"/>
+                        android:orientation="vertical"
+                        android:layout_marginStart="12dp"
+                        android:layout_gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ananda Aulia Hanifah"
+                            android:textSize="16dp"
+                            android:textStyle="bold"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginTop="4dp">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/shop"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:text="Tahu Goreng Teteh"
+                                android:textSize="13sp"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginTop="4dp">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/money"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:text="Rp 50.000.000"
+                                android:textSize="13sp"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginTop="4dp">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/location"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:text="Universitas Pakuan Bogor"
+                                android:textSize="13sp"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                 </LinearLayout>
+
+                <!-- Divider -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#EEEEEE"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- Stepper track 1 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginStart="4dp">
+
+                        <View
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:background="@drawable/dot_active"/>
+
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="20dp"
+                            android:background="#CCCCCC"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Penerima Ditentukan"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="20 Juni"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Stepper track 2 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_marginStart="4dp">
+
+                        <View
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:background="@drawable/dot_active"/>
+
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="20dp"
+                            android:background="#CCCCCC"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Pengadaan Barang"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="10 Oktober"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Stepper track 3 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_marginStart="4dp">
+
+                        <View
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:background="@drawable/dot_inactive"/>
+
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="20dp"
+                            android:background="#CCCCCC"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Penyerahan Barang"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="14 Desember"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Stepper track 4 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_marginStart="4dp">
+
+                        <View
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:background="@drawable/dot_inactive"/>
+
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="20dp"
+                            android:background="#CCCCCC"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Monitoring Bulanan"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="01 Jan"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Stepper track 5 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_marginStart="4dp">
+
+                        <View
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:background="@drawable/dot_inactive"/>
+
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="20dp"
+                            android:background="#CCCCCC"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Evaluasi Progress"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="19 Februari"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Stepper track 6 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_marginStart="4dp">
+
+                        <View
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:background="@drawable/dot_inactive"/>
+
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="20dp"
+                            android:background="#CCCCCC"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Tindak Lanjut"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="30 Maret"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Stepper track 7 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_marginStart="4dp">
+
+                        <View
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:background="@drawable/dot_inactive"/>
+
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="20dp"
+                            android:background="#CCCCCC"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Laporan Periode"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="20 Juni"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Stepper track 8 - terakhir, no garis bawah -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_marginStart="4dp">
+
+                        <View
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:background="@drawable/dot_inactive"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Laporan Final"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="20 Agustus"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Button Update Status -->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnUpdate"
+                    android:layout_width="160dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/btn_update"
+                    android:text="Update Status"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
             </LinearLayout>
 
+            <!-- Garis hijau kiri -->
+            <View
+                android:id="@+id/viewGarisHijau"
+                android:layout_width="5dp"
+                android:layout_height="465dp"
+                android:background="#97D2A5"
+                android:elevation="0dp"
+                app:layout_constraintTop_toTopOf="@id/cardMain"
+                app:layout_constraintBottom_toBottomOf="@id/cardMain"
+                app:layout_constraintStart_toStartOf="parent"/>
 
+        </com.google.android.material.card.MaterialCardView>
 
-            <!--track 2 -->
- <LinearLayout
-                android:layout_width="match_parent"
+        <!-- BADGE UPZPRENEUR overlap kiri atas card -->
+        <FrameLayout
+            android:id="@+id/badgeWrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_badge"
+            android:padding="8dp"
+            android:paddingEnd="12dp"
+            android:layout_marginTop="-40dp"
+            android:layout_marginStart="30dp"
+            app:layout_constraintTop_toTopOf="@id/cardMain"
+            app:layout_constraintStart_toStartOf="@id/cardMain">
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <!--Kolom kiri point to point -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginLeft="12dp">
-
-                    <!-- Dot -->
-                    <View
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:background="@drawable/dot_active"/>
-
-                    <!-- Garis penghubung -->
-                    <View
-                        android:layout_width="2dp"
-                        android:layout_height="20dp"
-                        android:background="#CCCCCC"/>
-
-                </LinearLayout>
-                <!-- Kolom kanan: teks + tanggal -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="5dp">
-
-                    <TextView
-                        android:layout_marginTop="-3dp"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Pengadaan Barang"
-                        android:textSize="14sp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="10 Oktober"
-                        android:textSize="12sp"/>
-
-                </LinearLayout>
-            </LinearLayout>
-
-
-
-            <!--track 2 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <!--Kolom kiri point to point -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginLeft="12dp">
-
-                    <!-- Dot -->
-                    <View
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:background="@drawable/dot_inactive"/>
-
-                    <!-- Garis penghubung -->
-                    <View
-                        android:layout_width="2dp"
-                        android:layout_height="20dp"
-                        android:background="#CCCCCC"/>
-
-                </LinearLayout>
-                <!-- Kolom kanan: teks + tanggal -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="5dp">
-
-                    <TextView
-                        android:layout_marginTop="-3dp"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="
-Penyerahan Barang"
-                        android:textSize="14sp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="14 Desember"
-                        android:textSize="12sp"/>
-
-                </LinearLayout>
-            </LinearLayout> <!--track 2 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <!--Kolom kiri point to point -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginLeft="12dp">
-
-                    <!-- Dot -->
-                    <View
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:background="@drawable/dot_inactive"/>
-
-                    <!-- Garis penghubung -->
-                    <View
-                        android:layout_width="2dp"
-                        android:layout_height="20dp"
-                        android:background="#CCCCCC"/>
-
-                </LinearLayout>
-                <!-- Kolom kanan: teks + tanggal -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="5dp">
-
-                    <TextView
-                        android:layout_marginTop="-3dp"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Monitoring Bulanan"
-                        android:textSize="14sp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="01 Jan"
-                        android:textSize="12sp"/>
-
-                </LinearLayout>
-            </LinearLayout> <!--track 2 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <!--Kolom kiri point to point -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginLeft="12dp">
-
-                    <!-- Dot -->
-                    <View
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:background="@drawable/dot_inactive"/>
-
-                    <!-- Garis penghubung -->
-                    <View
-                        android:layout_width="2dp"
-                        android:layout_height="20dp"
-                        android:background="#CCCCCC"/>
-
-                </LinearLayout>
-                <!-- Kolom kanan: teks + tanggal -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="5dp">
-
-                    <TextView
-                        android:layout_marginTop="-3dp"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Evaluasi Progress"
-                        android:textSize="14sp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="19 Februari"
-                        android:textSize="12sp"/>
-
-                </LinearLayout>
-            </LinearLayout> <!--track 2 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <!--Kolom kiri point to point -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginLeft="12dp">
-
-                    <!-- Dot -->
-                    <View
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:background="@drawable/dot_inactive"/>
-
-                    <!-- Garis penghubung -->
-                    <View
-                        android:layout_width="2dp"
-                        android:layout_height="20dp"
-                        android:background="#CCCCCC"/>
-
-                </LinearLayout>
-                <!-- Kolom kanan: teks + tanggal -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="5dp">
-
-                    <TextView
-                        android:layout_marginTop="-3dp"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Tindak Lanjut"
-                        android:textSize="14sp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="30 Maret"
-                        android:textSize="12sp"/>
-
-                </LinearLayout>
-            </LinearLayout> <!--track 2 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <!--Kolom kiri point to point -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginLeft="12dp">
-
-                    <!-- Dot -->
-                    <View
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:background="@drawable/dot_inactive"/>
-
-                    <!-- Garis penghubung -->
-                    <View
-                        android:layout_width="2dp"
-                        android:layout_height="20dp"
-                        android:background="#CCCCCC"/>
-
-                </LinearLayout>
-                <!-- Kolom kanan: teks + tanggal -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="5dp">
-
-                    <TextView
-                        android:layout_marginTop="-3dp"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Laporan Periode"
-                        android:textSize="14sp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="20 Juni"
-                        android:textSize="12sp"/>
-
-                </LinearLayout>
-            </LinearLayout> <!--track 2 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <!--Kolom kiri point to point -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginLeft="12dp">
-
-                    <!-- Dot -->
-                    <View
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:background="@drawable/dot_inactive"/>
-
-
-                </LinearLayout>
-                <!-- Kolom kanan: teks + tanggal -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="5dp">
-
-                    <TextView
-                        android:layout_marginTop="-3dp"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Laporan Final"
-                        android:textSize="14sp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="20 Agustus"
-                        android:textSize="12sp"/>
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="160dp"
-                android:layout_height="28dp"
-                android:layout_gravity="center"
-                android:background="@drawable/btn_update"
-                android:text="Update Status"
-                android:textSize="10sp"
-                android:textStyle="bold"
+                android:text="UPZPRENEUR"
+                android:background="@drawable/bg_rounded"
+                android:backgroundTint="#6663BD"
+                android:padding="10dp"
                 android:textColor="#FFFFFF"
-                android:layout_marginTop="20dp"/>
+                android:textStyle="bold"
+                android:textSize="15sp"/>
 
+        </FrameLayout>
 
-
-
-
-
-
-
-        </LinearLayout>
-
-
-
-
-    </FrameLayout>
-
-
-
-
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
-
