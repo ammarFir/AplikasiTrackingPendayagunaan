@@ -189,17 +189,17 @@
 
 
         <Button
+            android:id="@+id/btnAdd"
             android:layout_width="310dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="3dp"
             android:backgroundTint="#8EA4D2"
-            app:cornerRadius="10dp"
             android:text="Tambah Penerima Baru"
-            android:textStyle="bold"
             android:textSize="15dp"
-            ></Button>
+            android:textStyle="bold"
+            app:cornerRadius="10dp"></Button>
 
 
 

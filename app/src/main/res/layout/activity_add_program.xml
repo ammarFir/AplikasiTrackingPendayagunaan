@@ -31,6 +31,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:text="Detail Program"
+                android:textColor="#1F1E1E"
                 android:textSize="23dp"
                 android:textStyle="bold" />
 
@@ -72,8 +73,10 @@
                 style="@style/TextAppearance.MaterialComponents.Headline6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
                 android:text="Form Pengisian"
-                android:textColor="#49516F"
+
+                android:textColor="#1F1E1E"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 

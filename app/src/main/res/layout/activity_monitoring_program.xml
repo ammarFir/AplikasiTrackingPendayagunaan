@@ -28,6 +28,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
                 android:layout_marginTop="20dp"
+
+                android:textColor="#1F1E1E"
                 android:layout_weight="1"
                 android:text="Detail Program"
                 android:textSize="23dp"
@@ -116,7 +118,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Pengadaan Barang"
-                            android:textColor="#222222"
+                            android:textColor="#000000"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
@@ -137,6 +139,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+
                                 android:hint="Tambahkan Text"
                                 android:padding="8dp"
                                 android:textSize="12sp" />

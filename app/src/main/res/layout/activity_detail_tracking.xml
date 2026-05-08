@@ -26,6 +26,8 @@
                 android:layout_marginLeft="40dp"
                 android:layout_marginTop="15dp"
                 android:layout_weight="1"
+
+                android:textColor="#1F1E1E"
                 android:text="Detail Program"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -72,6 +74,9 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:textStyle="bold"
+
+
+                        android:textColor="#1F1E1E"
                         android:layout_marginStart="8dp"
                         android:text="UPZPRENEUR"
                         android:textSize="24sp" />
@@ -81,6 +86,8 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:textStyle="bold"
+
+                        android:textColor="#1F1E1E"
                         android:layout_marginStart="8dp"
                         android:text="Ananda Aulia Hanifah"
                         android:textSize="14sp" />
@@ -90,6 +97,8 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:textStyle="bold"
+
+                        android:textColor="#1F1E1E"
                         android:layout_marginStart="8dp"
                         android:text="Tahu Goreng Teteh"
                         android:textSize="14sp" />
@@ -99,6 +108,8 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:textStyle="bold"
+
+                        android:textColor="#1F1E1E"
                         android:layout_marginStart="8dp"
                         android:text="Handil Bakti"
                         android:textSize="14sp" />
@@ -169,6 +180,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Ananda Aulia Hanifah"
+
+                            android:textColor="#1F1E1E"
                             android:textSize="16dp"
                             android:textStyle="bold"/>
 
@@ -188,6 +201,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
+
+                                android:textColor="#1F1E1E"
                                 android:text="Tahu Goreng Teteh"
                                 android:textSize="13sp"/>
 
@@ -209,6 +224,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
+
+                                android:textColor="#1F1E1E"
                                 android:text="Rp 50.000.000"
                                 android:textSize="13sp"/>
 
@@ -230,6 +247,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
+
+
+                                android:textColor="#1F1E1E"
                                 android:text="Universitas Pakuan Bogor"
                                 android:textSize="13sp"/>
 
@@ -283,12 +303,16 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
+                            android:textColor="#1F1E1E"
                             android:text="Penerima Ditentukan"
                             android:textSize="14sp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+
+                            android:textColor="#1F1E1E"
                             android:text="20 Juni"
                             android:textSize="12sp"/>
 
@@ -332,12 +356,17 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
+                            android:textColor="#1F1E1E"
                             android:text="Pengadaan Barang"
                             android:textSize="14sp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+
+
+                            android:textColor="#1F1E1E"
                             android:text="10 Oktober"
                             android:textSize="12sp"/>
 
@@ -381,12 +410,16 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
+                            android:textColor="#1F1E1E"
                             android:text="Penyerahan Barang"
                             android:textSize="14sp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+
+                            android:textColor="#1F1E1E"
                             android:text="14 Desember"
                             android:textSize="12sp"/>
 
@@ -430,12 +463,17 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
+
+                            android:textColor="#1F1E1E"
                             android:text="Monitoring Bulanan"
                             android:textSize="14sp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+
+                            android:textColor="#1F1E1E"
                             android:text="01 Jan"
                             android:textSize="12sp"/>
 
@@ -479,12 +517,16 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
+                            android:textColor="#1F1E1E"
                             android:text="Evaluasi Progress"
                             android:textSize="14sp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+
+                            android:textColor="#1F1E1E"
                             android:text="19 Februari"
                             android:textSize="12sp"/>
 
@@ -528,12 +570,16 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
+                            android:textColor="#1F1E1E"
                             android:text="Tindak Lanjut"
                             android:textSize="14sp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+
+                            android:textColor="#1F1E1E"
                             android:text="30 Maret"
                             android:textSize="12sp"/>
 
@@ -577,12 +623,16 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
+                            android:textColor="#1F1E1E"
                             android:text="Laporan Periode"
                             android:textSize="14sp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+
+                            android:textColor="#1F1E1E"
                             android:text="20 Juni"
                             android:textSize="12sp"/>
 
@@ -621,12 +671,16 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
+                            android:textColor="#1F1E1E"
                             android:text="Laporan Final"
                             android:textSize="14sp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+
+                            android:textColor="#1F1E1E"
                             android:text="20 Agustus"
                             android:textSize="12sp"/>
 

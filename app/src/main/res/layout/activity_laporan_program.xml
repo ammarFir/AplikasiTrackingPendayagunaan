@@ -31,6 +31,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
                 android:layout_marginTop="20dp"
+
+                android:textColor="#1F1E1E"
                 android:layout_weight="1"
                 android:text="Tambah Program"
                 android:textSize="23dp"
@@ -106,6 +108,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Ananda Aulia Hanifah"
+
+                            android:textColor="#1F1E1E"
                             android:textSize="16dp"
                             android:textStyle="bold" />
 
@@ -125,6 +129,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
+
+                                android:textColor="#1F1E1E"
                                 android:text="Tahu Goreng Teteh"
                                 android:textSize="13sp" />
 
@@ -146,6 +152,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
+
+
+                                android:textColor="#1F1E1E"
                                 android:text="Rp 50.000.000"
                                 android:textSize="13sp" />
 
@@ -167,6 +176,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
+
+
+                                android:textColor="#1F1E1E"
                                 android:text="Universitas Pakuan Bogor"
                                 android:textSize="13sp" />
 
