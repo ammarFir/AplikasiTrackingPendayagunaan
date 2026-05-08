@@ -62,6 +62,14 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.androidx.activity.compose)
 
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+// OkHttp (untuk logging request/response, berguna waktu debug)
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
     // Debug (hanya untuk debugging)
     debugImplementation(libs.compose.ui.tooling)
 }
