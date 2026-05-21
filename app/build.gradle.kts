@@ -62,14 +62,18 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.androidx.activity.compose)
 
-
-    // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-
-// OkHttp (untuk logging request/response, berguna waktu debug)
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
-
     // Debug (hanya untuk debugging)
     debugImplementation(libs.compose.ui.tooling)
+
+    // Retrofit - untuk hit API
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+// OkHttp - untuk logging request/response
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+// Coroutines - untuk async request
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+// ViewModel + LiveData
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
 }
