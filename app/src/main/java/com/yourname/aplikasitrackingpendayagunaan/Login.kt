@@ -1,42 +1,82 @@
 package com.yourname.aplikasitrackingpendayagunaan
-//identitas file
-import android.content.Intent   // buat pindah halaman
-import android.os.Bundle //buat nyimepn state/data activity
-import android.widget.Button //buat bisa mengenali komponen button
-import androidx.activity.enableEdgeToEdge //buat tampilan full layar
-import androidx.appcompat.app.AppCompatActivity //kelas induk acitivy
 
-class Login : AppCompatActivity() { //  class login itu nama activity , AppCompatActivity() itu artinya class login itu turunan dtoolbar dari AppCompactActivity
-    //AppCompatActivity kelas bawaan android yg menyediakan semua fungsi dasar spt button, tombol back, toolbar dll
+import android.content.Intent
+import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
+import com.yourname.aplikasitrackingpendayagunaan.model.LoginRequest
+import com.yourname.aplikasitrackingpendayagunaan.network.ApiClient
+import com.yourname.aplikasitrackingpendayagunaan.utils.SessionManager
+import kotlinx.coroutines.launch
+
+class Login : AppCompatActivity() {
+
+    private lateinit var sessionManager: SessionManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
-    //override : menimpa / memodifikasi fungsi yg udah ada di AppCompat diatas
-    //fun onCreate : dipanggil pertama kali saat halaman dibuka
-    //savedInstanceState: Bundle? : nyimpen data kalau activity diputar/direstart, tanda ? artinya boleh null/kosong
         super.onCreate(savedInstanceState)
-        //menjalankan onCreate dari parent (AppCompactAcitivy)
-        enableEdgeToEdge()
-        //bikin tampilan full sampai ke tepi layar
         setContentView(R.layout.activity_login)
-        //pasang tampilan xml ke halaman ini
 
-        val btnLogin = findViewById<Button>(R.id.btn_register)
-        //val deklarasi variable yg nilainya tetap
-        btnLogin.setOnClickListener {
-        //dengerin kalau tombol diclick
-        // {} kode didalam dijalankan saat tombol di click
+        sessionManager = SessionManager(this)
+
+        // Kalau sudah login, langsung ke MainActivity
+        if (sessionManager.isLoggedIn()) {
             goToMainActivity()
-            //memanggil funksi pindah halaman
+            return
+        }
+
+        val etEmail    = findViewById<TextInputEditText>(R.id.tvFullname)
+        val etPassword = findViewById<TextInputEditText>(R.id.emailEditPassword)
+        val btnLogin   = findViewById<MaterialButton>(R.id.btn_register)
+        val tvSignUp   = findViewById<android.widget.TextView>(R.id.tvSignUp)
+
+        btnLogin.setOnClickListener {
+            val email    = etEmail.text.toString().trim()
+            val password = etPassword.text.toString().trim()
+
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Email dan password wajib diisi", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            btnLogin.isEnabled = false
+            btnLogin.text      = "Loading..."
+
+            lifecycleScope.launch {
+                try {
+                    val response = ApiClient.apiService.login(LoginRequest(email, password))
+                    if (response.isSuccessful && response.body()?.success == true) {
+                        val data = response.body()!!.data!!
+                        sessionManager.saveSession(
+                            token  = data.token,
+                            userId = data.user_id,
+                            name   = data.name,
+                            email  = data.email,
+                            role   = data.role
+                        )
+                        goToMainActivity()
+                    } else {
+                        Toast.makeText(this@Login, response.body()?.message ?: "Login gagal", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(this@Login, "Koneksi gagal: ${e.message}", Toast.LENGTH_SHORT).show()
+                } finally {
+                    btnLogin.isEnabled = true
+                    btnLogin.text      = "Masuk"
+                }
+            }
+        }
+
+        tvSignUp.setOnClickListener {
+            startActivity(Intent(this, Register::class.java))
         }
     }
 
-    private  fun goToMainActivity () {
-    //fungsi private yg cuma bisa diakses di file Login.kt
-        val intent = Intent(this, MainActivity::class.java)
-        // memanggil inten(objek untuk berpindah halaman) , berpindah dari halaman ini ke halaman Main
-        startActivity(intent)
-        //eksekusi pindah halaman
+    private fun goToMainActivity() {
+        startActivity(Intent(this, MainActivity::class.java))
         finish()
-        //tutup halaman login agar tidak bisa di-back
     }
-
 }
