@@ -2,36 +2,86 @@ package com.yourname.aplikasitrackingpendayagunaan
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
-import androidx.activity.enableEdgeToEdge
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-
+import androidx.lifecycle.lifecycleScope
+import com.yourname.aplikasitrackingpendayagunaan.network.ApiClient
+import com.yourname.aplikasitrackingpendayagunaan.utils.SessionManager
+import kotlinx.coroutines.launch
 
 class DetailTracking : AppCompatActivity() {
 
+    private lateinit var sessionManager: SessionManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.decorView.systemUiVisibility = (
-                View.SYSTEM_UI_FLAG_FULLSCREEN
-                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                )
-        enableEdgeToEdge()
         setContentView(R.layout.activity_detail_tracking)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        sessionManager = SessionManager(this)
+
+        val programId = intent.getIntExtra("program_id", -1)
+        if (programId == -1) {
+            Toast.makeText(this, "Program tidak ditemukan", Toast.LENGTH_SHORT).show()
+            finish()
+            return
         }
 
+        fetchDetail(programId)
 
-        val  btnUpdate = findViewById<Button>(R.id.btnUpdate);
+        val btnUpdate = findViewById<Button>(R.id.btnUpdate)
         btnUpdate.setOnClickListener {
             val intent = Intent(this, MonitoringProgram::class.java)
+            intent.putExtra("program_id", programId)
             startActivity(intent)
+        }
+    }
+
+    private fun fetchDetail(programId: Int) {
+        val token = sessionManager.getToken() ?: return
+
+        lifecycleScope.launch {
+            try {
+                val response = ApiClient.apiService.getTrackingDetail(token, programId)
+                if (response.isSuccessful && response.body()?.success == true) {
+                    val data = response.body()!!.data!!
+
+                    // Header card
+                    findViewById<TextView>(R.id.tvJenisProgram).text  = data.nama_program
+                    findViewById<TextView>(R.id.tvNamaMustahiq).text  = data.nama_mustahiq ?: "-"
+                    findViewById<TextView>(R.id.tvUsahaMustahiq).text = data.jenis_usaha ?: "-"
+                    findViewById<TextView>(R.id.tvAlamatMustahiq).text = data.alamat ?: "-"
+
+                    // Badge
+                    findViewById<TextView>(R.id.tvBanner).text = data.nama_program
+
+                    // Card body
+                    findViewById<TextView>(R.id.tvNama).text   = data.nama_mustahiq ?: "-"
+                    findViewById<TextView>(R.id.tvUsaha).text  = data.jenis_usaha ?: "-"
+                    findViewById<TextView>(R.id.tvDana).text   = "Rp ${String.format("%,.0f", data.total_dana)}"
+                    findViewById<TextView>(R.id.tvLokasi).text = data.alamat ?: "-"
+
+                    // Stepper tanggal per tahapan
+                    val tglViews = listOf(
+                        R.id.tvTglProses1, R.id.tvTglProses2, R.id.tvTglProses3,
+                        R.id.tvTglProses4, R.id.tvTglProses5, R.id.tvTglProses6,
+                        R.id.tvTglProses7, R.id.tvTglProses8
+                    )
+
+                    data.tahapan.forEachIndexed { index, tahapan ->
+                        if (index < tglViews.size) {
+                            val tgl = tahapan.updated_at?.substring(0, 10) ?: "-"
+                            findViewById<TextView>(tglViews[index]).text = tgl
+                        }
+                    }
+
+                } else {
+                    Toast.makeText(this@DetailTracking, "Gagal memuat detail", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@DetailTracking, "Koneksi gagal: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

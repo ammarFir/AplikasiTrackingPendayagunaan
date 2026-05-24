@@ -3,7 +3,6 @@ package com.yourname.aplikasitrackingpendayagunaan.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.yourname.aplikasitrackingpendayagunaan.R
@@ -15,12 +14,11 @@ class TrackingAdapter(
 ) : RecyclerView.Adapter<TrackingAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvNamaProgram   : TextView    = view.findViewById(R.id.tvNamaProgram)
-        val tvNamaMustahiq  : TextView    = view.findViewById(R.id.tvNamaMustahiq)
-        val tvStatus        : TextView    = view.findViewById(R.id.tvStatus)
-        val tvProgress      : TextView    = view.findViewById(R.id.tvProgress)
-        val progressBar     : ProgressBar = view.findViewById(R.id.progressBar)
-        val tvTotalDana     : TextView    = view.findViewById(R.id.tvTotalDana)
+        val tvJenisProgram  : TextView = view.findViewById(R.id.tvJenisProgram)
+        val tvNama          : TextView = view.findViewById(R.id.tvNama)
+        val tvBantuanProgram: TextView = view.findViewById(R.id.tvBantuanProgram)
+        val tvAlamat        : TextView = view.findViewById(R.id.tvAlamat)
+        val tvSeeDetail     : TextView = view.findViewById(R.id.tvSeeDetail)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -31,13 +29,11 @@ class TrackingAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
-        holder.tvNamaProgram.text  = item.nama_program
-        holder.tvNamaMustahiq.text = item.nama_mustahiq ?: "-"
-        holder.tvStatus.text       = item.status
-        holder.tvProgress.text     = "${item.progress_persen}%"
-        holder.progressBar.progress = item.progress_persen
-        holder.tvTotalDana.text    = "Rp ${String.format("%,.0f", item.total_dana)}"
-        holder.itemView.setOnClickListener { onClick(item) }
+        holder.tvJenisProgram.text   = item.nama_program
+        holder.tvNama.text           = item.nama_mustahiq ?: "-"
+        holder.tvBantuanProgram.text = item.jenis_usaha ?: "-"
+        holder.tvAlamat.text = item.alamat_mustahiq ?: "-"
+        holder.tvSeeDetail.setOnClickListener { onClick(item) }
     }
 
     override fun getItemCount() = list.size

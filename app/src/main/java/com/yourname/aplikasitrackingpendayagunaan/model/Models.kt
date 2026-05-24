@@ -94,7 +94,8 @@ data class TrackingProgram(
     val nama_mustahiq: String?,
     val foto_mustahiq: String?,
     val progress_persen: Int,
-    val total_tahapan_selesai: Int
+    val total_tahapan_selesai: Int,
+    val alamat_mustahiq: String?
 )
 
 // ── TRACKING DETAIL ───────────────────────────────────

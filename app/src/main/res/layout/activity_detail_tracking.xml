@@ -33,7 +33,7 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/imageView10"
+                android:id="@+id/imgProfile"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="3dp"
@@ -70,49 +70,53 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tvJenisProgram"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:textStyle="bold"
-
-
-                        android:textColor="#1F1E1E"
                         android:layout_marginStart="8dp"
+
+
+                        android:gravity="center_vertical"
                         android:text="UPZPRENEUR"
-                        android:textSize="24sp" />
+                        android:textColor="#1F1E1E"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvNamaMustahiq"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:textStyle="bold"
-
-                        android:textColor="#1F1E1E"
                         android:layout_marginStart="8dp"
+
+                        android:gravity="center_vertical"
                         android:text="Ananda Aulia Hanifah"
-                        android:textSize="14sp" />
+                        android:textColor="#1F1E1E"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvUsahaMustahiq"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:textStyle="bold"
-
-                        android:textColor="#1F1E1E"
                         android:layout_marginStart="8dp"
+
+                        android:gravity="center_vertical"
                         android:text="Tahu Goreng Teteh"
-                        android:textSize="14sp" />
+                        android:textColor="#1F1E1E"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvAlamatMustahiq"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:textStyle="bold"
-
-                        android:textColor="#1F1E1E"
                         android:layout_marginStart="8dp"
+
+                        android:gravity="center_vertical"
                         android:text="Handil Bakti"
-                        android:textSize="14sp" />
+                        android:textColor="#1F1E1E"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -177,13 +181,14 @@
                         android:layout_gravity="center_vertical">
 
                         <TextView
+                            android:id="@+id/tvNama"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Ananda Aulia Hanifah"
 
+                            android:text="Ananda Aulia Hanifah"
                             android:textColor="#1F1E1E"
                             android:textSize="16dp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -198,13 +203,14 @@
                                 android:src="@drawable/shop"/>
 
                             <TextView
+                                android:id="@+id/tvUsaha"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="4dp"
 
-                                android:textColor="#1F1E1E"
+                                android:layout_marginStart="4dp"
                                 android:text="Tahu Goreng Teteh"
-                                android:textSize="13sp"/>
+                                android:textColor="#1F1E1E"
+                                android:textSize="13sp" />
 
                         </LinearLayout>
 
@@ -221,13 +227,14 @@
                                 android:src="@drawable/money"/>
 
                             <TextView
+                                android:id="@+id/tvDana"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="4dp"
 
-                                android:textColor="#1F1E1E"
+                                android:layout_marginStart="4dp"
                                 android:text="Rp 50.000.000"
-                                android:textSize="13sp"/>
+                                android:textColor="#1F1E1E"
+                                android:textSize="13sp" />
 
                         </LinearLayout>
 
@@ -244,14 +251,15 @@
                                 android:src="@drawable/location"/>
 
                             <TextView
+                                android:id="@+id/tvLokasi"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+
+
                                 android:layout_marginStart="4dp"
-
-
-                                android:textColor="#1F1E1E"
                                 android:text="Universitas Pakuan Bogor"
-                                android:textSize="13sp"/>
+                                android:textColor="#1F1E1E"
+                                android:textSize="13sp" />
 
                         </LinearLayout>
 
@@ -309,12 +317,13 @@
                             android:textSize="14sp"/>
 
                         <TextView
+                            android:id="@+id/tvTglProses1"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
 
-                            android:textColor="#1F1E1E"
+                            android:layout_height="wrap_content"
                             android:text="20 Juni"
-                            android:textSize="12sp"/>
+                            android:textColor="#1F1E1E"
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
@@ -362,13 +371,14 @@
                             android:textSize="14sp"/>
 
                         <TextView
+                            android:id="@+id/tvTglProses2"
                             android:layout_width="wrap_content"
+
+
                             android:layout_height="wrap_content"
-
-
-                            android:textColor="#1F1E1E"
                             android:text="10 Oktober"
-                            android:textSize="12sp"/>
+                            android:textColor="#1F1E1E"
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
@@ -416,12 +426,13 @@
                             android:textSize="14sp"/>
 
                         <TextView
+                            android:id="@+id/tvTglProses3"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
 
-                            android:textColor="#1F1E1E"
+                            android:layout_height="wrap_content"
                             android:text="14 Desember"
-                            android:textSize="12sp"/>
+                            android:textColor="#1F1E1E"
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
@@ -470,12 +481,13 @@
                             android:textSize="14sp"/>
 
                         <TextView
+                            android:id="@+id/tvTglProses4"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
 
-                            android:textColor="#1F1E1E"
+                            android:layout_height="wrap_content"
                             android:text="01 Jan"
-                            android:textSize="12sp"/>
+                            android:textColor="#1F1E1E"
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
@@ -523,12 +535,13 @@
                             android:textSize="14sp"/>
 
                         <TextView
+                            android:id="@+id/tvTglProses5"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
 
-                            android:textColor="#1F1E1E"
+                            android:layout_height="wrap_content"
                             android:text="19 Februari"
-                            android:textSize="12sp"/>
+                            android:textColor="#1F1E1E"
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
@@ -576,12 +589,13 @@
                             android:textSize="14sp"/>
 
                         <TextView
+                            android:id="@+id/tvTglProses6"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
 
-                            android:textColor="#1F1E1E"
+                            android:layout_height="wrap_content"
                             android:text="30 Maret"
-                            android:textSize="12sp"/>
+                            android:textColor="#1F1E1E"
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
@@ -629,12 +643,13 @@
                             android:textSize="14sp"/>
 
                         <TextView
+                            android:id="@+id/tvTglProses7"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
 
-                            android:textColor="#1F1E1E"
+                            android:layout_height="wrap_content"
                             android:text="20 Juni"
-                            android:textSize="12sp"/>
+                            android:textColor="#1F1E1E"
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
@@ -677,12 +692,13 @@
                             android:textSize="14sp"/>
 
                         <TextView
+                            android:id="@+id/tvTglProses8"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
 
-                            android:textColor="#1F1E1E"
+                            android:layout_height="wrap_content"
                             android:text="20 Agustus"
-                            android:textSize="12sp"/>
+                            android:textColor="#1F1E1E"
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
@@ -730,15 +746,16 @@
             app:layout_constraintStart_toStartOf="@id/cardMain">
 
             <TextView
+                android:id="@+id/tvBanner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="UPZPRENEUR"
                 android:background="@drawable/bg_rounded"
                 android:backgroundTint="#6663BD"
                 android:padding="10dp"
+                android:text="UPZPRENEUR"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:textSize="15sp"/>
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
         </FrameLayout>
 

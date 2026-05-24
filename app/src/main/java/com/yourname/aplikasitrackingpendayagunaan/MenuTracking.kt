@@ -1,49 +1,91 @@
-package com.yourname.aplikasitrackingpendayagunaan.adapter
+package com.yourname.aplikasitrackingpendayagunaan
 
-import android.view.LayoutInflater
+import android.content.Intent
+import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ProgressBar
+import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.yourname.aplikasitrackingpendayagunaan.R
-import com.yourname.aplikasitrackingpendayagunaan.model.TrackingProgram
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.yourname.aplikasitrackingpendayagunaan.adapter.TrackingAdapter
+import com.yourname.aplikasitrackingpendayagunaan.network.ApiClient
+import com.yourname.aplikasitrackingpendayagunaan.utils.SessionManager
+import kotlinx.coroutines.launch
 
-class TrackingAdapter(
-    private var list: List<TrackingProgram>,
-    private val onClick: (TrackingProgram) -> Unit
-) : RecyclerView.Adapter<TrackingAdapter.ViewHolder>() {
+class MenuTracking : AppCompatActivity() {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvNamaProgram   : TextView    = view.findViewById(R.id.tvNamaProgram)
-        val tvNamaMustahiq  : TextView    = view.findViewById(R.id.tvNamaMustahiq)
-        val tvStatus        : TextView    = view.findViewById(R.id.tvStatus)
-        val tvProgress      : TextView    = view.findViewById(R.id.tvProgress)
-        val progressBar     : ProgressBar = view.findViewById(R.id.progressBar)
-        val tvTotalDana     : TextView    = view.findViewById(R.id.tvTotalDana)
+    private lateinit var sessionManager: SessionManager
+    private lateinit var adapter: TrackingAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_menu_tracking)
+
+        sessionManager = SessionManager(this)
+
+        // Setup RecyclerView
+        val rvPenerima = findViewById<RecyclerView>(R.id.rvPenerima)
+        adapter = TrackingAdapter(emptyList()) { program ->
+            val intent = Intent(this, DetailTracking::class.java)
+            intent.putExtra("program_id", program.id)
+            startActivity(intent)
+        }
+        rvPenerima.layoutManager = LinearLayoutManager(this)
+        rvPenerima.adapter = adapter
+
+        // Bottom navigation
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNav.selectedItemId = R.id.nav_tracking
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                    true
+                }
+                R.id.nav_tracking -> true
+                else -> false
+            }
+        }
+
+        // Tombol tambah program
+        val btnAdd = findViewById<Button>(R.id.btnAdd)
+        btnAdd.setOnClickListener {
+            startActivity(Intent(this, AddProgram::class.java))
+        }
+
+        // Fetch data
+        fetchTrackingList()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_tracking, parent, false)
-        return ViewHolder(view)
-    }
+    private fun fetchTrackingList() {
+        val token = sessionManager.getToken() ?: return
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = list[position]
-        holder.tvNamaProgram.text  = item.nama_program
-        holder.tvNamaMustahiq.text = item.nama_mustahiq ?: "-"
-        holder.tvStatus.text       = item.status
-        holder.tvProgress.text     = "${item.progress_persen}%"
-        holder.progressBar.progress = item.progress_persen
-        holder.tvTotalDana.text    = "Rp ${String.format("%,.0f", item.total_dana)}"
-        holder.itemView.setOnClickListener { onClick(item) }
-    }
+        lifecycleScope.launch {
+            try {
+                val response = ApiClient.apiService.getTrackingList(token)
+                if (response.isSuccessful && response.body()?.success == true) {
+                    val data = response.body()!!.data!!
 
-    override fun getItemCount() = list.size
+                    // Update summary cards
+                    // (nanti bisa tambah findViewById ke card summary)
 
-    fun updateData(newList: List<TrackingProgram>) {
-        list = newList
-        notifyDataSetChanged()
+                    // Update RecyclerView
+                    adapter.updateData(data.programs)
+                    // Update summary cards
+                    findViewById<TextView>(R.id.tvTotalPenerima).text = data.summary.program_aktif.toString()
+                    findViewById<TextView>(R.id.tvProgramSelesai).text = data.summary.program_selesai.toString()
+                    findViewById<TextView>(R.id.tvTotalDana).text = "Rp ${String.format("%,.0f", data.summary.total_dana_digunakan)}"
+                } else {
+                    Toast.makeText(this@MenuTracking, "Gagal memuat data", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@MenuTracking, "Koneksi gagal: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
