@@ -167,11 +167,12 @@
                     android:layout_marginBottom="16dp">
 
                     <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/imgDetail"
                         android:layout_width="90dp"
                         android:layout_height="90dp"
-                        android:src="@drawable/img"
                         android:scaleType="centerCrop"
-                        app:shapeAppearanceOverlay="@style/RoundedImage"/>
+                        android:src="@drawable/img"
+                        app:shapeAppearanceOverlay="@style/RoundedImage" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -289,9 +290,10 @@
                         android:layout_marginStart="4dp">
 
                         <View
+                            android:id="@+id/dot1"
                             android:layout_width="16dp"
                             android:layout_height="16dp"
-                            android:background="@drawable/dot_active"/>
+                            android:background="@drawable/dot_active" />
 
                         <View
                             android:layout_width="2dp"
@@ -343,9 +345,10 @@
                         android:layout_marginStart="4dp">
 
                         <View
+                            android:id="@+id/dot2"
                             android:layout_width="16dp"
                             android:layout_height="16dp"
-                            android:background="@drawable/dot_active"/>
+                            android:background="@drawable/dot_active" />
 
                         <View
                             android:layout_width="2dp"
@@ -398,9 +401,10 @@
                         android:layout_marginStart="4dp">
 
                         <View
+                            android:id="@+id/dot3"
                             android:layout_width="16dp"
                             android:layout_height="16dp"
-                            android:background="@drawable/dot_inactive"/>
+                            android:background="@drawable/dot_inactive" />
 
                         <View
                             android:layout_width="2dp"
@@ -452,9 +456,10 @@
                         android:layout_marginStart="4dp">
 
                         <View
+                            android:id="@+id/dot4"
                             android:layout_width="16dp"
                             android:layout_height="16dp"
-                            android:background="@drawable/dot_inactive"/>
+                            android:background="@drawable/dot_inactive" />
 
                         <View
                             android:layout_width="2dp"
@@ -507,9 +512,10 @@
                         android:layout_marginStart="4dp">
 
                         <View
+                            android:id="@+id/dot5"
                             android:layout_width="16dp"
                             android:layout_height="16dp"
-                            android:background="@drawable/dot_inactive"/>
+                            android:background="@drawable/dot_inactive" />
 
                         <View
                             android:layout_width="2dp"
@@ -561,9 +567,10 @@
                         android:layout_marginStart="4dp">
 
                         <View
+                            android:id="@+id/dot6"
                             android:layout_width="16dp"
                             android:layout_height="16dp"
-                            android:background="@drawable/dot_inactive"/>
+                            android:background="@drawable/dot_inactive" />
 
                         <View
                             android:layout_width="2dp"
@@ -615,9 +622,10 @@
                         android:layout_marginStart="4dp">
 
                         <View
+                            android:id="@+id/dot7"
                             android:layout_width="16dp"
                             android:layout_height="16dp"
-                            android:background="@drawable/dot_inactive"/>
+                            android:background="@drawable/dot_inactive" />
 
                         <View
                             android:layout_width="2dp"
@@ -669,9 +677,10 @@
                         android:layout_marginStart="4dp">
 
                         <View
+                            android:id="@+id/dot8"
                             android:layout_width="16dp"
                             android:layout_height="16dp"
-                            android:background="@drawable/dot_inactive"/>
+                            android:background="@drawable/dot_inactive" />
 
                     </LinearLayout>
 

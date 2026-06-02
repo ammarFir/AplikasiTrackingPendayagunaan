@@ -2,6 +2,7 @@ package com.yourname.aplikasitrackingpendayagunaan
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -41,7 +42,7 @@ class DetailTracking : AppCompatActivity() {
     private fun fetchDetail(programId: Int) {
         val token = sessionManager.getToken() ?: return
 
-        lifecycleScope.launch {
+        lifecycleScope.launch  {
             try {
                 val response = ApiClient.apiService.getTrackingDetail(token, programId)
                 if (response.isSuccessful && response.body()?.success == true) {
@@ -73,6 +74,23 @@ class DetailTracking : AppCompatActivity() {
                         if (index < tglViews.size) {
                             val tgl = tahapan.updated_at?.substring(0, 10) ?: "-"
                             findViewById<TextView>(tglViews[index]).text = tgl
+                        }
+                    }
+
+                    // Dot stepper dinamis
+                    val dotViews = listOf(
+                        R.id.dot1, R.id.dot2, R.id.dot3, R.id.dot4,
+                        R.id.dot5, R.id.dot6, R.id.dot7, R.id.dot8
+                    )
+
+                    data.tahapan.forEachIndexed { index, tahapan ->
+                        if (index < dotViews.size) {
+                            val dot = findViewById<View>(dotViews[index])
+                            if (tahapan.status == "SELESAI") {
+                                dot.setBackgroundResource(R.drawable.dot_active)
+                            } else {
+                                dot.setBackgroundResource(R.drawable.dot_inactive)
+                            }
                         }
                     }
 
