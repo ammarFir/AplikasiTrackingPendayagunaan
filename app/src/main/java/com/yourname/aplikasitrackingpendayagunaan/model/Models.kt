@@ -191,3 +191,26 @@ data class TahapanLaporan(
     val kendala: String?,
     val updated_at: String?
 )
+
+
+data class TambahProgramRequest(
+    val nama_mustahiq: String,
+    val nik: String? = null,
+    val alamat: String? = null,
+    val no_hp: String? = null,
+    val nama_program: String,
+    val jenis_usaha: String,
+    val total_dana: Double,
+    val tanggal_mulai: String
+)
+data class TambahProgramResponse (
+    val success: Boolean,
+    val message: String,
+    val data: TambahProgramData?
+        )
+
+data class TambahProgramData (
+    val program_id: Int,
+    val kode_program: String,
+    val nama_program: String
+)

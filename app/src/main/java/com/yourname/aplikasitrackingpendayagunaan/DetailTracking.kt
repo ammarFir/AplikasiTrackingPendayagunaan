@@ -27,6 +27,7 @@ class DetailTracking : AppCompatActivity() {
             Toast.makeText(this, "Program tidak ditemukan", Toast.LENGTH_SHORT).show()
             finish()
             return
+
         }
 
         fetchDetail(programId)

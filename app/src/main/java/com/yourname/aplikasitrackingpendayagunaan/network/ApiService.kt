@@ -12,6 +12,8 @@ import com.yourname.aplikasitrackingpendayagunaan.model.UpdateProgressResponse
 import com.yourname.aplikasitrackingpendayagunaan.model.LaporanResponse
 import retrofit2.Response
 import retrofit2.http.*
+import com.yourname.aplikasitrackingpendayagunaan.model.TambahProgramRequest
+import com.yourname.aplikasitrackingpendayagunaan.model.TambahProgramResponse
 
 interface ApiService {
 
@@ -44,4 +46,12 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Query("id") id: Int
     ): Response<LaporanResponse>
+
+    @POST("api/tracking/tambah_program.php")
+    suspend fun tambahProgram(
+        @Header("Authorization") token: String,
+        @Body request: TambahProgramRequest
+    ): Response<TambahProgramResponse>
+
+
 }
