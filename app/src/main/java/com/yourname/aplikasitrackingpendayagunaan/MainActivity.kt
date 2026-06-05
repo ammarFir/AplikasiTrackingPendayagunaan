@@ -34,12 +34,16 @@ class MainActivity : AppCompatActivity() {
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
-                    // Sudah di home, tidak perlu pindah
                     true
                 }
                 R.id.nav_tracking -> {
                     startActivity(Intent(this, MenuTracking::class.java))
-                    finish() // tutup MainActivity supaya back stack bersih
+                    finish()
+                    true
+                }
+                R.id.nav_laporan -> {
+                    startActivity(Intent(this, LaporanProgram::class.java))
+                    finish()
                     true
                 }
                 else -> false
@@ -49,17 +53,7 @@ class MainActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
-
         }
-
-
-
-
-
-
-
-
-
 
         // ViewPager slider
         val images = listOf(
@@ -78,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                 title = "Free Palestine",
                 description = "UPZ Bakti Bersama Banjarmasin",
                 donasiterkumpul = 20000000,
-                imageRes = R.drawable.bahleeell, // ← ganti drawable sesuai milik kamu
+                imageRes = R.drawable.bahleeell,
                 start = null, end = null, target = null, status = null,
                 image = null, category_id = null, user_id = null,
                 create_at = null, update_at = null, agency_id = null, delete_at = null
@@ -89,15 +83,15 @@ class MainActivity : AppCompatActivity() {
                 title = "Bantu Korban Banjir",
                 description = "Yayasan Peduli Kalsel",
                 donasiterkumpul = 5000000,
-                imageRes = R.drawable.bahleeell3, // ← ganti drawable sesuai milik kamu
+                imageRes = R.drawable.bahleeell3,
                 start = null, end = null, target = null, status = null,
                 image = null, category_id = null, user_id = null,
                 create_at = null, update_at = null, agency_id = null, delete_at = null
             )
         )
 
-
+        val rvCampaign = findViewById<RecyclerView>(R.id.rvCampaign)
+        rvCampaign.layoutManager = LinearLayoutManager(this)
+        rvCampaign.adapter = CampaignAdapter(dummyData)
     }
-
-
 }

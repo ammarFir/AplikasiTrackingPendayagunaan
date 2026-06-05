@@ -705,7 +705,6 @@
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
-                            android:text="20 Agustus"
                             android:textColor="#1F1E1E"
                             android:textSize="12sp" />
 
@@ -715,7 +714,7 @@
 
                 <!-- Button Update Status -->
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnUpdate"
+                    android:id="@+id/btnExport"
                     android:layout_width="160dp"
                     android:layout_height="28dp"
                     android:layout_gravity="center"

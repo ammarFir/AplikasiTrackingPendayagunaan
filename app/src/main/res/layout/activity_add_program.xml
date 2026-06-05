@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E4E4E4"
-    android:orientation="vertical"
+    android:background="#F0F0F0"
     tools:context=".AddProgram">
-
 
     <!-- Header -->
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_header"
         android:backgroundTint="#97D2A5"
         android:orientation="vertical"
-        android:paddingBottom="20dp">
+        android:paddingBottom="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,7 +32,7 @@
                 android:layout_marginLeft="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                android:text="Detail Program"
+                android:text="Add Program"
                 android:textColor="#1F1E1E"
                 android:textSize="23dp"
                 android:textStyle="bold" />
@@ -48,155 +50,205 @@
 
     </LinearLayout>
 
+    <!-- Area bawah header -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F0F0F0"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
-    <FrameLayout
-        android:layout_width="354dp"
-        android:layout_height="500dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:paddingBottom="20dp">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/cardadd" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingLeft="30dp"
-            android:paddingTop="20dp">
-
-            <TextView
-                style="@style/TextAppearance.MaterialComponents.Headline6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:text="Form Pengisian"
-
-                android:textColor="#1F1E1E"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-<!-- text nama -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="280dp"
-                android:layout_height="50dp"
-                android:elevation="2dp"
-                android:hint="Nama Mustahiq">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tvNamaMustahiq"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="280dp"
-                android:layout_height="50dp"
-                android:hint="Pilih Program">
-
-                <AutoCompleteTextView
-                    android:paddingLeft="15dp"
-                    android:id="@+id/tvPilihProgram"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
-                    android:focusable="false"
-                    android:focusableInTouchMode="false">
-
-                </AutoCompleteTextView>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <!-- text jenis  usaha -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="280dp"
-                android:layout_height="50dp"
-                android:elevation="2dp"
-                android:hint="Jenis Usaha">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tvJenisUsaha"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-  <!-- text jenis  usaha -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="280dp"
-                android:layout_height="50dp"
-                android:elevation="2dp"
-                android:hint="Total Dana">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tvTotalDana"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-  <!-- text jenis  usaha -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="280dp"
-                android:layout_height="50dp"
-                android:elevation="2dp"
-                android:hint="Tanggal Mulai">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tvTanggalMulai"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+        <!-- CARD UTAMA -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardMain"
+            android:layout_width="0dp"
+            app:strokeWidth="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:id="@+id/canvasPhoto"
-                android:layout_width="280dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/bg_form"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="30dp"
+                android:paddingTop="20dp"
+                android:paddingRight="30dp"
+                android:paddingBottom="30dp">
 
                 <TextView
+                    style="@style/TextAppearance.MaterialComponents.Headline6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Upload Foto"
-                    android:textColor="#000000"
-                    android:textSize="14sp" />
+                    android:layout_gravity="center"
+                    android:text="Form Pengisian"
+                    android:textColor="#1F1E1E"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/btnUploadFoto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="+"
-                    android:textColor="#000000"
-                    android:textSize="40sp" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    android:elevation="2dp"
+                    android:hint="Nama Mustahiq">
 
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tvNamaMustahiq"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="Pilih Program">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/tvPilihProgram"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:paddingLeft="15dp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:elevation="2dp"
+                    android:hint="Jenis Usaha">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tvJenisUsaha"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:elevation="2dp"
+                    android:hint="Alamat">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tvAlamat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:elevation="2dp"
+                    android:hint="Total Dana">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tvTotalDana"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:elevation="2dp"
+                    android:hint="Tanggal Mulai">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tvTanggalMulai"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:inputType="none" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:id="@+id/canvasPhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/bg_form"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Upload Foto"
+                        android:textColor="#000000"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/btnUploadFoto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+"
+                        android:textColor="#000000"
+                        android:textSize="40sp" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- BUTTON TAMBAH -->
+        <FrameLayout
+            android:id="@+id/badgeWrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="-24dp"
+            android:background="@drawable/bg_badge"
+            android:padding="8dp"
+            android:paddingEnd="12dp"
+            app:layout_constraintStart_toStartOf="@id/cardMain"
+            app:layout_constraintTop_toBottomOf="@+id/cardMain">
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnTambah"
-                android:layout_width="190dp"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="40dp"
+                android:background="@drawable/bg_rounded"
+                android:backgroundTint="#6663BD"
+                android:padding="10dp"
+                android:text="Tambah"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
-                android:background="#6663BD"
-                android:text="Tambah" />
-        </LinearLayout>
 
 
-    </FrameLayout>
+        </FrameLayout>
+
+        <View
+            android:id="@+id/viewGarisHijau"
+            android:layout_width="5dp"
+            android:layout_height="520dp"
+            android:background="#97D2A5"
+            android:elevation="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/cardMain"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/cardMain" />
 
 
-</LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

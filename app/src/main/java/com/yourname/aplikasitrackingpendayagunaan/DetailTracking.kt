@@ -8,6 +8,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.google.android.material.imageview.ShapeableImageView
 import com.yourname.aplikasitrackingpendayagunaan.network.ApiClient
 import com.yourname.aplikasitrackingpendayagunaan.utils.SessionManager
 import kotlinx.coroutines.launch
@@ -15,6 +17,7 @@ import kotlinx.coroutines.launch
 class DetailTracking : AppCompatActivity() {
 
     private lateinit var sessionManager: SessionManager
+    private var tanggalMulaiProgram: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,12 +30,11 @@ class DetailTracking : AppCompatActivity() {
             Toast.makeText(this, "Program tidak ditemukan", Toast.LENGTH_SHORT).show()
             finish()
             return
-
         }
 
         fetchDetail(programId)
 
-        val btnUpdate = findViewById<Button>(R.id.btnUpdate)
+        val btnUpdate = findViewById<Button>(R.id.btnExport)
         btnUpdate.setOnClickListener {
             val intent = Intent(this, MonitoringProgram::class.java)
             intent.putExtra("program_id", programId)
@@ -43,15 +45,18 @@ class DetailTracking : AppCompatActivity() {
     private fun fetchDetail(programId: Int) {
         val token = sessionManager.getToken() ?: return
 
-        lifecycleScope.launch  {
+        lifecycleScope.launch {
             try {
                 val response = ApiClient.apiService.getTrackingDetail(token, programId)
                 if (response.isSuccessful && response.body()?.success == true) {
                     val data = response.body()!!.data!!
 
+                    // Simpan tanggal mulai program
+                    tanggalMulaiProgram = data.tanggal_mulai ?: ""
+
                     // Header card
-                    findViewById<TextView>(R.id.tvJenisProgram).text  = data.nama_program
-                    findViewById<TextView>(R.id.tvNamaMustahiq).text  = data.nama_mustahiq ?: "-"
+                    findViewById<TextView>(R.id.tvJenisProgram).text = data.nama_program
+                    findViewById<TextView>(R.id.tvNamaMustahiq).text = data.nama_mustahiq ?: "-"
                     findViewById<TextView>(R.id.tvUsahaMustahiq).text = data.jenis_usaha ?: "-"
                     findViewById<TextView>(R.id.tvAlamatMustahiq).text = data.alamat ?: "-"
 
@@ -59,10 +64,28 @@ class DetailTracking : AppCompatActivity() {
                     findViewById<TextView>(R.id.tvBanner).text = data.nama_program
 
                     // Card body
-                    findViewById<TextView>(R.id.tvNama).text   = data.nama_mustahiq ?: "-"
-                    findViewById<TextView>(R.id.tvUsaha).text  = data.jenis_usaha ?: "-"
-                    findViewById<TextView>(R.id.tvDana).text   = "Rp ${String.format("%,.0f", data.total_dana)}"
+                    findViewById<TextView>(R.id.tvNama).text = data.nama_mustahiq ?: "-"
+                    findViewById<TextView>(R.id.tvUsaha).text = data.jenis_usaha ?: "-"
+                    findViewById<TextView>(R.id.tvDana).text = "Rp ${String.format("%,.0f", data.total_dana)}"
                     findViewById<TextView>(R.id.tvLokasi).text = data.alamat ?: "-"
+
+                    // Tampilkan foto
+                    val imgDetail = findViewById<ShapeableImageView>(R.id.imgDetail)
+                    val fotoUrl = data.foto_mustahiq
+                    if (!fotoUrl.isNullOrEmpty()) {
+                        var fileName = fotoUrl
+                        if (fotoUrl.contains("/")) {
+                            fileName = fotoUrl.substringAfterLast("/")
+                        }
+                        val fullUrl = "http://10.0.2.2/bakti_bersama/uploads/$fileName"
+                        Glide.with(this@DetailTracking)
+                            .load(fullUrl)
+                            .placeholder(R.drawable.img)
+                            .error(R.drawable.img)
+                            .into(imgDetail)
+                    } else {
+                        imgDetail.setImageResource(R.drawable.img)
+                    }
 
                     // Stepper tanggal per tahapan
                     val tglViews = listOf(
@@ -73,7 +96,16 @@ class DetailTracking : AppCompatActivity() {
 
                     data.tahapan.forEachIndexed { index, tahapan ->
                         if (index < tglViews.size) {
-                            val tgl = tahapan.updated_at?.substring(0, 10) ?: "-"
+                            var tgl = "-"
+                            if (index == 0 && tanggalMulaiProgram.isNotEmpty()) {
+                                // Tahapan 1 pakai tanggal_mulai program
+                                tgl = tanggalMulaiProgram.substring(0, 10)
+                            } else {
+                                // Tahapan 2-8 pakai updated_at
+                                if (!tahapan.updated_at.isNullOrEmpty()) {
+                                    tgl = tahapan.updated_at.substring(0, 10)
+                                }
+                            }
                             findViewById<TextView>(tglViews[index]).text = tgl
                         }
                     }

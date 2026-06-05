@@ -48,6 +48,11 @@ class MenuTracking : AppCompatActivity() {
                     true
                 }
                 R.id.nav_tracking -> true
+                R.id.nav_laporan -> {
+                    startActivity(Intent(this, LaporanProgram::class.java))
+                    finish()
+                    true
+                }
                 else -> false
             }
         }
@@ -71,15 +76,19 @@ class MenuTracking : AppCompatActivity() {
                 if (response.isSuccessful && response.body()?.success == true) {
                     val data = response.body()!!.data!!
 
-                    // Update summary cards
-                    // (nanti bisa tambah findViewById ke card summary)
-
                     // Update RecyclerView
                     adapter.updateData(data.programs)
+
                     // Update summary cards
                     findViewById<TextView>(R.id.tvTotalPenerima).text = data.summary.program_aktif.toString()
                     findViewById<TextView>(R.id.tvProgramSelesai).text = data.summary.program_selesai.toString()
                     findViewById<TextView>(R.id.tvTotalDana).text = "Rp ${String.format("%,.0f", data.summary.total_dana_digunakan)}"
+
+                    // LOG UNTUK CEK DATA PROGRESS
+                    data.programs.forEach { program ->
+                        android.util.Log.d("TRACKING_DATA", "Program: ${program.nama_program}, Progress: ${program.progress_persen}%, Selesai: ${program.total_tahapan_selesai}/8")
+                    }
+
                 } else {
                     Toast.makeText(this@MenuTracking, "Gagal memuat data", Toast.LENGTH_SHORT).show()
                 }
