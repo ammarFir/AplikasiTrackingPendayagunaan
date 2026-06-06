@@ -55,7 +55,8 @@ class Login : AppCompatActivity() {
                             userId = data.user_id,
                             name   = data.name,
                             email  = data.email,
-                            role   = data.role
+                            role   = data.role,
+                            avatar = data.avatar
                         )
                         goToMainActivity()
                     } else {

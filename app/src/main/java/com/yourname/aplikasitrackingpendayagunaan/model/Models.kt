@@ -214,3 +214,23 @@ data class TambahProgramData (
     val kode_program: String,
     val nama_program: String
 )
+
+data class ProfileResponse(
+    val success: Boolean,
+    val message: String,
+    val data: ProfileData?
+)
+
+data class ProfileData(
+    val id: Int,
+    val name: String,
+    val email: String,
+    val phone: String?,
+    val avatar: String?
+)
+
+
+data class BaseResponse(
+    val success: Boolean,
+    val message: String
+)

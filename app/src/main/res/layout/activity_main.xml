@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/logo"
+            android:id="@+id/logoProfile"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackgroundBorderless"
@@ -46,6 +46,7 @@
             android:textStyle="bold" />
 
         <LinearLayout
+            android:id="@+id/btnOption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|right"
@@ -94,6 +95,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <LinearLayout
+            android:id="@+id/iconZakat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -135,6 +137,7 @@
 
         <LinearLayout
 
+            android:id="@+id/iconHistory"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -177,6 +180,7 @@
 
 
         <LinearLayout
+            android:id="@+id/iconETC"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -237,8 +241,8 @@
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"
-                android:layout_width="360dp"
-                android:layout_height="180dp"
+                android:layout_width="300dp"
+                android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:background="@drawable/bahleeell2"
 
@@ -248,7 +252,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1000dp"
+                android:layout_height="1200dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/bg_menu"
                 android:backgroundTint="#51A969"
@@ -273,13 +277,14 @@
                     </TextView>
 
                     <TextView
+                        android:id="@+id/txtNextCampaign"
                         android:layout_width="0dp"
                         android:layout_height="20dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginRight="12dp"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:text="Selanjutnya"
+                        android:text="Semua"
                         android:textColor="#00AEFF"
                         android:textSize="16sp"
                         android:textStyle="bold">
@@ -287,139 +292,31 @@
                     </TextView>
 
                 </LinearLayout>
-                
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvCampaign"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:clipToPadding="false"
+                    android:orientation="vertical"
                     tools:itemCount="1"
-                    tools:listitem="@layout/campaign_item"/>
+                    tools:listitem="@layout/campaign_item" />
 
 
                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="vertical">
-
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textSize="18sp"
-    android:textStyle="bold"
-    android:text="Doa Untuk Saudara kita"/>
-                    
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Sebelumnya"
-                            android:textColor="@color/white"
-                            android:layout_weight="1"
-                            android:textStyle="bold"/>
-                        <TextView
-                            android:layout_marginRight="15dp"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:gravity="right"
-                            android:layout_height="wrap_content"
-                            android:text="Selanjutnya"
-                            android:textColor="@color/white"
-                            android:textStyle="bold"/>
-                        
-                    </LinearLayout>
-                    
-                    
-                </LinearLayout>
-                
-                <androidx.cardview.widget.CardView
-                    android:layout_width="350dp"
-                    android:layout_height="wrap_content"
-                    app:cardElevation="2dp"
-                    android:layout_gravity="center"
-                    app:cardCornerRadius="12dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#F4E6E6"
-                        android:gravity="center_vertical"
-                        android:padding="16dp">
-
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_margin="8dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ic_launcher_background"
-                            app:shapeAppearanceOverlay="@style/CircleImageView">
-
-                        </com.google.android.material.imageview.ShapeableImageView>
-
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Anonim"
-                                android:textSize="15sp"
-                                android:textColor="@color/black"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Donasi Palestine"
-                                android:textColor="@color/black"
-                                android:textSize="15sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Semoga Bermanfaat dunia dan akhirat"
-                                android:textSize="13sp"
-                                android:textColor="@color/black"/>
-
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-                    
-                </androidx.cardview.widget.CardView>
-
-
-
-
-
-                <LinearLayout
-                    android:layout_marginTop="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="Doa Untuk Saudara kita"
                         android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:text="Kata Mereka Tentang Bakti Bersama"/>
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -427,21 +324,24 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/ucapanSebelum"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:text="Sebelumnya"
                             android:textColor="@color/white"
-                            android:layout_weight="1"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
+
                         <TextView
-                            android:layout_marginRight="15dp"
+                            android:id="@+id/ucapanSesudah"
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="15dp"
                             android:layout_weight="1"
                             android:gravity="right"
-                            android:layout_height="wrap_content"
                             android:text="Selanjutnya"
                             android:textColor="@color/white"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
@@ -451,11 +351,12 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="350dp"
                     android:layout_height="wrap_content"
-                    app:cardElevation="2dp"
                     android:layout_gravity="center"
-                    app:cardCornerRadius="12dp">
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp">
 
                     <LinearLayout
+                        android:id="@+id/cardDoa"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#F4E6E6"
@@ -463,6 +364,7 @@
                         android:padding="16dp">
 
                         <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/profileDoa"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_margin="8dp"
@@ -481,14 +383,16 @@
 
 
                             <TextView
+                                android:id="@+id/tvNamaDoa"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Anonim"
-                                android:textSize="15sp"
                                 android:textColor="@color/black"
+                                android:textSize="15sp"
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/tvDoaCampaign"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Donasi Palestine"
@@ -496,11 +400,12 @@
                                 android:textSize="15sp" />
 
                             <TextView
+                                android:id="@+id/tvUcapanDoa"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Semoga Bermanfaat dunia dan akhirat"
-                                android:textSize="13sp"
-                                android:textColor="@color/black"/>
+                                android:textColor="@color/black"
+                                android:textSize="13sp" />
 
 
                         </LinearLayout>
@@ -511,6 +416,116 @@
                 </androidx.cardview.widget.CardView>
 
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Kata Mereka Tentang Bakti Bersama"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/reviewSebelum"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Sebelumnya"
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/reviewSesudah"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="15dp"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="Selanjutnya"
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#F4E6E6"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/imgProfileReview"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_margin="8dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_launcher_background"
+                            app:shapeAppearanceOverlay="@style/CircleImageView">
+
+                        </com.google.android.material.imageview.ShapeableImageView>
+
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+
+                            <TextView
+                                android:id="@+id/txtNamaReview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Anonim"
+                                android:textColor="@color/black"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/txtReview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Teruslah Bermanfaat"
+                                android:textColor="@color/black"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/reviewStar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="★ ★ ★"
+                                android:textColor="@color/black"
+                                android:textSize="13sp" />
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
 
 
             </LinearLayout>
@@ -527,7 +542,7 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="65dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav_menu"
         />

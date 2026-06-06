@@ -2,8 +2,12 @@ package com.yourname.aplikasitrackingpendayagunaan
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -12,10 +16,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.yourname.aplikasitrackingpendayagunaan.adapter.CampaignAdapter
 import com.yourname.aplikasitrackingpendayagunaan.model.CampaignModel
+import com.yourname.aplikasitrackingpendayagunaan.utils.SessionManager
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var sessionManager: SessionManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -26,9 +35,10 @@ class MainActivity : AppCompatActivity() {
                         or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 )
         setContentView(R.layout.activity_main)
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
-        // Set posisi aktif di Home
+        sessionManager = SessionManager(this)
+
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNav.selectedItemId = R.id.nav_home
 
         bottomNav.setOnItemSelectedListener { item ->
@@ -49,6 +59,7 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -93,5 +104,37 @@ class MainActivity : AppCompatActivity() {
         val rvCampaign = findViewById<RecyclerView>(R.id.rvCampaign)
         rvCampaign.layoutManager = LinearLayoutManager(this)
         rvCampaign.adapter = CampaignAdapter(dummyData)
+
+        // LOGO PROFILE - klik ke halaman Profile
+        val logoProfile = findViewById<ImageView>(R.id.logoProfile)
+        logoProfile.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 3 DOT MENU - hanya untuk Logout
+        val btnOption = findViewById<LinearLayout>(R.id.btnOption)
+        btnOption.setOnClickListener {
+            showLogoutBottomSheet()
+        }
+    }
+
+    private fun showLogoutBottomSheet() {
+        val bottomSheetDialog = BottomSheetDialog(this)
+        val view = LayoutInflater.from(this).inflate(R.layout.bottom_sheet_logout, null)
+        bottomSheetDialog.setContentView(view)
+
+        val tvLogout = view.findViewById<TextView>(R.id.tvLogout)
+
+        tvLogout.setOnClickListener {
+            sessionManager.clearSession()
+            val intent = Intent(this, Login::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+            bottomSheetDialog.dismiss()
+        }
+
+        bottomSheetDialog.show()
     }
 }

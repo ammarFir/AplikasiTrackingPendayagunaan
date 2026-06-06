@@ -61,4 +61,29 @@ interface ApiService {
         @Part("tanggal_mulai") tanggalMulai: RequestBody,
         @Part foto: MultipartBody.Part?
     ): Response<TambahProgramResponse>
+
+
+    @GET("api/auth/profile.php")
+    suspend fun getProfile(@Header("Authorization") token: String): Response<ProfileResponse>
+
+    @Multipart
+    @POST("api/auth/update_avatar.php")
+    suspend fun updateAvatar(
+        @Header("Authorization") token: String,
+        @Part("user_id") userId: RequestBody,
+        @Part avatar: MultipartBody.Part
+    ): Response<BaseResponse>
+
+    @POST("api/auth/update_profile.php")
+    suspend fun updateProfile(
+        @Header("Authorization") token: String,
+        @Body body: RequestBody
+    ): Response<BaseResponse>
+
+    @Multipart
+    @POST("api/auth/update_avatar.php")
+    suspend fun updateAvatar(
+        @Header("Authorization") token: String,
+        @Part avatar: MultipartBody.Part
+    ): Response<BaseResponse>
 }

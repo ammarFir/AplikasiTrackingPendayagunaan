@@ -78,4 +78,5 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
 
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.itextpdf:itextg:5.5.10")
 }

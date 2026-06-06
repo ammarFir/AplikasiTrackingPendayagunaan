@@ -170,14 +170,14 @@
 
                                     <LinearLayout
                                         android:id="@+id/btnUpload1"
-                                        android:layout_width="0dp"
+                                        android:layout_width="20dp"
                                         android:layout_height="80dp"
                                         android:layout_weight="1"
                                         android:background="#F5F5F5"
-                                        android:gravity="center"
-                                        android:orientation="vertical"
                                         android:clickable="true"
-                                        android:focusable="true">
+                                        android:focusable="true"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
 
                                         <TextView
                                             android:layout_width="wrap_content"

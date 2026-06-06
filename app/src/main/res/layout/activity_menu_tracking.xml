@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F5F5">
+    android:background="#F0F0F0">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,11 +23,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="7dp"
                 android:layout_weight="1"
                 android:text="Tracking Mustahiq"
-                android:textSize="20dp"
+                android:textSize="25dp"
                 android:textStyle="bold" />
 
             <ImageView
@@ -35,7 +35,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="3dp"
-                android:layout_marginRight="40dp"
+                android:layout_marginRight="20dp"
                 android:background="@drawable/ic_circle_black"
                 app:srcCompat="@drawable/logokoceng" />
 
@@ -49,12 +49,12 @@
             android:gravity="center"
             android:orientation="horizontal"
             android:paddingLeft="16dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="14dp">
+            android:paddingTop="2dp"
+            android:paddingBottom="3dp">
 
             <!-- Card 1 -->
             <androidx.cardview.widget.CardView
-                android:layout_width="120dp"
+                android:layout_width="180dp"
                 android:layout_height="45dp"
                 android:layout_marginLeft="-20dp"
                 app:cardCornerRadius="8dp"
@@ -71,13 +71,13 @@
                         android:background="#8EA4D2" />
 
                     <TextView
-                        android:layout_width="60dp"
+                        android:layout_width="110dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="8dp"
-                        android:maxLines="3"
+                        android:maxLines="2"
                         android:text="Penerima Program Aktif"
-                        android:textSize="11.9sp"
+                        android:textSize="17sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -88,7 +88,8 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="67"
-                        android:textSize="24sp" />
+                        android:textStyle="bold"
+                        android:textSize="32sp" />
 
                 </LinearLayout>
 
@@ -100,7 +101,7 @@
 
             <!-- Card 2 -->
             <androidx.cardview.widget.CardView
-                android:layout_width="120dp"
+                android:layout_width="180dp"
                 android:layout_height="45dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="3dp">
@@ -116,13 +117,13 @@
                         android:background="#8EA4D2" />
 
                     <TextView
-                        android:layout_width="60dp"
+                        android:layout_width="90dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="8dp"
                         android:gravity="center_vertical"
                         android:maxLines="3"
                         android:text="Program Selesai"
-                        android:textSize="11.9sp"
+                        android:textSize="17sp"
                         android:textStyle="bold" />
 
 
@@ -134,7 +135,8 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="15"
-                        android:textSize="24sp" />
+                        android:textStyle="bold"
+                        android:textSize="32sp" />
 
 
                 </LinearLayout>
@@ -147,7 +149,7 @@
 
         <!-- Card 3 -->
         <androidx.cardview.widget.CardView
-            android:layout_width="310dp"
+            android:layout_width="390dp"
             android:layout_height="45dp"
             app:cardCornerRadius="8dp"
             android:layout_gravity="center"
@@ -170,7 +172,7 @@
                     android:textStyle="bold"
                     android:layout_marginStart="8dp"
                     android:text="Total Dana"
-                    android:textSize="14sp" />
+                    android:textSize="22sp" />
 
 
                 <TextView
@@ -181,7 +183,9 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Rp 45,000,000"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    />
 
 
 
@@ -194,10 +198,9 @@
 
         <Button
             android:id="@+id/btnAdd"
-            android:layout_width="310dp"
+            android:layout_width="390dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginTop="5dp"
             android:layout_marginBottom="3dp"
             android:backgroundTint="#8EA4D2"
             android:text="Tambah Penerima Baru"
@@ -225,9 +228,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvPenerima"
                 android:layout_width="match_parent"
+                android:layout_marginTop="4dp"
                 android:layout_height="wrap_content"/>
 
-                 
+
         </LinearLayout>
 
 
