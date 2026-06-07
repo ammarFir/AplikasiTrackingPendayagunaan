@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.google.android.material.imageview.ShapeableImageView
 import com.yourname.aplikasitrackingpendayagunaan.network.ApiClient
+import com.yourname.aplikasitrackingpendayagunaan.network.RetrofitClient
 import com.yourname.aplikasitrackingpendayagunaan.utils.SessionManager
 import kotlinx.coroutines.launch
 
@@ -80,7 +81,7 @@ class DetailTracking : AppCompatActivity() {
                         if (fotoUrl.contains("/")) {
                             fileName = fotoUrl.substringAfterLast("/")
                         }
-                        val fullUrl = "http://10.0.2.2/bakti_bersama/uploads/$fileName"
+                        val fullUrl = "${RetrofitClient.BASE_URL}uploads/$fileName"
                         Glide.with(this@DetailTracking)
                             .load(fullUrl)
                             .placeholder(R.drawable.img)

@@ -234,3 +234,32 @@ data class BaseResponse(
     val success: Boolean,
     val message: String
 )
+
+data class AvatarResponse(
+    val success: Boolean,
+    val message: String,
+    val data: AvatarData?
+)
+
+data class AvatarData(
+    val avatar: String
+)
+
+
+data class CampaignResponse(
+    val success: Boolean,
+    val message: String,
+    val data: List<Campaign>
+)
+
+data class Campaign(
+    val id: Int,
+    val title: String,
+    val description: String,
+    val target: String,
+    val image: String,
+    val start: String?,
+    val end: String?,
+    val status: String,
+    val created_at: String
+)

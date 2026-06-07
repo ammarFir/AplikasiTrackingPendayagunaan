@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.yourname.aplikasitrackingpendayagunaan.network.ApiClient
+import com.yourname.aplikasitrackingpendayagunaan.network.RetrofitClient
 import com.yourname.aplikasitrackingpendayagunaan.utils.SessionManager
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -171,7 +172,7 @@ class MonitoringProgram : AppCompatActivity() {
                                 if (fileName.contains("/")) {
                                     fileName = fileName.substringAfterLast("/")
                                 }
-                                val fotoUrl = "http://10.0.2.2/bakti_bersama/uploads/$fileName"
+                                val fotoUrl = "${RetrofitClient.BASE_URL}uploads/$fileName"
                                 Glide.with(this@MonitoringProgram)
                                     .load(fotoUrl)
                                     .into(tahapanList[index].imageView)

@@ -15,11 +15,17 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.yourname.aplikasitrackingpendayagunaan.adapter.CampaignAdapter
-import com.yourname.aplikasitrackingpendayagunaan.model.CampaignModel
+import com.yourname.aplikasitrackingpendayagunaan.network.ApiClient
+import com.yourname.aplikasitrackingpendayagunaan.network.RetrofitClient
 import com.yourname.aplikasitrackingpendayagunaan.utils.SessionManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -75,35 +81,8 @@ class MainActivity : AppCompatActivity() {
         val viewPager = findViewById<ViewPager2>(R.id.viewPager)
         viewPager.adapter = SliderAdapter(images)
 
-        // RecyclerView Campaign
-        val dummyData = listOf(
-            CampaignModel(
-                id = 1,
-                slug = "free-palestine",
-                title = "Free Palestine",
-                description = "UPZ Bakti Bersama Banjarmasin",
-                donasiterkumpul = 20000000,
-                imageRes = R.drawable.bahleeell,
-                start = null, end = null, target = null, status = null,
-                image = null, category_id = null, user_id = null,
-                create_at = null, update_at = null, agency_id = null, delete_at = null
-            ),
-            CampaignModel(
-                id = 2,
-                slug = "bantu-banjir",
-                title = "Bantu Korban Banjir",
-                description = "Yayasan Peduli Kalsel",
-                donasiterkumpul = 5000000,
-                imageRes = R.drawable.bahleeell3,
-                start = null, end = null, target = null, status = null,
-                image = null, category_id = null, user_id = null,
-                create_at = null, update_at = null, agency_id = null, delete_at = null
-            )
-        )
-
-        val rvCampaign = findViewById<RecyclerView>(R.id.rvCampaign)
-        rvCampaign.layoutManager = LinearLayoutManager(this)
-        rvCampaign.adapter = CampaignAdapter(dummyData)
+        // Load campaign dari API
+        loadCampaigns()
 
         // LOGO PROFILE - klik ke halaman Profile
         val logoProfile = findViewById<ImageView>(R.id.logoProfile)
@@ -116,6 +95,65 @@ class MainActivity : AppCompatActivity() {
         val btnOption = findViewById<LinearLayout>(R.id.btnOption)
         btnOption.setOnClickListener {
             showLogoutBottomSheet()
+        }
+
+        refreshUserData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshUserData()
+    }
+
+    private fun loadCampaigns() {
+        val token = sessionManager.getToken()
+        if (token == null) return
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = ApiClient.apiService.getCampaigns(token)
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body()?.success == true) {
+                        val campaigns = response.body()?.data ?: emptyList()
+
+                        val rvCampaign = findViewById<RecyclerView>(R.id.rvCampaign)
+                        rvCampaign.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+                        rvCampaign.adapter = CampaignAdapter(campaigns)
+                    } else {
+                        Toast.makeText(this@MainActivity, "Gagal memuat campaign", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@MainActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun refreshUserData() {
+        // Refresh nama
+        val tvWelcome = findViewById<TextView>(R.id.textView7)
+        val userName = sessionManager.getName() ?: "Pengguna"
+        tvWelcome.text = "Selamat Datang, $userName"
+
+        // Refresh avatar
+        val logoProfile = findViewById<ImageView>(R.id.logoProfile)
+        val avatar = sessionManager.getAvatar()
+        if (!avatar.isNullOrEmpty()) {
+            var fileName = avatar
+            if (fileName.contains("/")) {
+                fileName = fileName.substringAfterLast("/")
+            }
+            val avatarUrl = "${RetrofitClient.BASE_URL}uploads/$fileName"
+            Glide.with(this)
+                .load(avatarUrl)
+                .placeholder(R.drawable.logokoceng)
+                .error(R.drawable.logokoceng)
+                .circleCrop()
+                .into(logoProfile)
+        } else {
+            logoProfile.setImageResource(R.drawable.logokoceng)
         }
     }
 

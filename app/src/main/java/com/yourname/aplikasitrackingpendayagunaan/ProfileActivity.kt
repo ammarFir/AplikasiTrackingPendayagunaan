@@ -1,5 +1,6 @@
 package com.yourname.aplikasitrackingpendayagunaan
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
@@ -10,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textfield.TextInputEditText
 import com.yourname.aplikasitrackingpendayagunaan.network.ApiClient
+import com.yourname.aplikasitrackingpendayagunaan.network.RetrofitClient
 import com.yourname.aplikasitrackingpendayagunaan.utils.SessionManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,12 +34,13 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var btnSave: Button
 
     private var selectedImageUri: Uri? = null
+    private var newAvatarUploaded = false
 
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         uri?.let {
             selectedImageUri = uri
             ivAvatar.setImageURI(uri)
-            uploadAvatar(uri)
+            newAvatarUploaded = true
         }
     }
 
@@ -59,7 +62,11 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         btnSave.setOnClickListener {
-            updateProfile()
+            if (newAvatarUploaded && selectedImageUri != null) {
+                uploadAvatarThenUpdateProfile()
+            } else {
+                updateProfile()
+            }
         }
 
         loadProfile()
@@ -89,12 +96,16 @@ class ProfileActivity : AppCompatActivity() {
                                 if (fileName.contains("/")) {
                                     fileName = fileName.substringAfterLast("/")
                                 }
-                                val avatarUrl = "http://10.0.2.2/bakti_bersama/uploads/$fileName"
+                                val avatarUrl = "${RetrofitClient.BASE_URL}uploads/$fileName"
+
                                 Glide.with(this@ProfileActivity)
                                     .load(avatarUrl)
                                     .placeholder(R.drawable.dot_active)
                                     .error(R.drawable.dot_active)
                                     .into(ivAvatar)
+
+                                // Simpan avatar ke session
+                                sessionManager.saveAvatar(it.avatar)
                             }
                         }
                     } else {
@@ -103,6 +114,47 @@ class ProfileActivity : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
+                    Toast.makeText(this@ProfileActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun uploadAvatarThenUpdateProfile() {
+        val token = sessionManager.getToken() ?: return
+        val imageUri = selectedImageUri ?: return
+
+        btnSave.isEnabled = false
+        btnSave.text = "Menyimpan..."
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val stream: InputStream? = contentResolver.openInputStream(imageUri)
+                val bytes = stream?.readBytes()
+                stream?.close()
+
+                if (bytes != null) {
+                    val fileName = "avatar_${sessionManager.getUserId()}_${System.currentTimeMillis()}.jpg"
+                    val reqBody = bytes.toRequestBody("image/jpeg".toMediaTypeOrNull())
+                    val fotoPart = MultipartBody.Part.createFormData("avatar", fileName, reqBody)
+
+                    val response = ApiClient.apiService.updateAvatar(token, fotoPart)
+
+                    withContext(Dispatchers.Main) {
+                        if (response.isSuccessful && response.body()?.success == true) {
+                            // Langsung update profile (tanpa simpan nama file lokal)
+                            updateProfile()
+                        } else {
+                            btnSave.isEnabled = true
+                            btnSave.text = "Simpan Perubahan"
+                            Toast.makeText(this@ProfileActivity, "Gagal upload avatar", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    btnSave.isEnabled = true
+                    btnSave.text = "Simpan Perubahan"
                     Toast.makeText(this@ProfileActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -120,9 +172,6 @@ class ProfileActivity : AppCompatActivity() {
             return
         }
 
-        btnSave.isEnabled = false
-        btnSave.text = "Menyimpan..."
-
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val requestBody = JSONObject().apply {
@@ -135,20 +184,32 @@ class ProfileActivity : AppCompatActivity() {
                 val response = ApiClient.apiService.updateProfile(token, body)
 
                 withContext(Dispatchers.Main) {
-                    btnSave.isEnabled = true
-                    btnSave.text = "Simpan Perubahan"
-
                     if (response.isSuccessful && response.body()?.success == true) {
-                        // Update session
-                        sessionManager.saveSession(
-                            token = sessionManager.getToken()!!,
-                            userId = sessionManager.getUserId(),
-                            name = name,
-                            email = email,
-                            role = sessionManager.getRole() ?: "donatur"
-                        )
+                        // Ambil data profil terbaru dari server
+                        val profileResponse = ApiClient.apiService.getProfile(token)
+                        if (profileResponse.isSuccessful && profileResponse.body()?.success == true) {
+                            val user = profileResponse.body()?.data
+                            user?.let {
+                                sessionManager.saveSession(
+                                    token = sessionManager.getToken()!!,
+                                    userId = sessionManager.getUserId(),
+                                    name = it.name,
+                                    email = it.email,
+                                    role = sessionManager.getRole() ?: "donatur",
+                                    avatar = it.avatar
+                                )
+                            }
+                        }
+
                         Toast.makeText(this@ProfileActivity, "Profil berhasil diupdate", Toast.LENGTH_SHORT).show()
+
+                        val intent = Intent(this@ProfileActivity, MainActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(intent)
+                        finish()
                     } else {
+                        btnSave.isEnabled = true
+                        btnSave.text = "Simpan Perubahan"
                         Toast.makeText(this@ProfileActivity, "Gagal update profil", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -157,38 +218,6 @@ class ProfileActivity : AppCompatActivity() {
                     btnSave.isEnabled = true
                     btnSave.text = "Simpan Perubahan"
                     Toast.makeText(this@ProfileActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
-
-    private fun uploadAvatar(imageUri: Uri) {
-        val token = sessionManager.getToken() ?: return
-
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val stream: InputStream? = contentResolver.openInputStream(imageUri)
-                val bytes = stream?.readBytes()
-                stream?.close()
-
-                if (bytes != null) {
-                    val reqBody = bytes.toRequestBody("image/jpeg".toMediaTypeOrNull())
-                    val fotoPart = MultipartBody.Part.createFormData("avatar", "avatar_${System.currentTimeMillis()}.jpg", reqBody)
-
-                    val response = ApiClient.apiService.updateAvatar(token, fotoPart)
-
-                    withContext(Dispatchers.Main) {
-                        if (response.isSuccessful && response.body()?.success == true) {
-                            Toast.makeText(this@ProfileActivity, "Avatar berhasil diupdate", Toast.LENGTH_SHORT).show()
-                            loadProfile()
-                        } else {
-                            Toast.makeText(this@ProfileActivity, "Gagal update avatar", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(this@ProfileActivity, "Error upload: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         }

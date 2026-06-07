@@ -7,7 +7,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    private const val BASE_URL = "http://10.0.2.2/bakti_bersama/"
+    // GANTI DENGAN IP KOMPUTER ANDA
+    const val BASE_URL = "http://10.80.185.183/bakti_bersama/"
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY

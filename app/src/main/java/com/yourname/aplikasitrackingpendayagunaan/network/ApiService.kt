@@ -86,4 +86,8 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Part avatar: MultipartBody.Part
     ): Response<BaseResponse>
+
+
+    @GET("api/campaign/list.php")
+    suspend fun getCampaigns(@Header("Authorization") token: String): Response<CampaignResponse>
 }
