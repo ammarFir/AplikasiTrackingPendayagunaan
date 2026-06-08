@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.yourname.aplikasitrackingpendayagunaan.adapter.CampaignAdapter
+import com.yourname.aplikasitrackingpendayagunaan.model.Testimonial
 import com.yourname.aplikasitrackingpendayagunaan.network.ApiClient
 import com.yourname.aplikasitrackingpendayagunaan.network.RetrofitClient
 import com.yourname.aplikasitrackingpendayagunaan.utils.SessionManager
@@ -30,6 +31,8 @@ import kotlinx.coroutines.withContext
 class MainActivity : AppCompatActivity() {
 
     private lateinit var sessionManager: SessionManager
+    private var testimonialList = mutableListOf<Testimonial>()
+    private var currentTestimonialIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +87,9 @@ class MainActivity : AppCompatActivity() {
         // Load campaign dari API
         loadCampaigns()
 
+        // Load testimonial dari API
+        loadTestimonials()
+
         // LOGO PROFILE - klik ke halaman Profile
         val logoProfile = findViewById<ImageView>(R.id.logoProfile)
         logoProfile.setOnClickListener {
@@ -97,12 +103,97 @@ class MainActivity : AppCompatActivity() {
             showLogoutBottomSheet()
         }
 
+        // REVIEW NAVIGATION
+        val reviewSebelum = findViewById<TextView>(R.id.reviewSebelum)
+        val reviewSesudah = findViewById<TextView>(R.id.reviewSesudah)
+
+        reviewSebelum.setOnClickListener {
+            prevTestimonial()
+        }
+
+        reviewSesudah.setOnClickListener {
+            nextTestimonial()
+        }
+
         refreshUserData()
+    }
+
+    private fun loadTestimonials() {
+        val token = sessionManager.getToken()
+        if (token == null) return
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = ApiClient.apiService.getTestimonials(token)
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body()?.success == true) {
+                        testimonialList = response.body()?.data?.toMutableList() ?: mutableListOf()
+                        if (testimonialList.isNotEmpty()) {
+                            currentTestimonialIndex = 0
+                            displayCurrentTestimonial()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun displayCurrentTestimonial() {
+        if (testimonialList.isEmpty()) return
+        val item = testimonialList[currentTestimonialIndex]
+        val txtNamaReview = findViewById<TextView>(R.id.txtNamaReview)
+        val txtReview = findViewById<TextView>(R.id.txtReview)
+        val reviewStar = findViewById<TextView>(R.id.reviewStar)
+        val imgProfileReview = findViewById<com.google.android.material.imageview.ShapeableImageView>(R.id.imgProfileReview)
+
+        txtNamaReview.text = item.name
+        txtReview.text = item.review
+        reviewStar.text = "★".repeat(item.rating) + "☆".repeat(5 - item.rating)
+
+        // Avatar jika ada
+        if (!item.avatar.isNullOrEmpty()) {
+            var fileName = item.avatar
+            if (fileName.contains("/")) {
+                fileName = fileName.substringAfterLast("/")
+            }
+            val avatarUrl = "${RetrofitClient.BASE_URL}uploads/$fileName"
+            Glide.with(this)
+                .load(avatarUrl)
+                .placeholder(R.drawable.dot_active)
+                .error(R.drawable.ic_dot_blue)
+                .circleCrop()
+                .into(imgProfileReview)
+        } else {
+            imgProfileReview.setImageResource(R.drawable.dot_active)
+        }
+    }
+
+    private fun nextTestimonial() {
+        if (testimonialList.isEmpty()) return
+        if (currentTestimonialIndex < testimonialList.size - 1) {
+            currentTestimonialIndex++
+            displayCurrentTestimonial()
+        } else {
+            Toast.makeText(this, "Ini testimonial terakhir", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun prevTestimonial() {
+        if (testimonialList.isEmpty()) return
+        if (currentTestimonialIndex > 0) {
+            currentTestimonialIndex--
+            displayCurrentTestimonial()
+        } else {
+            Toast.makeText(this, "Ini testimonial pertama", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onResume() {
         super.onResume()
         refreshUserData()
+        loadTestimonials()
     }
 
     private fun loadCampaigns() {

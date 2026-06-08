@@ -62,7 +62,6 @@ interface ApiService {
         @Part foto: MultipartBody.Part?
     ): Response<TambahProgramResponse>
 
-
     @GET("api/auth/profile.php")
     suspend fun getProfile(@Header("Authorization") token: String): Response<ProfileResponse>
 
@@ -74,20 +73,29 @@ interface ApiService {
         @Part avatar: MultipartBody.Part
     ): Response<BaseResponse>
 
+    @Multipart
+    @POST("api/auth/update_avatar.php")
+    suspend fun updateAvatarSimple(
+        @Header("Authorization") token: String,
+        @Part avatar: MultipartBody.Part
+    ): Response<BaseResponse>
+
     @POST("api/auth/update_profile.php")
     suspend fun updateProfile(
         @Header("Authorization") token: String,
         @Body body: RequestBody
     ): Response<BaseResponse>
 
-    @Multipart
-    @POST("api/auth/update_avatar.php")
-    suspend fun updateAvatar(
-        @Header("Authorization") token: String,
-        @Part avatar: MultipartBody.Part
-    ): Response<BaseResponse>
-
-
     @GET("api/campaign/list.php")
     suspend fun getCampaigns(@Header("Authorization") token: String): Response<CampaignResponse>
+
+    @GET("api/sayings/list.php")
+    suspend fun getSayings(
+        @Header("Authorization") token: String
+    ): Response<SayingsResponse>
+
+    @GET("api/testimonials/list.php")
+    suspend fun getTestimonials(
+        @Header("Authorization") token: String
+    ): Response<TestimonialResponse>
 }

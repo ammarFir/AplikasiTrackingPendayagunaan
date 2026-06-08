@@ -263,3 +263,46 @@ data class Campaign(
     val status: String,
     val created_at: String
 )
+
+
+
+data class SayingsResponse(
+    val success: Boolean,
+    val message: String,
+    val data: List<Saying>
+)
+
+
+data class Saying(
+    val id: Int,
+    val body: String,
+    val name: String,
+    val campaign_title: String,
+    val created_at: String
+)
+
+data class TestimonialResponse(
+    val success: Boolean,
+    val message: String,
+    val data: List<Testimonial>
+)
+
+data class Testimonial(
+    val id: Int,
+    val name: String,
+    val position: String?,
+    val review: String,
+    val rating: Int,
+    val avatar: String?,
+    val created_at: String
+)
+
+data class UploadFotoResponse(
+    val success: Boolean,
+    val message: String,
+    val data: UploadFotoData?
+)
+
+data class UploadFotoData(
+    val foto_path: String
+)

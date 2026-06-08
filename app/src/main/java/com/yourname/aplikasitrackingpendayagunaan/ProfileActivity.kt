@@ -138,7 +138,7 @@ class ProfileActivity : AppCompatActivity() {
                     val reqBody = bytes.toRequestBody("image/jpeg".toMediaTypeOrNull())
                     val fotoPart = MultipartBody.Part.createFormData("avatar", fileName, reqBody)
 
-                    val response = ApiClient.apiService.updateAvatar(token, fotoPart)
+                    val response = ApiClient.apiService.updateAvatarSimple(token, fotoPart)
 
                     withContext(Dispatchers.Main) {
                         if (response.isSuccessful && response.body()?.success == true) {
