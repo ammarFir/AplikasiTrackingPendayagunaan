@@ -6,14 +6,20 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.google.android.material.textfield.TextInputEditText
 import com.yourname.aplikasitrackingpendayagunaan.network.ApiClient
+import com.yourname.aplikasitrackingpendayagunaan.network.RetrofitClient
 import com.yourname.aplikasitrackingpendayagunaan.utils.SessionManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -54,6 +60,13 @@ class AddProgram : AppCompatActivity() {
         val etTanggalMulai = findViewById<TextInputEditText>(R.id.tvTanggalMulai)
         val canvasPhoto = findViewById<android.widget.LinearLayout>(R.id.canvasPhoto)
         val btnTambah = findViewById<AppCompatButton>(R.id.btnTambah)
+
+        // IMG PROFILE - klik ke halaman Profile
+        val imgProfile = findViewById<ImageView>(R.id.imgProfile)
+        imgProfile.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
 
         // DatePicker untuk Tanggal Mulai
         etTanggalMulai.setOnClickListener {
@@ -138,6 +151,48 @@ class AddProgram : AppCompatActivity() {
                 }
             }
         }
+
+        loadUserProfile()
+    }
+
+    private fun loadUserProfile() {
+        val token = sessionManager.getToken() ?: return
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = ApiClient.apiService.getProfile(token)
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body()?.success == true) {
+                        val user = response.body()?.data
+                        user?.let {
+                            val imgProfile = findViewById<ImageView>(R.id.imgProfile)
+                            if (!it.avatar.isNullOrEmpty()) {
+                                var fileName = it.avatar
+                                if (fileName.contains("/")) {
+                                    fileName = fileName.substringAfterLast("/")
+                                }
+                                val avatarUrl = "${RetrofitClient.BASE_URL}uploads/$fileName"
+                                Glide.with(this@AddProgram)
+                                    .load(avatarUrl)
+                                    .placeholder(R.drawable.logokoceng)
+                                    .error(R.drawable.logokoceng)
+                                    .circleCrop()
+                                    .into(imgProfile)
+                            } else {
+                                imgProfile.setImageResource(R.drawable.logokoceng)
+                            }
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadUserProfile()
     }
 
     private fun showDatePickerDialog() {

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Style untuk BottomNavigationView -->
+    <style name="BottomNavStyle">
+        <item name="android:background">#FFFFFF</item>
+        <item name="itemIconSize">20dp</item>
+        <item name="android:elevation">8dp</item>
+    </style>
+
+    <!-- Style teks aktif -->
+    <style name="BottomNavTextActive">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">#51A969</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <!-- Style teks tidak aktif -->
+    <style name="BottomNavTextInactive">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">#999999</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+</resources>

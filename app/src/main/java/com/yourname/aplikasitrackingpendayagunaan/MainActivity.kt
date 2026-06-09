@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.yourname.aplikasitrackingpendayagunaan.adapter.CampaignAdapter
+import com.yourname.aplikasitrackingpendayagunaan.adapter.SliderAdapter
 import com.yourname.aplikasitrackingpendayagunaan.model.Testimonial
 import com.yourname.aplikasitrackingpendayagunaan.network.ApiClient
 import com.yourname.aplikasitrackingpendayagunaan.network.RetrofitClient
@@ -75,14 +76,8 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        // ViewPager slider
-        val images = listOf(
-            R.drawable.bahleeell,
-            R.drawable.bahleeell2,
-            R.drawable.bahleeell3,
-        )
-        val viewPager = findViewById<ViewPager2>(R.id.viewPager)
-        viewPager.adapter = SliderAdapter(images)
+        // Load slider images dari campaign (random)
+        loadSliderImages()
 
         // Load campaign dari API
         loadCampaigns()
@@ -118,6 +113,39 @@ class MainActivity : AppCompatActivity() {
         refreshUserData()
     }
 
+    private fun loadSliderImages() {
+        val token = sessionManager.getToken()
+        if (token == null) return
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = ApiClient.apiService.getCampaigns(token)
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body()?.success == true) {
+                        val campaigns = response.body()?.data ?: emptyList()
+
+                        // Filter campaign yang memiliki gambar
+                        val campaignsWithImage = campaigns.filter { !it.image.isNullOrEmpty() }
+
+                        if (campaignsWithImage.isNotEmpty()) {
+                            // Ambil 3 campaign secara acak
+                            val shuffledCampaigns = campaignsWithImage.shuffled().take(3)
+
+                            // Buat list image URL - TAMBAHKAN "uploads/"
+                            val imageUrls = shuffledCampaigns.map { campaign ->
+                                "${RetrofitClient.BASE_URL}uploads/${campaign.image}"
+                            }
+
+                            val viewPager = findViewById<ViewPager2>(R.id.viewPager)
+                            viewPager.adapter = SliderAdapter(imageUrls)
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
     private fun loadTestimonials() {
         val token = sessionManager.getToken()
         if (token == null) return
@@ -194,6 +222,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         refreshUserData()
         loadTestimonials()
+        loadSliderImages()
     }
 
     private fun loadCampaigns() {

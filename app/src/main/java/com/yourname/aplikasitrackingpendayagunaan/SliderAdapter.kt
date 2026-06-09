@@ -10,7 +10,7 @@ class SliderAdapter(private val images: List<Int>) :
         RecyclerView.Adapter<SliderAdapter.SliderViewHolder>() {
 
     inner class  SliderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val  imageView: ImageView = view.findViewById(R.id.imageSlider)
+        val  imageView: ImageView = view.findViewById(R.id.imageView)
     }
 
 

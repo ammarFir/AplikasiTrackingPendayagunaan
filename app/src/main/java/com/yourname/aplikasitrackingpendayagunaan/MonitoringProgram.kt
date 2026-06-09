@@ -8,6 +8,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,10 +18,15 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.yourname.aplikasitrackingpendayagunaan.adapter.TahapanAdapter
 import com.yourname.aplikasitrackingpendayagunaan.network.ApiClient
+import com.yourname.aplikasitrackingpendayagunaan.network.RetrofitClient
 import com.yourname.aplikasitrackingpendayagunaan.utils.SessionManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -85,6 +91,13 @@ class MonitoringProgram : AppCompatActivity() {
         rvTahapan.layoutManager = LinearLayoutManager(this)
         Log.d(TAG, "onCreate: RecyclerView setup")
 
+        // IMG PROFILE - klik ke halaman Profile
+        val imgProfile = findViewById<ImageView>(R.id.imgProfile)
+        imgProfile.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
         // Data tahapan (match dengan database id 1-8)
         val tahapanData = listOf(
             TahapanAdapter.TahapanItem(1, "Penerima Ditentukan", isFirst = true, isFormVisible = true),
@@ -129,7 +142,48 @@ class MonitoringProgram : AppCompatActivity() {
         }
 
         loadExistingProgress()
+        loadUserProfile()
         Log.d(TAG, "onCreate: END")
+    }
+
+    private fun loadUserProfile() {
+        val token = sessionManager.getToken() ?: return
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = ApiClient.apiService.getProfile(token)
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body()?.success == true) {
+                        val user = response.body()?.data
+                        user?.let {
+                            val imgProfile = findViewById<ImageView>(R.id.imgProfile)
+                            if (!it.avatar.isNullOrEmpty()) {
+                                var fileName = it.avatar
+                                if (fileName.contains("/")) {
+                                    fileName = fileName.substringAfterLast("/")
+                                }
+                                val avatarUrl = "${RetrofitClient.BASE_URL}uploads/$fileName"
+                                Glide.with(this@MonitoringProgram)
+                                    .load(avatarUrl)
+                                    .placeholder(R.drawable.logokoceng)
+                                    .error(R.drawable.logokoceng)
+                                    .circleCrop()
+                                    .into(imgProfile)
+                            } else {
+                                imgProfile.setImageResource(R.drawable.logokoceng)
+                            }
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadUserProfile()
     }
 
     private fun uploadFoto(position: Int, imageUri: Uri) {
@@ -227,12 +281,17 @@ class MonitoringProgram : AppCompatActivity() {
                         if (index != -1) {
                             Log.d(TAG, "loadExistingProgress: tahapan_id=${tahapan.tahapan_id}, status=${tahapan.status}, deskripsi=${tahapan.deskripsi}, foto=${tahapan.foto}")
 
+                            // Update deskripsi dari server
                             if (!tahapan.deskripsi.isNullOrEmpty()) {
                                 adapter.updateDeskripsi(index, tahapan.deskripsi)
                             }
+
+                            // Tampilkan form jika status SELESAI (tanpa menimpa deskripsi)
                             if (tahapan.status == "SELESAI") {
-                                adapter.updateFormVisibility(index, true, tahapan.deskripsi ?: "")
+                                adapter.updateFormVisibility(index, true)
                             }
+
+                            // Update foto jika ada
                             if (!tahapan.foto.isNullOrEmpty()) {
                                 adapter.updateFoto(index, tahapan.foto)
                             }
@@ -308,6 +367,7 @@ class MonitoringProgram : AppCompatActivity() {
                     val deskripsi = item.deskripsi
                     Log.d(TAG, "updateAllProgress: i=$i, tahapanId=${item.id}, deskripsi='$deskripsi'")
 
+                    // Update hanya jika deskripsi tidak kosong
                     if (deskripsi.isNotEmpty()) {
                         try {
                             val programIdBody = programId.toString().toRequestBody("text/plain".toMediaTypeOrNull())

@@ -47,34 +47,63 @@ class TahapanAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = tahapanList[position]
-        val isLastItem = position == tahapanList.size - 1
+        val currentPosition = holder.adapterPosition
+        if (currentPosition == RecyclerView.NO_POSITION) return
+
+        val item = tahapanList[currentPosition]
+        val isLastItem = currentPosition == tahapanList.size - 1
 
         holder.tvNamaTahapan.text = item.nama
 
-        // Atur garis (line) - sembunyikan jika item terakhir
+        // Atur line (garis bawah dot)
         if (isLastItem) {
             holder.line.visibility = View.GONE
         } else {
             holder.line.visibility = View.VISIBLE
         }
 
-        // Atur tampilan form
+        // Atur line2 (garis di ATAS dot) - hanya tampil untuk tahapan 2-8, tidak untuk tahapan 1
+        val line2 = holder.itemView.findViewById<View>(R.id.line2)
+        if (currentPosition == 0) {
+            line2.visibility = View.GONE
+        } else {
+            line2.visibility = View.VISIBLE
+        }
+
+        // Atur margin top dot untuk tahapan pertama (Penerima Ditentukan)
+        val density = holder.itemView.context.resources.displayMetrics.density
+        val marginTop = if (currentPosition == 0) {
+            (15 * density).toInt()
+        } else {
+            (0 * density).toInt()
+        }
+        val layoutParams = holder.dot.layoutParams as ViewGroup.MarginLayoutParams
+        layoutParams.topMargin = marginTop
+        holder.dot.layoutParams = layoutParams
+
+        // Atur warna dot berdasarkan status form
+        if (item.isFormVisible) {
+            holder.dot.setBackgroundResource(R.drawable.dot_active)
+        } else {
+            holder.dot.setBackgroundResource(R.drawable.dot_inactive)
+        }
+
         if (item.isFormVisible) {
             holder.btnTambahBukti.visibility = View.GONE
             holder.formLayout.visibility = View.VISIBLE
             holder.etDeskripsi.setText(item.deskripsi)
 
-            // TextWatcher untuk menyimpan deskripsi
             holder.etDeskripsi.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
                 override fun afterTextChanged(s: Editable?) {
-                    tahapanList[position].deskripsi = s.toString()
+                    val pos = holder.adapterPosition
+                    if (pos != RecyclerView.NO_POSITION && s.toString() != tahapanList[pos].deskripsi) {
+                        tahapanList[pos].deskripsi = s.toString()
+                    }
                 }
             })
 
-            // Tampilkan foto jika ada
             if (!item.fotoUrl.isNullOrEmpty()) {
                 val fotoUrl = "${RetrofitClient.BASE_URL}uploads/${item.fotoUrl}"
                 Glide.with(holder.itemView.context)
@@ -89,25 +118,26 @@ class TahapanAdapter(
             holder.formLayout.visibility = View.GONE
         }
 
-        // Klik Tambah Bukti
         holder.btnTambahBukti.setOnClickListener {
-            onTambahBuktiClick(position, holder.btnTambahBukti)
+            val pos = holder.adapterPosition
+            if (pos != RecyclerView.NO_POSITION) {
+                onTambahBuktiClick(pos, holder.btnTambahBukti)
+            }
         }
 
-        // Klik Upload Foto
         holder.btnUpload.setOnClickListener {
-            onUploadClick(position)
+            val pos = holder.adapterPosition
+            if (pos != RecyclerView.NO_POSITION) {
+                onUploadClick(pos)
+            }
         }
     }
 
     override fun getItemCount() = tahapanList.size
 
-    fun updateFormVisibility(position: Int, isVisible: Boolean, deskripsi: String = "") {
+    fun updateFormVisibility(position: Int, isVisible: Boolean) {
         if (position in tahapanList.indices) {
             (tahapanList[position] as TahapanItem).isFormVisible = isVisible
-            if (deskripsi.isNotEmpty()) {
-                (tahapanList[position] as TahapanItem).deskripsi = deskripsi
-            }
             notifyItemChanged(position)
         }
     }

@@ -63,76 +63,88 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardMain"
                 android:layout_width="0dp"
-                app:strokeWidth="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="40dp"
+                android:layout_marginEnd="20dp"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeWidth="0dp">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="60dp"
-                    android:orientation="vertical"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:layout_height="wrap_content">
 
-                    <!-- RecyclerView untuk tahapan -->
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvTahapan"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clipToPadding="false"
-                        android:paddingBottom="16dp" />
+                    <!-- Garis hijau kiri -->
+                    <View
+                        android:id="@+id/viewGarisHijau"
+                        android:layout_width="6dp"
+                        android:layout_height="0dp"
+                        android:background="#97D2A5"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <!-- 2 Tombol bawah -->
+                    <!-- Konten utama -->
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
+                        android:layout_marginStart="6dp"
+                        android:layout_marginTop="60dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/btnUpdateProgress"
-                            android:layout_width="0dp"
+                        <!-- RecyclerView untuk tahapan -->
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvTahapan"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/btn_update"
-                            android:elevation="4dp"
-                            android:text="Update Progress"
-                            android:textColor="#FFFFFF"
-                            android:textSize="13sp" />
+                            android:clipToPadding="false"
+                            android:paddingBottom="1dp" />
 
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/btnProgressSelesai"
-                            android:layout_width="0dp"
+                        <!-- 2 Tombol bawah -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/btn_progress"
-                            android:text="Progress Selesai"
-                            android:textColor="#FFFFFF"
-                            android:textSize="13sp" />
+                            android:layout_marginTop="16dp"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/btnUpdateProgress"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/btn_update"
+                                android:elevation="4dp"
+                                android:text="Update Progress"
+                                android:textColor="#FFFFFF"
+                                android:textSize="13sp" />
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/btnProgressSelesai"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/btn_progress"
+                                android:text="Progress Selesai"
+                                android:textColor="#FFFFFF"
+                                android:textSize="13sp" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
-                </LinearLayout>
-
-                <!-- Garis hijau kiri -->
-                <View
-                    android:id="@+id/viewGarisHijau"
-                    android:layout_width="4dp"
-                    android:layout_height="0dp"
-                    android:elevation="0dp"
-                    android:background="@drawable/bg_garis_hijau"
-                    app:layout_constraintBottom_toBottomOf="@id/cardMain"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/cardMain" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -162,6 +174,17 @@
                     android:textSize="19sp"/>
 
             </FrameLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardMain">
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

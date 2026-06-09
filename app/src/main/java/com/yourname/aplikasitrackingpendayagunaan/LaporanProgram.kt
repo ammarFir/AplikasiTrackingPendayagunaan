@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -20,14 +21,20 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.itextpdf.text.Document
 import com.itextpdf.text.Font
 import com.itextpdf.text.Paragraph
 import com.itextpdf.text.pdf.PdfWriter
 import com.yourname.aplikasitrackingpendayagunaan.adapter.LaporanAdapter
 import com.yourname.aplikasitrackingpendayagunaan.network.ApiClient
+import com.yourname.aplikasitrackingpendayagunaan.network.RetrofitClient
 import com.yourname.aplikasitrackingpendayagunaan.utils.SessionManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -72,6 +79,35 @@ class LaporanProgram : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
 
+        // IMG PROFILE - klik ke halaman Profile
+        val imgProfile = findViewById<ImageView>(R.id.imgProfile)
+        imgProfile.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Bottom Navigation
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNav.selectedItemId = R.id.nav_laporan
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                    true
+                }
+                R.id.nav_tracking -> {
+                    startActivity(Intent(this, MenuTracking::class.java))
+                    finish()
+                    true
+                }
+                R.id.nav_laporan -> {
+                    true
+                }
+                else -> false
+            }
+        }
+
         rvLaporan = findViewById(R.id.rvLaporanProgram)
         rvLaporan.layoutManager = LinearLayoutManager(this)
 
@@ -80,6 +116,48 @@ class LaporanProgram : AppCompatActivity() {
         }
         rvLaporan.adapter = adapter
 
+        loadData()
+        loadUserProfile()
+    }
+
+    private fun loadUserProfile() {
+        val token = sessionManager.getToken() ?: return
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = ApiClient.apiService.getProfile(token)
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body()?.success == true) {
+                        val user = response.body()?.data
+                        user?.let {
+                            val imgProfile = findViewById<ImageView>(R.id.imgProfile)
+                            if (!it.avatar.isNullOrEmpty()) {
+                                var fileName = it.avatar
+                                if (fileName.contains("/")) {
+                                    fileName = fileName.substringAfterLast("/")
+                                }
+                                val avatarUrl = "${RetrofitClient.BASE_URL}uploads/$fileName"
+                                Glide.with(this@LaporanProgram)
+                                    .load(avatarUrl)
+                                    .placeholder(R.drawable.logokoceng)
+                                    .error(R.drawable.logokoceng)
+                                    .circleCrop()
+                                    .into(imgProfile)
+                            } else {
+                                imgProfile.setImageResource(R.drawable.logokoceng)
+                            }
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadUserProfile()
         loadData()
     }
 
