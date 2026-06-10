@@ -139,7 +139,7 @@
         <!-- CARD UTAMA -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardMain"
-            android:layout_width="0dp"
+            android:layout_width="385dp"
             app:strokeWidth="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="35dp"
@@ -174,7 +174,7 @@
                         android:layout_width="110dp"
                         android:layout_height="110dp"
                         android:layout_gravity="center"
-                        android:scaleType="centerCrop"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/img"
                         app:shapeAppearanceOverlay="@style/RoundedImage" />
 
@@ -767,7 +767,7 @@
                 android:padding="10dp"
                 android:text="UPZPRENEUR"
                 android:textColor="#FFFFFF"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
         </FrameLayout>

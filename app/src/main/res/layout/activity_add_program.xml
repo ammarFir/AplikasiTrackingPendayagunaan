@@ -84,16 +84,15 @@
                     style="@style/TextAppearance.MaterialComponents.Headline6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="left"
                     android:text="Form Pengisian"
                     android:textColor="#1F1E1E"
-                    android:textSize="20dp"
+                    android:textSize="30dp"
                     android:textStyle="bold" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
                     android:elevation="2dp"
                     android:hint="Nama Mustahiq">
 
@@ -179,7 +178,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="30dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/bg_form"
                     android:gravity="center"
                     android:orientation="vertical">
@@ -238,7 +237,7 @@
         <View
             android:id="@+id/viewGarisHijau"
             android:layout_width="5dp"
-            android:layout_height="520dp"
+            android:layout_height="510dp"
             android:background="#97D2A5"
             android:elevation="0dp"
             app:layout_constraintBottom_toBottomOf="@id/cardMain"
