@@ -30,7 +30,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="-10dp"
             android:background="@drawable/ic_circle_black"
-            app:srcCompat="@drawable/logokoceng" />
+            app:srcCompat="@drawable/profilenew" />
 
         <TextView
             android:id="@+id/textView7"
@@ -371,7 +371,7 @@
                             android:layout_height="50dp"
                             android:layout_margin="8dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/ic_launcher_background"
+                            android:src="@drawable/profilenew"
                             app:shapeAppearanceOverlay="@style/CircleImageView">
 
                         </com.google.android.material.imageview.ShapeableImageView>
@@ -483,7 +483,7 @@
                             android:layout_height="50dp"
                             android:layout_margin="8dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/ic_launcher_background"
+                            android:src="@drawable/profilenew"
                             app:shapeAppearanceOverlay="@style/CircleImageView">
 
                         </com.google.android.material.imageview.ShapeableImageView>

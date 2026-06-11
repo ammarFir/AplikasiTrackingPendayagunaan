@@ -20,6 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.yourname.aplikasitrackingpendayagunaan.adapter.CampaignAdapter
 import com.yourname.aplikasitrackingpendayagunaan.adapter.SliderAdapter
+import com.yourname.aplikasitrackingpendayagunaan.model.Saying
 import com.yourname.aplikasitrackingpendayagunaan.model.Testimonial
 import com.yourname.aplikasitrackingpendayagunaan.network.ApiClient
 import com.yourname.aplikasitrackingpendayagunaan.network.RetrofitClient
@@ -34,6 +35,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sessionManager: SessionManager
     private var testimonialList = mutableListOf<Testimonial>()
     private var currentTestimonialIndex = 0
+    private var doaList = mutableListOf<Saying>()
+    private var currentDoaIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +88,9 @@ class MainActivity : AppCompatActivity() {
         // Load testimonial dari API
         loadTestimonials()
 
+        // Load doa dari API
+        loadDoa()
+
         // LOGO PROFILE - klik ke halaman Profile
         val logoProfile = findViewById<ImageView>(R.id.logoProfile)
         logoProfile.setOnClickListener {
@@ -110,7 +116,73 @@ class MainActivity : AppCompatActivity() {
             nextTestimonial()
         }
 
+        // DOA NAVIGATION
+        val ucapanSebelum = findViewById<TextView>(R.id.ucapanSebelum)
+        val ucapanSesudah = findViewById<TextView>(R.id.ucapanSesudah)
+
+        ucapanSebelum.setOnClickListener {
+            prevDoa()
+        }
+
+        ucapanSesudah.setOnClickListener {
+            nextDoa()
+        }
+
         refreshUserData()
+    }
+
+    private fun loadDoa() {
+        val token = sessionManager.getToken()
+        if (token == null) return
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = ApiClient.apiService.getSayings(token)
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body()?.success == true) {
+                        doaList = response.body()?.data?.toMutableList() ?: mutableListOf()
+                        if (doaList.isNotEmpty()) {
+                            currentDoaIndex = 0
+                            displayCurrentDoa()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun displayCurrentDoa() {
+        if (doaList.isEmpty()) return
+        val doa = doaList[currentDoaIndex]
+        val tvNamaDoa = findViewById<TextView>(R.id.tvNamaDoa)
+        val tvDoaCampaign = findViewById<TextView>(R.id.tvDoaCampaign)
+        val tvUcapanDoa = findViewById<TextView>(R.id.tvUcapanDoa)
+
+        tvNamaDoa.text = doa.name
+        tvDoaCampaign.text = "Donasi ${doa.campaign_title}"
+        tvUcapanDoa.text = doa.body
+    }
+
+    private fun nextDoa() {
+        if (doaList.isEmpty()) return
+        if (currentDoaIndex < doaList.size - 1) {
+            currentDoaIndex++
+            displayCurrentDoa()
+        } else {
+            Toast.makeText(this, "Ini doa terakhir", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun prevDoa() {
+        if (doaList.isEmpty()) return
+        if (currentDoaIndex > 0) {
+            currentDoaIndex--
+            displayCurrentDoa()
+        } else {
+            Toast.makeText(this, "Ini doa pertama", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun loadSliderImages() {
@@ -146,6 +218,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun loadTestimonials() {
         val token = sessionManager.getToken()
         if (token == null) return
@@ -222,6 +295,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         refreshUserData()
         loadTestimonials()
+        loadDoa()
         loadSliderImages()
     }
 
