@@ -1,5 +1,8 @@
 package com.yourname.aplikasitrackingpendayagunaan
 
+// ============================================================
+// IMPORT LIBRARY
+// ============================================================
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
@@ -32,23 +35,59 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.InputStream
 
+// ============================================================
+// MONITORING PROGRAM - HALAMAN UPDATE PROGRESS
+// ============================================================
+// Fungsi:
+// 1. Menampilkan 8 tahapan program dalam RecyclerView
+// 2. Setiap tahapan memiliki form deskripsi dan upload foto
+// 3. Upload foto ke server dengan multipart
+// 4. Update progress per tahapan
+// 5. Tombol "Update Progress" untuk update semua tahapan
+// 6. Tombol "Progress Selesai" untuk menyelesaikan program
+// ============================================================
 class MonitoringProgram : AppCompatActivity() {
 
+    // ============================================================
+    // DEKLARASI VARIABEL
+    // ============================================================
+
+    // SessionManager: menyimpan data session user (token, role, avatar)
     private lateinit var sessionManager: SessionManager
+
+    // ID program yang sedang dimonitor (dikirim dari DetailTracking)
     private var programId: Int = 0
+
+    // Adapter untuk RecyclerView tahapan
     private lateinit var adapter: TahapanAdapter
+
+    // Data tahapan (id, nama, status, deskripsi, foto)
     private var tahapanItems = mutableListOf<TahapanAdapter.TahapanItem>()
+
+    // Posisi tahapan yang sedang diupload fotonya
     private var currentUploadPosition = -1
 
+    // Tag untuk logging
     companion object {
         private const val TAG = "MonitoringProgram"
     }
 
-    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    // ============================================================
+    // LAUNCHER: PICK IMAGE (GALERI)
+    // ============================================================
+    // Register activity result untuk memilih gambar dari galeri.
+    // Ketika user selesai memilih gambar, akan dipanggil uploadFoto().
+    // ============================================================
+    private val pickImageLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
         Log.d(TAG, "pickImageLauncher: resultCode = ${result.resultCode}")
+
         if (result.resultCode == Activity.RESULT_OK) {
             val data: Intent? = result.data
             val imageUri = data?.data
+
+            // Cek apakah ada gambar yang dipilih dan posisi valid
             if (imageUri != null && currentUploadPosition != -1) {
                 Log.d(TAG, "pickImageLauncher: Upload foto untuk posisi $currentUploadPosition, URI: $imageUri")
                 uploadFoto(currentUploadPosition, imageUri)
@@ -58,27 +97,44 @@ class MonitoringProgram : AppCompatActivity() {
         }
     }
 
+    // ============================================================
+    // LIFECYCLE: onCreate()
+    // ============================================================
+    // Dipanggil saat activity pertama kali dibuat.
+    // Inisialisasi komponen UI, setup RecyclerView, load data.
+    // ============================================================
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate: START")
 
+        // ============================================================
+        // SETUP FULLSCREEN
+        // ============================================================
         window.decorView.systemUiVisibility = (
                 View.SYSTEM_UI_FLAG_FULLSCREEN
                         or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 )
         enableEdgeToEdge()
+
+        // Menghubungkan layout XML ke activity
         setContentView(R.layout.activity_monitoring_program)
+
+        // Setup padding untuk system bars
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
+        // ============================================================
+        // INISIALISASI SESSION & PROGRAM ID
+        // ============================================================
         sessionManager = SessionManager(this)
         programId = intent.getIntExtra("program_id", 0)
         Log.d(TAG, "onCreate: programId = $programId")
 
+        // Validasi ID program
         if (programId == 0) {
             Log.e(TAG, "onCreate: programId = 0, finish activity")
             Toast.makeText(this, "ID Program tidak ditemukan", Toast.LENGTH_SHORT).show()
@@ -86,19 +142,25 @@ class MonitoringProgram : AppCompatActivity() {
             return
         }
 
-        // Setup RecyclerView
+        // ============================================================
+        // SETUP RECYCLERVIEW (8 TAHAPAN)
+        // ============================================================
         val rvTahapan = findViewById<RecyclerView>(R.id.rvTahapan)
         rvTahapan.layoutManager = LinearLayoutManager(this)
         Log.d(TAG, "onCreate: RecyclerView setup")
 
-        // IMG PROFILE - klik ke halaman Profile
+        // ============================================================
+        // SETUP IMG PROFILE -> KE HALAMAN PROFILE
+        // ============================================================
         val imgProfile = findViewById<ImageView>(R.id.imgProfile)
         imgProfile.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
 
-        // Data tahapan (match dengan database id 1-8)
+        // ============================================================
+        // DATA TAHAPAN (MATCH DENGAN DATABASE ID 1-8)
+        // ============================================================
         val tahapanData = listOf(
             TahapanAdapter.TahapanItem(1, "Penerima Ditentukan", isFirst = true, isFormVisible = true),
             TahapanAdapter.TahapanItem(2, "Pengadaan Barang", isFirst = false, isFormVisible = false),
@@ -112,40 +174,78 @@ class MonitoringProgram : AppCompatActivity() {
         tahapanItems = tahapanData.toMutableList()
         Log.d(TAG, "onCreate: tahapanItems size = ${tahapanItems.size}")
 
+        // ============================================================
+        // SETUP ADAPTER
+        // ============================================================
+        // Adapter menangani:
+        // 1. Menampilkan setiap item tahapan
+        // 2. Tombol "Tambah Bukti" -> menampilkan form
+        // 3. Tombol upload foto -> membuka galeri
+        // ============================================================
         adapter = TahapanAdapter(
             tahapanItems,
+            // Callback saat tombol "Tambah Bukti" diklik
             onTambahBuktiClick = { position, _ ->
                 Log.d(TAG, "onTambahBuktiClick: position = $position")
+                // Tampilkan form (EditText + Upload Foto)
                 adapter.updateFormVisibility(position, true)
+                // Scroll ke posisi yang diklik
                 rvTahapan.smoothScrollToPosition(position)
             },
+            // Callback saat tombol upload foto diklik
             onUploadClick = { position ->
                 Log.d(TAG, "onUploadClick: position = $position")
+                // Simpan posisi untuk digunakan di launcher
                 currentUploadPosition = position
+                // Buka galeri untuk memilih gambar
                 val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 pickImageLauncher.launch(intent)
             }
         )
         rvTahapan.adapter = adapter
 
+        // ============================================================
+        // SETUP TOMBOL UPDATE PROGRESS & SELESAI
+        // ============================================================
         val btnUpdateProgress = findViewById<Button>(R.id.btnUpdateProgress)
         val btnProgressSelesai = findViewById<Button>(R.id.btnProgressSelesai)
 
+        // Tombol "Update Progress": update semua tahapan yang sudah diisi
         btnUpdateProgress.setOnClickListener {
             Log.d(TAG, "btnUpdateProgress clicked")
             updateAllProgress()
         }
 
+        // Tombol "Progress Selesai": update tahapan 8 (Laporan Final)
         btnProgressSelesai.setOnClickListener {
             Log.d(TAG, "btnProgressSelesai clicked")
             updateSingleProgress(8)
         }
 
+        // ============================================================
+        // LOAD DATA
+        // ============================================================
+        // 1. loadExistingProgress(): mengambil data dari server
+        // 2. loadUserProfile(): mengambil avatar user
+        // ============================================================
         loadExistingProgress()
         loadUserProfile()
         Log.d(TAG, "onCreate: END")
     }
 
+    // ============================================================
+    // LIFECYCLE: onResume()
+    // ============================================================
+    // Refresh avatar saat kembali ke halaman ini.
+    // ============================================================
+    override fun onResume() {
+        super.onResume()
+        loadUserProfile()
+    }
+
+    // ============================================================
+    // FUNGSI LOAD AVATAR USER
+    // ============================================================
     private fun loadUserProfile() {
         val token = sessionManager.getToken() ?: return
 
@@ -181,11 +281,15 @@ class MonitoringProgram : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        loadUserProfile()
-    }
-
+    // ============================================================
+    // FUNGSI UPLOAD FOTO
+    // ============================================================
+    // Proses upload foto ke server:
+    // 1. Baca file dari URI
+    // 2. Buat MultipartBody.Part
+    // 3. Kirim ke API updateProgressWithFoto
+    // 4. Refresh data setelah berhasil
+    // ============================================================
     private fun uploadFoto(position: Int, imageUri: Uri) {
         Log.d(TAG, "uploadFoto: START position=$position, imageUri=$imageUri")
 
@@ -195,34 +299,37 @@ class MonitoringProgram : AppCompatActivity() {
             Toast.makeText(this, "Token tidak ditemukan", Toast.LENGTH_SHORT).show()
             return
         }
-        Log.d(TAG, "uploadFoto: token ada, length=${token.length}")
 
         lifecycleScope.launch {
             try {
+                // Baca file dari URI
                 val stream: InputStream? = contentResolver.openInputStream(imageUri)
                 val bytes = stream?.readBytes()
                 stream?.close()
-
                 Log.d(TAG, "uploadFoto: bytes size = ${bytes?.size ?: 0}")
 
                 if (bytes != null) {
+                    // Buat nama file (contoh: foto_1_1700000000000.jpg)
                     val tahapanId = tahapanItems[position].id
                     val fileName = "foto_${tahapanId}_${System.currentTimeMillis()}.jpg"
                     Log.d(TAG, "uploadFoto: tahapanId=$tahapanId, fileName=$fileName")
 
+                    // Buat RequestBody untuk file
                     val reqBody = bytes.toRequestBody("image/jpeg".toMediaTypeOrNull())
                     val fotoPart = MultipartBody.Part.createFormData("foto", fileName, reqBody)
 
+                    // Buat RequestBody untuk field lainnya
                     val programIdBody = programId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
                     val tahapanIdBody = tahapanId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
                     val statusBody = "SELESAI".toRequestBody("text/plain".toMediaTypeOrNull())
 
+                    // Ambil deskripsi yang sudah diisi
                     val deskripsiText = tahapanItems[position].deskripsi
-                    Log.d(TAG, "uploadFoto: deskripsiText = '$deskripsiText'")
                     val deskripsiBody = if (deskripsiText.isNotEmpty()) {
                         deskripsiText.toRequestBody("text/plain".toMediaTypeOrNull())
                     } else null
 
+                    // Panggil API upload foto
                     Log.d(TAG, "uploadFoto: calling API updateProgressWithFoto")
                     val response = ApiClient.apiService.updateProgressWithFoto(
                         token = token,
@@ -233,23 +340,16 @@ class MonitoringProgram : AppCompatActivity() {
                         foto = fotoPart
                     )
 
-                    Log.d(TAG, "uploadFoto: response.isSuccessful = ${response.isSuccessful}")
-                    if (response.isSuccessful) {
-                        Log.d(TAG, "uploadFoto: response.body() = ${response.body()}")
-                    } else {
-                        Log.e(TAG, "uploadFoto: error body = ${response.errorBody()?.string()}")
-                    }
-
+                    // Proses response
                     if (response.isSuccessful && response.body()?.success == true) {
                         Log.d(TAG, "uploadFoto: SUCCESS, foto berhasil diupload")
                         Toast.makeText(this@MonitoringProgram, "Foto berhasil diupload", Toast.LENGTH_SHORT).show()
+                        // Refresh data agar foto tampil
                         loadExistingProgress()
                     } else {
-                        Log.e(TAG, "uploadFoto: FAILED, response body success = ${response.body()?.success}")
+                        Log.e(TAG, "uploadFoto: FAILED")
                         Toast.makeText(this@MonitoringProgram, "Gagal upload foto", Toast.LENGTH_SHORT).show()
                     }
-                } else {
-                    Log.e(TAG, "uploadFoto: bytes null")
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "uploadFoto: EXCEPTION ${e.message}", e)
@@ -258,6 +358,15 @@ class MonitoringProgram : AppCompatActivity() {
         }
     }
 
+    // ============================================================
+    // FUNGSI LOAD EXISTING PROGRESS
+    // ============================================================
+    // Mengambil data progress dari server dan menampilkan di UI.
+    // Data yang diambil:
+    // 1. Status setiap tahapan (SELESAI / null)
+    // 2. Deskripsi yang sudah diisi
+    // 3. Foto yang sudah diupload
+    // ============================================================
     private fun loadExistingProgress() {
         Log.d(TAG, "loadExistingProgress: START")
         val token = sessionManager.getToken()
@@ -268,25 +377,28 @@ class MonitoringProgram : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
+                // Panggil API detail program
                 Log.d(TAG, "loadExistingProgress: calling API getTrackingDetail for programId=$programId")
                 val response = ApiClient.apiService.getTrackingDetail(token, programId)
-                Log.d(TAG, "loadExistingProgress: response.isSuccessful = ${response.isSuccessful}")
 
                 if (response.isSuccessful && response.body()?.success == true) {
                     val data = response.body()!!.data!!
                     Log.d(TAG, "loadExistingProgress: total tahapan from API = ${data.tahapan.size}")
 
+                    // Loop setiap tahapan dari API
                     data.tahapan.forEach { tahapan ->
+                        // Cari index di tahapanItems berdasarkan id
                         val index = tahapanItems.indexOfFirst { it.id == tahapan.tahapan_id }
+
                         if (index != -1) {
                             Log.d(TAG, "loadExistingProgress: tahapan_id=${tahapan.tahapan_id}, status=${tahapan.status}, deskripsi=${tahapan.deskripsi}, foto=${tahapan.foto}")
 
-                            // Update deskripsi dari server
+                            // Update deskripsi jika ada
                             if (!tahapan.deskripsi.isNullOrEmpty()) {
                                 adapter.updateDeskripsi(index, tahapan.deskripsi)
                             }
 
-                            // Tampilkan form jika status SELESAI (tanpa menimpa deskripsi)
+                            // Jika status SELESAI, tampilkan form
                             if (tahapan.status == "SELESAI") {
                                 adapter.updateFormVisibility(index, true)
                             }
@@ -301,7 +413,7 @@ class MonitoringProgram : AppCompatActivity() {
                     }
                     Toast.makeText(this@MonitoringProgram, "Data berhasil dimuat", Toast.LENGTH_SHORT).show()
                 } else {
-                    Log.e(TAG, "loadExistingProgress: API call failed, response body success = ${response.body()?.success}")
+                    Log.e(TAG, "loadExistingProgress: API call failed")
                     Toast.makeText(this@MonitoringProgram, "Gagal memuat data", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
@@ -311,6 +423,12 @@ class MonitoringProgram : AppCompatActivity() {
         }
     }
 
+    // ============================================================
+    // FUNGSI UPDATE SINGLE PROGRESS
+    // ============================================================
+    // Update satu tahapan tertentu (biasanya untuk tahapan 8).
+    // Dipanggil saat tombol "Progress Selesai" diklik.
+    // ============================================================
     private fun updateSingleProgress(tahapanId: Int) {
         Log.d(TAG, "updateSingleProgress: START tahapanId=$tahapanId")
         val token = sessionManager.getToken()
@@ -321,10 +439,12 @@ class MonitoringProgram : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
+                // Buat RequestBody
                 val programIdBody = programId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
                 val tahapanIdBody = tahapanId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
                 val statusBody = "SELESAI".toRequestBody("text/plain".toMediaTypeOrNull())
 
+                // Panggil API update (tanpa foto)
                 Log.d(TAG, "updateSingleProgress: calling API updateProgressWithFoto")
                 val response = ApiClient.apiService.updateProgressWithFoto(
                     token = token,
@@ -335,10 +455,10 @@ class MonitoringProgram : AppCompatActivity() {
                     foto = null
                 )
 
-                Log.d(TAG, "updateSingleProgress: response.isSuccessful = ${response.isSuccessful}")
                 if (response.isSuccessful && response.body()?.success == true) {
                     Log.d(TAG, "updateSingleProgress: SUCCESS")
                     Toast.makeText(this@MonitoringProgram, "Program selesai!", Toast.LENGTH_SHORT).show()
+                    // Refresh data
                     loadExistingProgress()
                 } else {
                     Log.e(TAG, "updateSingleProgress: FAILED")
@@ -351,6 +471,13 @@ class MonitoringProgram : AppCompatActivity() {
         }
     }
 
+    // ============================================================
+    // FUNGSI UPDATE ALL PROGRESS
+    // ============================================================
+    // Update semua tahapan yang form-nya sudah ditampilkan (isFormVisible = true)
+    // dan deskripsinya tidak kosong.
+    // Dipanggil saat tombol "Update Progress" diklik.
+    // ============================================================
     private fun updateAllProgress() {
         Log.d(TAG, "updateAllProgress: START")
         val token = sessionManager.getToken()
@@ -361,20 +488,25 @@ class MonitoringProgram : AppCompatActivity() {
 
         lifecycleScope.launch {
             var allSuccess = true
+
+            // Loop semua tahapan
             for (i in tahapanItems.indices) {
                 val item = tahapanItems[i]
+
+                // Hanya proses jika form terlihat dan deskripsi tidak kosong
                 if (item.isFormVisible) {
                     val deskripsi = item.deskripsi
                     Log.d(TAG, "updateAllProgress: i=$i, tahapanId=${item.id}, deskripsi='$deskripsi'")
 
-                    // Update hanya jika deskripsi tidak kosong
                     if (deskripsi.isNotEmpty()) {
                         try {
+                            // Buat RequestBody
                             val programIdBody = programId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
                             val tahapanIdBody = item.id.toString().toRequestBody("text/plain".toMediaTypeOrNull())
                             val statusBody = "SELESAI".toRequestBody("text/plain".toMediaTypeOrNull())
                             val deskripsiBody = deskripsi.toRequestBody("text/plain".toMediaTypeOrNull())
 
+                            // Panggil API update (tanpa foto)
                             val response = ApiClient.apiService.updateProgressWithFoto(
                                 token = token,
                                 programId = programIdBody,
@@ -397,10 +529,12 @@ class MonitoringProgram : AppCompatActivity() {
                     }
                 }
             }
+
+            // Tampilkan hasil
             if (allSuccess) {
                 Log.d(TAG, "updateAllProgress: ALL SUCCESS")
                 Toast.makeText(this@MonitoringProgram, "Semua progress berhasil diupdate", Toast.LENGTH_SHORT).show()
-                loadExistingProgress()
+                loadExistingProgress() // Refresh data
             } else {
                 Log.e(TAG, "updateAllProgress: SOME FAILED")
                 Toast.makeText(this@MonitoringProgram, "Beberapa update gagal", Toast.LENGTH_SHORT).show()
