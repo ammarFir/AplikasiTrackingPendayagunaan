@@ -40,6 +40,7 @@ import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import com.yourname.aplikasitrackingpendayagunaan.model.TrackingProgram
 
 class LaporanProgram : AppCompatActivity() {
 
@@ -161,50 +162,79 @@ class LaporanProgram : AppCompatActivity() {
         loadData()
     }
 
-    private fun generatePdf(program: com.yourname.aplikasitrackingpendayagunaan.model.TrackingProgram) {
-        try {
-            val timestamp = System.currentTimeMillis()
-            val fileName = "laporan_${program.nama_program}_$timestamp.pdf"
-            val pdfFile = File(cacheDir, fileName)
-            val document = Document()
-            PdfWriter.getInstance(document, FileOutputStream(pdfFile))
-            document.open()
+    private fun generatePdf(program: TrackingProgram) {
+        val token = sessionManager.getToken() ?: return
 
-            // Title
-            val titleFont = Font(Font.FontFamily.TIMES_ROMAN, 18f, Font.BOLD)
-            document.add(Paragraph("Laporan Program Pendayagunaan Mustahiq", titleFont))
-            document.add(Paragraph(" "))
-            document.add(Paragraph("=".repeat(50)))
-            document.add(Paragraph(" "))
+        lifecycleScope.launch {
+            try {
+                // Ambil detail program (termasuk 8 tahapan)
+                val detailResponse = ApiClient.apiService.getTrackingDetail(token, program.id)
+                if (!detailResponse.isSuccessful || detailResponse.body()?.success != true) {
+                    Toast.makeText(this@LaporanProgram, "Gagal mengambil detail program", Toast.LENGTH_SHORT).show()
+                    return@launch
+                }
 
-            // Data Program
-            val normalFont = Font(Font.FontFamily.TIMES_ROMAN, 12f)
-            document.add(Paragraph("Nama Program: ${program.nama_program}", normalFont))
-            document.add(Paragraph("Nama Mustahiq: ${program.nama_mustahiq ?: "-"}", normalFont))
-            document.add(Paragraph("Jenis Usaha: ${program.jenis_usaha ?: "-"}", normalFont))
-            document.add(Paragraph("Total Dana: Rp ${String.format("%,.0f", program.total_dana)}", normalFont))
-            document.add(Paragraph("Alamat: ${program.alamat_mustahiq ?: "-"}", normalFont))
-            document.add(Paragraph("Progress: ${program.progress_persen}% (${program.total_tahapan_selesai}/8)", normalFont))
-            document.add(Paragraph("Status: ${program.status}", normalFont))
-            document.add(Paragraph(" "))
-            document.add(Paragraph("=".repeat(50)))
-            document.add(Paragraph(" "))
+                val data = detailResponse.body()!!.data!!
+                val timestamp = System.currentTimeMillis()
+                val fileName = "laporan_${program.nama_program}_$timestamp.pdf"
+                val pdfFile = File(cacheDir, fileName)
+                val document = Document()
+                PdfWriter.getInstance(document, FileOutputStream(pdfFile))
+                document.open()
 
-            // Footer
-            val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
-            document.add(Paragraph("Dicetak pada: ${dateFormat.format(Date())}", normalFont))
+                // Title
+                val titleFont = Font(Font.FontFamily.TIMES_ROMAN, 18f, Font.BOLD)
+                document.add(Paragraph("Laporan Program Pendayagunaan Mustahiq", titleFont))
+                document.add(Paragraph(" "))
+                document.add(Paragraph("=".repeat(50)))
+                document.add(Paragraph(" "))
 
-            document.close()
+                // Data Program
+                val normalFont = Font(Font.FontFamily.TIMES_ROMAN, 12f)
+                document.add(Paragraph("Nama Program: ${program.nama_program}", normalFont))
+                document.add(Paragraph("Nama Mustahiq: ${program.nama_mustahiq ?: "-"}", normalFont))
+                document.add(Paragraph("Jenis Usaha: ${program.jenis_usaha ?: "-"}", normalFont))
+                document.add(Paragraph("Total Dana: Rp ${String.format("%,.0f", program.total_dana)}", normalFont))
+                document.add(Paragraph("Alamat: ${program.alamat_mustahiq ?: "-"}", normalFont))
+                document.add(Paragraph("Progress: ${program.progress_persen}% (${program.total_tahapan_selesai}/8)", normalFont))
+                document.add(Paragraph("Status: ${program.status}", normalFont))
+                document.add(Paragraph(" "))
+                document.add(Paragraph("=".repeat(50)))
+                document.add(Paragraph(" "))
 
-            // Simpan ke Downloads dan notifikasi
-            saveAndNotifyPdf(pdfFile, program.nama_program, timestamp)
+                // Detail Tahapan
+                val boldFont = Font(Font.FontFamily.TIMES_ROMAN, 12f, Font.BOLD)
+                document.add(Paragraph("Detail Tahapan:", boldFont))
+                document.add(Paragraph(" "))
 
-        } catch (e: Exception) {
-            Toast.makeText(this, "Gagal membuat PDF: ${e.message}", Toast.LENGTH_SHORT).show()
-            e.printStackTrace()
+                data.tahapan.forEachIndexed { index, tahapan ->
+                    val statusText = tahapan.status ?: "BELUM"
+                    val deskripsiText = tahapan.deskripsi ?: "-"
+                    val nomor = index + 1
+
+                    document.add(Paragraph("$nomor. ${tahapan.nama_tahapan} - $statusText", normalFont))
+                    document.add(Paragraph("   Deskripsi: $deskripsiText", normalFont))
+                    document.add(Paragraph(" "))
+                }
+
+                document.add(Paragraph("=".repeat(50)))
+                document.add(Paragraph(" "))
+
+                // Footer
+                val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+                document.add(Paragraph("Dicetak pada: ${dateFormat.format(Date())}", normalFont))
+
+                document.close()
+
+                // Simpan ke Downloads dan notifikasi
+                saveAndNotifyPdf(pdfFile, program.nama_program, timestamp)
+
+            } catch (e: Exception) {
+                Toast.makeText(this@LaporanProgram, "Gagal membuat PDF: ${e.message}", Toast.LENGTH_SHORT).show()
+                e.printStackTrace()
+            }
         }
     }
-
     private fun saveAndNotifyPdf(pdfFile: File, programName: String, timestamp: Long) {
         try {
             val fileName = "laporan_${programName}_$timestamp.pdf"

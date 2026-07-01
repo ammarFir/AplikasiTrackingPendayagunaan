@@ -1,5 +1,8 @@
 package com.yourname.aplikasitrackingpendayagunaan
 
+// ============================================================
+// IMPORT LIBRARY
+// ============================================================
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -30,40 +33,107 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+// ============================================================
+// MAIN ACTIVITY - HALAMAN UTAMA / DASHBOARD
+// ============================================================
+// Fungsi: Menampilkan halaman utama aplikasi yang berisi:
+// 1. Slider gambar campaign (dari database)
+// 2. List campaign horizontal (RecyclerView)
+// 3. Card doa (dari tabel sayings)
+// 4. Card testimonial (dari tabel testimonials)
+// 5. Avatar & nama user di header
+// 6. Bottom navigation (Home, Tracking, Laporan)
+// 7. Menu logout (3 dot di header)
+// ============================================================
 class MainActivity : AppCompatActivity() {
 
+    // ============================================================
+    // DEKLARASI VARIABEL
+    // ============================================================
+
+    // SessionManager: menyimpan data session user seperti token, nama, email, role, avatar
     private lateinit var sessionManager: SessionManager
+
+    // -------------------- TESTIMONIAL --------------------
+    // testimonialList: daftar semua testimonial dari API
+    // currentTestimonialIndex: index testimonial yang sedang ditampilkan (0 = pertama)
     private var testimonialList = mutableListOf<Testimonial>()
     private var currentTestimonialIndex = 0
+
+    // -------------------- DOA --------------------
+    // doaList: daftar semua doa dari API
+    // currentDoaIndex: index doa yang sedang ditampilkan (0 = pertama)
     private var doaList = mutableListOf<Saying>()
     private var currentDoaIndex = 0
 
+    // ============================================================
+    // LIFECYCLE: onCreate()
+    // ============================================================
+    // Dipanggil saat activity pertama kali dibuat.
+    // Di sini kita inisialisasi semua komponen UI dan load data.
+    // ============================================================
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // ============================================================
+        // SETUP FULLSCREEN & LAYOUT
+        // ============================================================
+
+        // Mengaktifkan mode edge-to-edge (konten meresap ke system bar)
         enableEdgeToEdge()
+
+        // Menyembunyikan status bar dan navigation bar agar tampilan lebih immersive
+        // SYSTEM_UI_FLAG_FULLSCREEN: sembunyikan status bar
+        // SYSTEM_UI_FLAG_HIDE_NAVIGATION: sembunyikan navigation bar
+        // SYSTEM_UI_FLAG_IMMERSIVE_STICKY: tetap immersive saat user swipe
         window.decorView.systemUiVisibility = (
                 View.SYSTEM_UI_FLAG_FULLSCREEN
                         or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 )
+
+        // Menghubungkan layout XML ke activity ini
+        // R.layout.activity_main adalah file XML di res/layout/activity_main.xml
         setContentView(R.layout.activity_main)
 
+        // ============================================================
+        // INISIALISASI SESSION MANAGER
+        // ============================================================
+        // SessionManager digunakan untuk:
+        // 1. Menyimpan token user setelah login
+        // 2. Menyimpan data user (nama, email, role, avatar)
+        // 3. Mengecek apakah user sudah login atau belum
+        // 4. Menghapus session saat logout
         sessionManager = SessionManager(this)
 
+        // ============================================================
+        // SETUP BOTTOM NAVIGATION
+        // ============================================================
+        // BottomNavigationView adalah menu navigasi di bagian bawah layar
+        // Terdiri dari 3 menu: Home, Tracking, Laporan
+        // ============================================================
+
+        // Mencari komponen BottomNavigationView dari layout
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+
+        // Menandai menu "Home" sebagai menu yang aktif (warna icon berubah hijau)
         bottomNav.selectedItemId = R.id.nav_home
 
+        // Menambahkan listener untuk menangani klik pada setiap menu
+        // Ketika user klik salah satu menu, aplikasi akan pindah ke halaman yang sesuai
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
+                // Menu Home: tetap di halaman ini (tidak pindah kemana-mana)
                 R.id.nav_home -> {
                     true
                 }
+                // Menu Tracking: pindah ke halaman MenuTracking
                 R.id.nav_tracking -> {
                     startActivity(Intent(this, MenuTracking::class.java))
-                    finish()
+                    finish() // Menutup activity saat ini agar tidak menumpuk
                     true
                 }
+                // Menu Laporan: pindah ke halaman LaporanProgram
                 R.id.nav_laporan -> {
                     startActivity(Intent(this, LaporanProgram::class.java))
                     finish()
@@ -73,74 +143,170 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // ============================================================
+        // SETUP WINDOW INSETS (PADDING SYSTEM BARS)
+        // ============================================================
+        // Menambahkan padding pada konten agar tidak tertutup oleh status bar
+        // dan navigation bar di perangkat Android modern.
+        // ============================================================
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // Load slider images dari campaign (random)
+        // ============================================================
+        // LOAD DATA DARI API
+        // ============================================================
+        // Semua data di halaman utama diambil dari server via API.
+        // Menggunakan Coroutine untuk menjalankan proses secara asynchronous
+        // agar tidak mengganggu UI thread.
+        // ============================================================
+
+        // 1. Load gambar untuk slider (diambil dari campaign secara acak)
         loadSliderImages()
 
-        // Load campaign dari API
+        // 2. Load daftar campaign untuk RecyclerView horizontal
         loadCampaigns()
 
-        // Load testimonial dari API
+        // 3. Load testimonial untuk card testimonial
         loadTestimonials()
 
-        // Load doa dari API
+        // 4. Load doa untuk card doa
         loadDoa()
 
-        // LOGO PROFILE - klik ke halaman Profile
+        // ============================================================
+        // SETUP LOGO PROFILE -> KE HALAMAN PROFILE
+        // ============================================================
+        // Logo profile di header (sebelah kanan) dapat diklik.
+        // Ketika diklik, user akan pindah ke halaman ProfileActivity.
+        // ============================================================
+
+        // Mencari ImageView logo profile dari layout
         val logoProfile = findViewById<ImageView>(R.id.logoProfile)
+
+        // Menambahkan event klik pada logo profile
         logoProfile.setOnClickListener {
+            // Membuat intent untuk pindah ke ProfileActivity
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
 
-        // 3 DOT MENU - hanya untuk Logout
+        // ============================================================
+        // SETUP 3 DOT MENU -> LOGOUT
+        // ============================================================
+        // Tiga titik (dot) di pojok kanan header berfungsi sebagai menu logout.
+        // Saat diklik, akan muncul bottom sheet berisi tombol logout.
+        // ============================================================
+
+        // Mencari LinearLayout yang berisi 3 dot
         val btnOption = findViewById<LinearLayout>(R.id.btnOption)
+
+        // Menambahkan event klik pada 3 dot
         btnOption.setOnClickListener {
+            // Menampilkan bottom sheet logout
             showLogoutBottomSheet()
         }
 
-        // REVIEW NAVIGATION
+        // ============================================================
+        // SETUP REVIEW NAVIGATION (SEBELUMNYA / SELANJUTNYA)
+        // ============================================================
+        // Tombol "Sebelumnya" dan "Selanjutnya" di bawah card testimonial.
+        // Berguna untuk melihat testimonial lain tanpa harus reload halaman.
+        // ============================================================
+
+        // Mencari tombol navigasi review
         val reviewSebelum = findViewById<TextView>(R.id.reviewSebelum)
         val reviewSesudah = findViewById<TextView>(R.id.reviewSesudah)
 
+        // Klik "Sebelumnya" -> pindah ke testimonial sebelumnya
         reviewSebelum.setOnClickListener {
             prevTestimonial()
         }
 
+        // Klik "Selanjutnya" -> pindah ke testimonial berikutnya
         reviewSesudah.setOnClickListener {
             nextTestimonial()
         }
 
-        // DOA NAVIGATION
+        // ============================================================
+        // SETUP DOA NAVIGATION (SEBELUMNYA / SELANJUTNYA)
+        // ============================================================
+        // Tombol "Sebelumnya" dan "Selanjutnya" di bawah card doa.
+        // Berguna untuk melihat doa lain tanpa harus reload halaman.
+        // ============================================================
+
+        // Mencari tombol navigasi doa
         val ucapanSebelum = findViewById<TextView>(R.id.ucapanSebelum)
         val ucapanSesudah = findViewById<TextView>(R.id.ucapanSesudah)
 
+        // Klik "Sebelumnya" -> pindah ke doa sebelumnya
         ucapanSebelum.setOnClickListener {
             prevDoa()
         }
 
+        // Klik "Selanjutnya" -> pindah ke doa berikutnya
         ucapanSesudah.setOnClickListener {
             nextDoa()
         }
 
+        // ============================================================
+        // REFRESH DATA USER (NAMA & AVATAR)
+        // ============================================================
+        // Mengambil data user dari SessionManager dan menampilkannya di header.
+        // ============================================================
         refreshUserData()
     }
 
+    // ============================================================
+    // LIFECYCLE: onResume()
+    // ============================================================
+    // Dipanggil setiap kali activity muncul kembali ke layar,
+    // misalnya setelah user kembali dari halaman lain (ProfileActivity, dll).
+    // ============================================================
+    override fun onResume() {
+        super.onResume()
+
+        // Refresh data user (nama & avatar) karena mungkin berubah di ProfileActivity
+        refreshUserData()
+
+        // Refresh testimonial, doa, dan slider untuk memastikan data terbaru
+        loadTestimonials()
+        loadDoa()
+        loadSliderImages()
+    }
+
+    // ============================================================
+    // FUNGSI DOA
+    // ============================================================
+
+    /**
+     * loadDoa()
+     * Fungsi untuk mengambil data doa dari API.
+     * Data doa diambil dari tabel 'sayings' di database.
+     * Setelah berhasil, doa pertama akan ditampilkan di card doa.
+     */
     private fun loadDoa() {
+        // Ambil token dari session
         val token = sessionManager.getToken()
+
+        // Jika token null (belum login), hentikan fungsi
         if (token == null) return
 
+        // Jalankan proses di background thread (IO) agar tidak mengganggu UI
         CoroutineScope(Dispatchers.IO).launch {
             try {
+                // Panggil API untuk mendapatkan daftar doa
                 val response = ApiClient.apiService.getSayings(token)
+
+                // Kembali ke Main Thread untuk update UI
                 withContext(Dispatchers.Main) {
+                    // Cek apakah response sukses
                     if (response.isSuccessful && response.body()?.success == true) {
+                        // Ambil data doa dari response
                         doaList = response.body()?.data?.toMutableList() ?: mutableListOf()
+
+                        // Jika ada data doa, tampilkan doa pertama
                         if (doaList.isNotEmpty()) {
                             currentDoaIndex = 0
                             displayCurrentDoa()
@@ -148,43 +314,81 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             } catch (e: Exception) {
+                // Jika terjadi error (koneksi, dll), print stack trace
                 e.printStackTrace()
             }
         }
     }
 
+    /**
+     * displayCurrentDoa()
+     * Menampilkan doa yang sedang dipilih (sesuai currentDoaIndex)
+     * ke TextView yang ada di card doa.
+     */
     private fun displayCurrentDoa() {
+        // Jika tidak ada doa, hentikan
         if (doaList.isEmpty()) return
+
+        // Ambil doa berdasarkan index saat ini
         val doa = doaList[currentDoaIndex]
+
+        // Cari komponen TextView di layout
         val tvNamaDoa = findViewById<TextView>(R.id.tvNamaDoa)
         val tvDoaCampaign = findViewById<TextView>(R.id.tvDoaCampaign)
         val tvUcapanDoa = findViewById<TextView>(R.id.tvUcapanDoa)
 
-        tvNamaDoa.text = doa.name
-        tvDoaCampaign.text = "Donasi ${doa.campaign_title}"
-        tvUcapanDoa.text = doa.body
+        // Isi TextView dengan data doa
+        tvNamaDoa.text = doa.name                       // Nama pengirim doa
+        tvDoaCampaign.text = "Donasi ${doa.campaign_title}" // Nama campaign
+        tvUcapanDoa.text = doa.body                     // Isi doa
     }
 
+    /**
+     * nextDoa()
+     * Pindah ke doa berikutnya (index + 1)
+     * Jika sudah di doa terakhir, tampilkan toast pemberitahuan.
+     */
     private fun nextDoa() {
         if (doaList.isEmpty()) return
+
+        // Cek apakah masih ada doa berikutnya
         if (currentDoaIndex < doaList.size - 1) {
-            currentDoaIndex++
-            displayCurrentDoa()
+            currentDoaIndex++ // Pindah ke index berikutnya
+            displayCurrentDoa() // Tampilkan doa baru
         } else {
+            // Sudah di doa terakhir
             Toast.makeText(this, "Ini doa terakhir", Toast.LENGTH_SHORT).show()
         }
     }
 
+    /**
+     * prevDoa()
+     * Pindah ke doa sebelumnya (index - 1)
+     * Jika sudah di doa pertama, tampilkan toast pemberitahuan.
+     */
     private fun prevDoa() {
         if (doaList.isEmpty()) return
+
+        // Cek apakah masih ada doa sebelumnya
         if (currentDoaIndex > 0) {
-            currentDoaIndex--
-            displayCurrentDoa()
+            currentDoaIndex-- // Pindah ke index sebelumnya
+            displayCurrentDoa() // Tampilkan doa baru
         } else {
+            // Sudah di doa pertama
             Toast.makeText(this, "Ini doa pertama", Toast.LENGTH_SHORT).show()
         }
     }
 
+    // ============================================================
+    // FUNGSI SLIDER
+    // ============================================================
+
+    /**
+     * loadSliderImages()
+     * Mengambil 3 gambar campaign secara acak dari API untuk ditampilkan di slider.
+     * Gambar diambil dari kolom 'image' di tabel 'campaigns'.
+     * Setiap kali halaman dimuat, gambar akan diacak.
+     */
     private fun loadSliderImages() {
         val token = sessionManager.getToken()
         if (token == null) return
@@ -196,18 +400,19 @@ class MainActivity : AppCompatActivity() {
                     if (response.isSuccessful && response.body()?.success == true) {
                         val campaigns = response.body()?.data ?: emptyList()
 
-                        // Filter campaign yang memiliki gambar
+                        // Filter campaign yang memiliki gambar (tidak null dan tidak kosong)
                         val campaignsWithImage = campaigns.filter { !it.image.isNullOrEmpty() }
 
                         if (campaignsWithImage.isNotEmpty()) {
-                            // Ambil 3 campaign secara acak
+                            // Acak dan ambil 3 campaign
                             val shuffledCampaigns = campaignsWithImage.shuffled().take(3)
 
-                            // Buat list image URL - TAMBAHKAN "uploads/"
+                            // Buat URL gambar dengan menambahkan base URL + folder uploads
                             val imageUrls = shuffledCampaigns.map { campaign ->
                                 "${RetrofitClient.BASE_URL}uploads/${campaign.image}"
                             }
 
+                            // Set adapter ke ViewPager
                             val viewPager = findViewById<ViewPager2>(R.id.viewPager)
                             viewPager.adapter = SliderAdapter(imageUrls)
                         }
@@ -219,6 +424,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // ============================================================
+    // FUNGSI TESTIMONIAL
+    // ============================================================
+
+    /**
+     * loadTestimonials()
+     * Mengambil data testimonial dari API.
+     * Data diambil dari tabel 'testimonials'.
+     * Setelah berhasil, testimonial pertama akan ditampilkan di card.
+     */
     private fun loadTestimonials() {
         val token = sessionManager.getToken()
         if (token == null) return
@@ -241,36 +456,54 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * displayCurrentTestimonial()
+     * Menampilkan testimonial yang sedang dipilih ke card testimonial.
+     * Termasuk: nama, review, rating bintang, dan avatar (jika ada).
+     */
     private fun displayCurrentTestimonial() {
         if (testimonialList.isEmpty()) return
         val item = testimonialList[currentTestimonialIndex]
+
+        // Cari komponen di layout
         val txtNamaReview = findViewById<TextView>(R.id.txtNamaReview)
         val txtReview = findViewById<TextView>(R.id.txtReview)
         val reviewStar = findViewById<TextView>(R.id.reviewStar)
         val imgProfileReview = findViewById<com.google.android.material.imageview.ShapeableImageView>(R.id.imgProfileReview)
 
-        txtNamaReview.text = item.name
-        txtReview.text = item.review
+        // Isi data
+        txtNamaReview.text = item.name                     // Nama pemberi testimonial
+        txtReview.text = item.review                       // Isi testimonial
+
+        // Rating bintang: ★★★★★ (sesuai rating)
+        // contoh: rating 4 -> "★★★★☆"
         reviewStar.text = "★".repeat(item.rating) + "☆".repeat(5 - item.rating)
 
-        // Avatar jika ada
+        // Tampilkan avatar jika ada
         if (!item.avatar.isNullOrEmpty()) {
             var fileName = item.avatar
             if (fileName.contains("/")) {
                 fileName = fileName.substringAfterLast("/")
             }
             val avatarUrl = "${RetrofitClient.BASE_URL}uploads/$fileName"
+
+            // Menggunakan Glide untuk load gambar dari URL
             Glide.with(this)
                 .load(avatarUrl)
-                .placeholder(R.drawable.dot_active)
-                .error(R.drawable.ic_dot_blue)
-                .circleCrop()
+                .placeholder(R.drawable.dot_active)    // Gambar default saat loading
+                .error(R.drawable.ic_dot_blue)         // Gambar default jika error
+                .circleCrop()                           // Membuat avatar berbentuk lingkaran
                 .into(imgProfileReview)
         } else {
+            // Jika tidak ada avatar, pakai gambar default
             imgProfileReview.setImageResource(R.drawable.dot_active)
         }
     }
 
+    /**
+     * nextTestimonial()
+     * Pindah ke testimonial berikutnya.
+     */
     private fun nextTestimonial() {
         if (testimonialList.isEmpty()) return
         if (currentTestimonialIndex < testimonialList.size - 1) {
@@ -281,6 +514,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * prevTestimonial()
+     * Pindah ke testimonial sebelumnya.
+     */
     private fun prevTestimonial() {
         if (testimonialList.isEmpty()) return
         if (currentTestimonialIndex > 0) {
@@ -291,14 +528,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        refreshUserData()
-        loadTestimonials()
-        loadDoa()
-        loadSliderImages()
-    }
+    // ============================================================
+    // FUNGSI CAMPAIGN
+    // ============================================================
 
+    /**
+     * loadCampaigns()
+     * Mengambil data campaign dari API dan menampilkannya di RecyclerView horizontal.
+     * RecyclerView menggunakan LinearLayoutManager dengan orientasi HORIZONTAL.
+     * Setiap item campaign menampilkan: gambar, judul, deskripsi, dan total donasi.
+     */
     private fun loadCampaigns() {
         val token = sessionManager.getToken()
         if (token == null) return
@@ -310,63 +549,142 @@ class MainActivity : AppCompatActivity() {
                     if (response.isSuccessful && response.body()?.success == true) {
                         val campaigns = response.body()?.data ?: emptyList()
 
+                        // Setup RecyclerView
                         val rvCampaign = findViewById<RecyclerView>(R.id.rvCampaign)
-                        rvCampaign.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+
+                        // LinearLayoutManager dengan orientasi horizontal (scroll kiri-kanan)
+                        rvCampaign.layoutManager = LinearLayoutManager(
+                            this@MainActivity,
+                            LinearLayoutManager.HORIZONTAL,
+                            false
+                        )
+
+                        // Set adapter dengan data campaign
                         rvCampaign.adapter = CampaignAdapter(campaigns)
                     } else {
-                        Toast.makeText(this@MainActivity, "Gagal memuat campaign", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Gagal memuat campaign",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(this@MainActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Error: ${e.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
     }
 
+    // ============================================================
+    // FUNGSI USER DATA
+    // ============================================================
+
+    /**
+     * refreshUserData()
+     * Menampilkan nama dan avatar user di header.
+     * Data diambil dari SessionManager (disimpan saat login).
+     */
     private fun refreshUserData() {
-        // Refresh nama
+        // ============================================================
+        // REFRESH NAMA USER
+        // ============================================================
+        // Mencari TextView untuk sapaan user
         val tvWelcome = findViewById<TextView>(R.id.textView7)
+
+        // Ambil nama dari SessionManager, jika null pakai "Pengguna" sebagai default
         val userName = sessionManager.getName() ?: "Pengguna"
+
+        // Set teks sapaan: "Selamat Datang, [nama]"
         tvWelcome.text = "Selamat Datang, $userName"
 
-        // Refresh avatar
+        // ============================================================
+        // REFRESH AVATAR USER
+        // ============================================================
+        // Mencari ImageView untuk avatar user
         val logoProfile = findViewById<ImageView>(R.id.logoProfile)
+
+        // Ambil avatar dari SessionManager
         val avatar = sessionManager.getAvatar()
+
         if (!avatar.isNullOrEmpty()) {
+            // Jika ada avatar, tampilkan dari URL
             var fileName = avatar
+
+            // Jika path mengandung "/", ambil bagian setelah "/" terakhir
+            // Contoh: "uploads/avatar_1.jpg" -> "avatar_1.jpg"
             if (fileName.contains("/")) {
                 fileName = fileName.substringAfterLast("/")
             }
+
+            // Buat URL lengkap: base_url + uploads/ + nama file
             val avatarUrl = "${RetrofitClient.BASE_URL}uploads/$fileName"
+
+            // Menggunakan Glide untuk load gambar
             Glide.with(this)
                 .load(avatarUrl)
-                .placeholder(R.drawable.logokoceng)
-                .error(R.drawable.logokoceng)
-                .circleCrop()
+                .placeholder(R.drawable.logokoceng)    // Default saat loading
+                .error(R.drawable.logokoceng)          // Default jika error
+                .circleCrop()                           // Bentuk lingkaran
                 .into(logoProfile)
         } else {
+            // Jika tidak ada avatar, pakai gambar default
             logoProfile.setImageResource(R.drawable.logokoceng)
         }
     }
 
+    // ============================================================
+    // FUNGSI LOGOUT
+    // ============================================================
+
+    /**
+     * showLogoutBottomSheet()
+     * Menampilkan bottom sheet yang berisi tombol logout.
+     * Saat tombol logout diklik:
+     * 1. Session dihapus (clearSession)
+     * 2. Pindah ke halaman Login
+     * 3. Tutup semua activity sebelumnya
+     */
     private fun showLogoutBottomSheet() {
+        // Membuat objek BottomSheetDialog
         val bottomSheetDialog = BottomSheetDialog(this)
+
+        // Inflate layout bottom_sheet_logout.xml menjadi View
         val view = LayoutInflater.from(this).inflate(R.layout.bottom_sheet_logout, null)
+
+        // Set view ke bottom sheet
         bottomSheetDialog.setContentView(view)
 
+        // Cari tombol logout di dalam bottom sheet
         val tvLogout = view.findViewById<TextView>(R.id.tvLogout)
 
+        // Event klik tombol logout
         tvLogout.setOnClickListener {
+            // 1. Hapus semua data session
             sessionManager.clearSession()
+
+            // 2. Pindah ke halaman Login
             val intent = Intent(this, Login::class.java)
+
+            // FLAG_ACTIVITY_NEW_TASK: memulai activity baru
+            // FLAG_ACTIVITY_CLEAR_TASK: menghapus semua activity sebelumnya
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
             startActivity(intent)
+
+            // 3. Tutup activity ini
             finish()
+
+            // 4. Tutup bottom sheet
             bottomSheetDialog.dismiss()
         }
 
+        // Tampilkan bottom sheet
         bottomSheetDialog.show()
     }
 }
