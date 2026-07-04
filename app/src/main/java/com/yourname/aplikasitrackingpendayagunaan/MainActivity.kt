@@ -3,14 +3,14 @@ package com.yourname.aplikasitrackingpendayagunaan
 // ============================================================
 // IMPORT LIBRARY
 // ============================================================
-import android.content.Intent
-import android.os.Bundle
+import android.content.Intent // buat berpindah halaman
+import android.os.Bundle // nyimpen data sementara
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView // untuk tampilan ui
-import android.widget.LinearLayout
-import android.widget.TextView // untuk ui
-import android.widget.Toast
+import android.widget.ImageView // untuk tampil gambar
+import android.widget.LinearLayout //susuna komponen
+import android.widget.TextView // tampil text
+import android.widget.Toast // pop up
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -18,20 +18,20 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.bumptech.glide.Glide
+import com.bumptech.glide.Glide //lobrari load gambar dri internet url
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.yourname.aplikasitrackingpendayagunaan.adapter.CampaignAdapter
 import com.yourname.aplikasitrackingpendayagunaan.adapter.SliderAdapter
 import com.yourname.aplikasitrackingpendayagunaan.model.Saying
 import com.yourname.aplikasitrackingpendayagunaan.model.Testimonial
-import com.yourname.aplikasitrackingpendayagunaan.network.ApiClient // berhubungan dengan internet
-import com.yourname.aplikasitrackingpendayagunaan.network.RetrofitClient // berhubungan dengan interner
-import com.yourname.aplikasitrackingpendayagunaan.utils.SessionManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.yourname.aplikasitrackingpendayagunaan.network.ApiClient // memanggil api
+import com.yourname.aplikasitrackingpendayagunaan.network.RetrofitClient // base url + config
+import com.yourname.aplikasitrackingpendayagunaan.utils.SessionManager // simpan data user
+import kotlinx.coroutines.CoroutineScope // proses background
+import kotlinx.coroutines.Dispatchers //proses background
+import kotlinx.coroutines.launch //proses background
+import kotlinx.coroutines.withContext //proses background
 
 // ============================================================
 // MAIN ACTIVITY - HALAMAN UTAMA / DASHBOARD
@@ -46,19 +46,21 @@ import kotlinx.coroutines.withContext
 // 7. Menu logout (3 dot di header)
 // ============================================================
 class MainActivity : AppCompatActivity() {
-
-    // ============================================================
-    // DEKLARASI VARIABEL
-    // ============================================================
+//MainActivity mewarisi dari AppCompatActivity atau inheritance
+    //yg mana appcompatact itu berisi constructor kosong
 
     // SessionManager: menyimpan data session user seperti token, nama, email, role, avatar
+    //privat variable yg lateinit(inisiasinya nanti) yg tipe datanya Object SessionManager
     private lateinit var sessionManager: SessionManager
 
     // -------------------- TESTIMONIAL --------------------
     // testimonialList: daftar semua testimonial dari API
     // currentTestimonialIndex: index testimonial yang sedang ditampilkan (0 = pertama)
     private var testimonialList = mutableListOf<Testimonial>()
+    //membuat  lis kosong yg isinya data Testimonial
+
     private var currentTestimonialIndex = 0
+    //dimuldai nilai awalnya 0
 
     // -------------------- DOA --------------------
     // doaList: daftar semua doa dari API
@@ -73,6 +75,8 @@ class MainActivity : AppCompatActivity() {
     // Di sini kita inisialisasi semua komponen UI dan load data.
     // ============================================================
     override fun onCreate(savedInstanceState: Bundle?) {
+        //override menimpa fungsi baawaan dari app compat
+        //Saya mau menimpa fungsi yang sudah ada di class induk (AppCompatActivity) dengan fungsi versi saya sendiri
         super.onCreate(savedInstanceState)
 
         // ============================================================
@@ -82,10 +86,12 @@ class MainActivity : AppCompatActivity() {
         // Mengaktifkan mode edge-to-edge (konten meresap ke system bar)
         enableEdgeToEdge()
 
-        // Menyembunyikan status bar dan navigation bar agar tampilan lebih immersive
-        // SYSTEM_UI_FLAG_FULLSCREEN: sembunyikan status bar
-        // SYSTEM_UI_FLAG_HIDE_NAVIGATION: sembunyikan navigation bar
-        // SYSTEM_UI_FLAG_IMMERSIVE_STICKY: tetap immersive saat user swipe
+        // Kode ini mengatur tampilan layar menjadi fullscreen.
+        // window.decorView.systemUiVisibility digunakan untuk mengontrol status bar dan navigation bar.
+        // Kita menggabungkan 3 flag: SYSTEM_UI_FLAG_FULLSCREEN untuk menyembunyikan status bar atas,
+        // SYSTEM_UI_FLAG_HIDE_NAVIGATION untuk menyembunyikan navigation bar bawah,
+        // dan SYSTEM_UI_FLAG_IMMERSIVE_STICKY agar saat user swipe dari tepi, bar muncul sebentar lalu otomatis hilang lagi.
+        // Hasilnya aplikasi tampil penuh di seluruh layar tanpa gangguan elemen sistem.
         window.decorView.systemUiVisibility = (
                 View.SYSTEM_UI_FLAG_FULLSCREEN
                         or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
@@ -96,22 +102,10 @@ class MainActivity : AppCompatActivity() {
         // R.layout.activity_main adalah file XML di res/layout/activity_main.xml
         setContentView(R.layout.activity_main)
 
-        // ============================================================
-        // INISIALISASI SESSION MANAGER
-        // ============================================================
-        // SessionManager digunakan untuk:
-        // 1. Menyimpan token user setelah login
-        // 2. Menyimpan data user (nama, email, role, avatar)
-        // 3. Mengecek apakah user sudah login atau belum
-        // 4. Menghapus session saat logout
         sessionManager = SessionManager(this)
-
-        // ============================================================
-        // SETUP BOTTOM NAVIGATION
-        // ============================================================
-        // BottomNavigationView adalah menu navigasi di bagian bawah layar
-        // Terdiri dari 3 menu: Home, Tracking, Laporan
-        // ============================================================
+        //Kode ini bikin objek SessionManager buat ngatur data user login.
+        // Dikasih this (konteks halaman ini) biar bisa akses penyimpanan internal HP buat nyimpen & baca data
+        // kayak token, nama, sama avatar.
 
         // Mencari komponen BottomNavigationView dari layout
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
