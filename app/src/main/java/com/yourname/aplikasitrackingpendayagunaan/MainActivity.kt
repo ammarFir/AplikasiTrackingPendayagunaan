@@ -7,9 +7,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
+import android.widget.ImageView // untuk tampilan ui
 import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.TextView // untuk ui
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -25,8 +25,8 @@ import com.yourname.aplikasitrackingpendayagunaan.adapter.CampaignAdapter
 import com.yourname.aplikasitrackingpendayagunaan.adapter.SliderAdapter
 import com.yourname.aplikasitrackingpendayagunaan.model.Saying
 import com.yourname.aplikasitrackingpendayagunaan.model.Testimonial
-import com.yourname.aplikasitrackingpendayagunaan.network.ApiClient
-import com.yourname.aplikasitrackingpendayagunaan.network.RetrofitClient
+import com.yourname.aplikasitrackingpendayagunaan.network.ApiClient // berhubungan dengan internet
+import com.yourname.aplikasitrackingpendayagunaan.network.RetrofitClient // berhubungan dengan interner
 import com.yourname.aplikasitrackingpendayagunaan.utils.SessionManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
