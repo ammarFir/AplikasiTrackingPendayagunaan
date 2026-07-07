@@ -56,7 +56,7 @@ class LaporanAdapter(
         holder.bind(list[position], onExportClick)
     }
 
-    // ============================================================
+    // ======================================================   ======
     // getItemCount()
     // ============================================================
     // Mengembalikan jumlah item dalam list.
