@@ -255,6 +255,7 @@ class MenuTracking : AppCompatActivity() {
         if (token == null) return
 
         // Jalankan proses di background thread
+        //
         lifecycleScope.launch {
             try {
                 // ============================================================
