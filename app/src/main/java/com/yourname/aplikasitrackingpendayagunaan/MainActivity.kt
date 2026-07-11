@@ -589,7 +589,7 @@ class MainActivity : AppCompatActivity() {
         // REFRESH NAMA USER
         // ============================================================
         // Mencari TextView untuk sapaan user
-        val tvWelcome = findViewById<TextView>(R.id.textView7)
+        val tvWelcome = findViewById<TextView>(R.id.tvUsername)
 
         // Ambil nama dari SessionManager, jika null pakai "Pengguna" sebagai default
         val userName = sessionManager.getName() ?: "Pengguna"
