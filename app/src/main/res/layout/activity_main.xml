@@ -11,80 +11,120 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@drawable/bg_header"
-        android:backgroundTint="#51A969"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_header_gradient"
+        android:orientation="vertical"
+        android:paddingTop="4dp"
+        android:paddingBottom="26dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/logoProfile"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackgroundBorderless"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="-10dp"
-            android:background="@drawable/ic_circle_black"
-            app:srcCompat="@drawable/profilenew" />
-
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="-10dp"
-            android:layout_weight="1"
-            android:text="Selamat Datang Kocheng"
-            android:textColor="#FFFFFF"
-            android:textSize="14dp"
-            android:textStyle="bold" />
-
+        <!-- BARIS 1: Logo di kiri, 3 Dot di kanan -->
         <LinearLayout
-            android:id="@+id/btnOption"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|right"
-            android:layout_marginTop="-10dp"
-            android:layout_marginEnd="10dp"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:layout_margin="1dp"
-                app:srcCompat="@drawable/dot" />
+            <!-- Bagian kiri: Logo + Teks -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:layout_margin="1dp"
-                app:srcCompat="@drawable/dot" />
+                <ImageView
+                    android:id="@+id/logoProfile"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:background="@drawable/ic_circle_black"
+                    android:src="@drawable/profilenew" />
 
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:layout_margin="1dp"
-                app:srcCompat="@drawable/dot" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="12dp">
+
+                    <TextView
+                        android:id="@+id/tvWelcome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Selamat Datang,"
+                        android:textColor="#FFFFFF"
+                        android:textSize="8sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvUserName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Super Admin"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvSlogan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Semoga harimu penuh keberkahan ✨"
+                        android:textColor="#E0F7FA"
+                        android:textSize="11sp"
+                        android:fontStyle="italic" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Bagian kanan: 3 Dot -->
+            <LinearLayout
+                android:id="@+id/btnOption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_margin="1dp"
+                    app:srcCompat="@drawable/dot" />
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_margin="1dp"
+                    app:srcCompat="@drawable/dot" />
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_margin="1dp"
+                    app:srcCompat="@drawable/dot" />
+
+            </LinearLayout>
 
         </LinearLayout>
-
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="-20dp"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/bg_form"
         android:backgroundTint="#FFFFFF"
         android:orientation="horizontal"
