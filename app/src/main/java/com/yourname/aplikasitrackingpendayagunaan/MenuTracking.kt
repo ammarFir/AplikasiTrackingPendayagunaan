@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -134,7 +135,7 @@ class MenuTracking : AppCompatActivity() {
         // Saat diklik, pindah ke halaman AddProgram.
         // ============================================================
 
-        val btnAdd = findViewById<Button>(R.id.btnAdd)
+        val btnAdd = findViewById<LinearLayout>(R.id.btnAdd)
         btnAdd.setOnClickListener {
             // Pindah ke halaman tambah program
             startActivity(Intent(this, AddProgram::class.java))

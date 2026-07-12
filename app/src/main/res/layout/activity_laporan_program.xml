@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F0F0"
+    android:background="#EFEEEE"
     tools:context=".LaporanProgram">
 
     <!-- Header -->
@@ -13,8 +13,7 @@
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_header"
-        android:backgroundTint="#97D2A5"
+        android:background="@drawable/bg_header_gradient"
         android:orientation="vertical"
         android:paddingBottom="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +32,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:text="Laporan Program"
-                android:textColor="#1F1E1E"
+                android:textColor="#F2F2F2"
                 android:textSize="23dp"
                 android:textStyle="bold" />
 
@@ -64,15 +63,15 @@
     <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
+        style="@style/BottomNavStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        style="@style/BottomNavStyle"
+        app:itemIconTint="@drawable/bottom_nav_color"
         app:itemTextAppearanceActive="@style/BottomNavTextActive"
         app:itemTextAppearanceInactive="@style/BottomNavTextInactive"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:itemIconTint="@drawable/bottom_nav_color"
         app:menu="@menu/bottom_nav_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

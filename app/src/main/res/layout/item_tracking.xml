@@ -1,156 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#F0F0F0"
-    >
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="16dp"
+    app:cardBackgroundColor="#FFFFFF"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="2dp">
 
-    <!-- Header -->
-
-    <!-- Area bawah header -->
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#F0F0F0"
-        android:padding="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="horizontal">
 
-        <!-- CARD UTAMA -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardMain"
-            android:layout_width="450dp"
+        <!-- Garis aksen hijau kiri -->
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="#51A969" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="#FFFFFF"
-            app:cardCornerRadius="16dp"
-            android:layout_marginTop="2dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:strokeWidth="0dp">
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
 
-
+            <!-- Kolom kiri: semua teks -->
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="16dp"
-                android:layout_marginTop="4dp"
-                android:paddingRight="16dp">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <!-- Foto profil + info -->
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tvJenisProgram"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:text="UPZPRENEUR"
+                    android:textColor="#1A1A1A"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <LinearLayout
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        app:srcCompat="@drawable/ic_person_outline"
+                        app:tint="#888888" />
+
+                    <TextView
+                        android:id="@+id/tvNama"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="12dp"
-                        android:layout_marginBottom="2dp"
-                        android:orientation="vertical"
-                        android:padding="2dp">
-
-
-                        <TextView
-                            android:id="@+id/tvJenisProgram"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="-6dp"
-                            android:padding="-10dp"
-                            android:text="UPZPRENEUR"
-                            android:textColor="#1F1E1E"
-                            android:textSize="26dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tvNama"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="-6dp"
-                            android:text="Ananda Aulia Hanifah"
-                            android:textColor="#1F1E1E"
-                            android:textSize="17sp" />
-
-                        <TextView
-                            android:id="@+id/tvBantuanProgram"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="-6dp"
-
-                            android:text="Cimol Gerobak"
-                            android:textColor="#1F1E1E"
-                            android:textSize="17sp" />
-
-                        <TextView
-                            android:id="@+id/tvAlamat"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="6dp"
-                            android:text="Handil Bakti"
-                            android:textColor="#1F1E1E"
-                            android:textSize="17sp" />
-
-                    </LinearLayout>
+                        android:layout_marginStart="6dp"
+                        android:text="Ananda Aulia Hanifah"
+                        android:textColor="#444444"
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
-                <!-- Button Update Status -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        app:srcCompat="@drawable/ic_box_outline"
+                        app:tint="#888888" />
+
+                    <TextView
+                        android:id="@+id/tvBantuanProgram"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:text="Cimol Gerobak"
+                        android:textColor="#444444"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        app:srcCompat="@drawable/ic_location_outline"
+                        app:tint="#888888" />
+
+                    <TextView
+                        android:id="@+id/tvAlamat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:text="Handil Bakti"
+                        android:textColor="#444444"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-            <!-- Garis hijau kiri -->
-            <View
-                android:id="@+id/viewGarisHijau"
-                android:layout_width="5dp"
-                android:layout_height="108dp"
-                android:background="#97D2A5"
-                android:elevation="0dp"
-                app:layout_constraintBottom_toBottomOf="@id/cardMain"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/cardMain" />
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- BADGE UPZPRENEUR overlap kiri atas card -->
-        <FrameLayout
-            android:id="@+id/badgeWrapper"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-45dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/bg_badge"
-            android:padding="8dp"
-            android:paddingEnd="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/cardMain"
-            app:layout_constraintTop_toBottomOf="@+id/cardMain">
-
+            <!-- Kolom kanan: tombol See Detail -->
             <TextView
                 android:id="@+id/tvSeeDetail"
-                android:layout_width="130dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/bg_rounded"
-                android:backgroundTint="#67ABC8"
-                android:gravity="center"
-                android:padding="10dp"
+                android:background="@drawable/bg_btn_pill_blue"
+                android:drawableEnd="@drawable/ic_arrow_right_circle"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="8dp"
                 android:text="See Detail"
-                android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 android:textStyle="bold" />
 
-        </FrameLayout>
+        </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
