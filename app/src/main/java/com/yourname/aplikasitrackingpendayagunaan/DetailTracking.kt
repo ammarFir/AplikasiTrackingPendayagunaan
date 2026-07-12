@@ -217,11 +217,7 @@ class DetailTracking : AppCompatActivity() {
                     // TAMPILKAN DATA PROGRAM DAN MUSTAHIQ DI UI
                     // ============================================================
 
-                    // Header card (di bagian atas)
-                    findViewById<TextView>(R.id.tvJenisProgram).text = data.nama_program
-                    findViewById<TextView>(R.id.tvNamaMustahiq).text = data.nama_mustahiq ?: "-"
-                    findViewById<TextView>(R.id.tvUsahaMustahiq).text = data.jenis_usaha ?: "-"
-                    findViewById<TextView>(R.id.tvAlamatMustahiq).text = data.alamat ?: "-"
+
 
                     // Badge UPZPRENEUR
                     findViewById<TextView>(R.id.tvBanner).text = data.nama_program

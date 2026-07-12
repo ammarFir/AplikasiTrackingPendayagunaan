@@ -10,8 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_header"
-        android:backgroundTint="#97D2A5"
+        android:background="@drawable/bg_header_gradient"
+
         android:orientation="vertical"
         android:paddingBottom="20dp">
 
@@ -27,7 +27,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:text="Profile"
-                android:textColor="#1F1E1E"
+                android:textColor="#FAF6F6"
                 android:textSize="23dp"
                 android:textStyle="bold" />
 
