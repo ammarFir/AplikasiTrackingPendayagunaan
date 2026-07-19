@@ -55,6 +55,13 @@ class DetailTracking : AppCompatActivity() {
 
         // Menghubungkan layout XML activity_detail_tracking ke activity ini
         setContentView(R.layout.activity_detail_tracking)
+        window.decorView.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                )
 
         // ============================================================
         // INISIALISASI SESSION MANAGER

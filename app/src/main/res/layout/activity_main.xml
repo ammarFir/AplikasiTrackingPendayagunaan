@@ -189,8 +189,9 @@
         <!-- Garis separator 1 -->
         <View
             android:layout_width="1dp"
-            android:layout_height="60dp"
-            android:background="#E0E0E0" />
+            android:layout_height="80dp"
+            android:background="#E0E0E0"
+            android:layout_gravity="center"/>
 
         <!-- Tombol 2: History -->
         <LinearLayout
@@ -246,7 +247,8 @@
         <!-- Garis separator 2 -->
         <View
             android:layout_width="1dp"
-            android:layout_height="60dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
             android:background="#E0E0E0" />
 
         <!-- Tombol 3: Lainnya -->

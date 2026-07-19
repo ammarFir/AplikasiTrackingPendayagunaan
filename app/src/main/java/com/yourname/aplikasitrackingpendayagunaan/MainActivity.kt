@@ -92,11 +92,15 @@ class MainActivity : AppCompatActivity() {
         // SYSTEM_UI_FLAG_HIDE_NAVIGATION untuk menyembunyikan navigation bar bawah,
         // dan SYSTEM_UI_FLAG_IMMERSIVE_STICKY agar saat user swipe dari tepi, bar muncul sebentar lalu otomatis hilang lagi.
         // Hasilnya aplikasi tampil penuh di seluruh layar tanpa gangguan elemen sistem.
+        // FULLSCREEN - hilangkan status bar dan navigation bar
         window.decorView.systemUiVisibility = (
-                View.SYSTEM_UI_FLAG_FULLSCREEN
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_FULLSCREEN
                         or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 )
+
 
         // Menghubungkan layout XML ke activity ini
         // R.layout.activity_main adalah file XML di res/layout/activity_main.xml

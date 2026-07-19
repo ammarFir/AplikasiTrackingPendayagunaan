@@ -13,6 +13,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -89,6 +90,13 @@ class LaporanProgram : AppCompatActivity() {
 
         // Menghubungkan layout XML activity_laporan_program ke activity ini
         setContentView(R.layout.activity_laporan_program)
+        window.decorView.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                )
 
         // ============================================================
         // SETUP BACK HANDLING (TOMOL BACK DI HP)

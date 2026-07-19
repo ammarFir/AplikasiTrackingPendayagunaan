@@ -6,6 +6,7 @@ package com.yourname.aplikasitrackingpendayagunaan
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -87,6 +88,13 @@ class ProfileActivity : AppCompatActivity() {
 
         // Menghubungkan layout XML activity_profile ke activity ini
         setContentView(R.layout.activity_profile)
+        window.decorView.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                )
 
         // ============================================================
         // INISIALISASI SESSION MANAGER

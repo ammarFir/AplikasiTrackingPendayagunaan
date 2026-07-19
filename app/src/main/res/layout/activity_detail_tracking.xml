@@ -663,15 +663,7 @@
             </LinearLayout>
 
             <!-- Garis hijau kiri -->
-            <View
-                android:id="@+id/viewGarisHijau"
-                android:layout_width="5dp"
-                android:layout_height="520dp"
-                android:background="#97D2A5"
-                android:elevation="0dp"
-                app:layout_constraintBottom_toBottomOf="@id/cardMain"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/cardMain" />
+
 
         </com.google.android.material.card.MaterialCardView>
 
